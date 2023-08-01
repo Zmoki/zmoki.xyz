@@ -1,3 +1,3 @@
-# Links of Zarema Khalilova
+# Personal Website of Zarema Khalilova
 
-Source code of website with actual links to social media profiles and content of Zarema Khalilova.
+Source code of personal website of Zarema Khalilova.
