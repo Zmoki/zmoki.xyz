@@ -8,21 +8,24 @@
     <link rel="canonical" href="{% if canonical %}{{ canonical }}{% else %}{{ meta.baseUrl }}{{ page.url }}{% endif %}" />
     <style>
       html {
-          height: 100%;
+        height: 100%;
       }
       body {
-          min-height: 100vh;
-          max-width: 400px;
-          margin: 0 auto;
-          font-family: sans-serif;
+        min-height: 100vh;
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
       }
-      main, footer {
+      main, nav, footer {
         box-sizing: border-box;
-        padding: 20px;
-        text-align: center;
+        padding: 0 20px;
       }
-      main {
-        min-height: calc(100vh - 150px);
+      footer {
+        margin-top: auto;
+        text-align: center;
       }
       hr {
         overflow: visible;
@@ -49,9 +52,36 @@
       a:hover {
         text-decoration: none;
       }
+      .menu {
+        display: flex;
+        justify-content: space-around;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        gap: 1em;
+      }
     </style>
   </head>
   <body>
+    <nav>
+      <hr/>
+      {% set navPages = collections.all | eleventyNavigation %}
+      {% macro renderNavListItem(entry) -%}
+      <li class="menu__item {% if entry.url == page.url %} menu__item_active{% endif %}">
+        <a href="{{ entry.url }}">{{ entry.title }}</a>
+        {%- if entry.children.length -%}
+          <ul class="menu">
+            {%- for child in entry.children %}{{ renderNavListItem(child) }}{% endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+      {%- endmacro %}
+
+      <ul class="menu">
+      {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
+      </ul>
+      <hr/>
+    </nav>
     <main>{{ content | safe }}</main>
     <footer>
       <p><small><a href="https://github.com/Zmoki/zmoki.xyz">Source code on GitHub</a></small></p>
