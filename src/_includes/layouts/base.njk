@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %}{{ title }}{% else %}{{ meta.title }}{% endif %}</title>
+    <meta name="description" content="{% if description %}{{ description }}{% else %}{{ meta.description }}{% endif %}" />
+    <link rel="canonical" href="{% if canonical %}{{ canonical }}{% else %}{{ meta.baseUrl }}{{ page.url }}{% endif %}" />
+    <style>
+      html {
+          height: 100%;
+      }
+      body {
+          min-height: 100vh;
+          max-width: 400px;
+          margin: 0 auto;
+          font-family: sans-serif;
+      }
+      main, footer {
+        box-sizing: border-box;
+        padding: 20px;
+        text-align: center;
+      }
+      main {
+        min-height: calc(100vh - 150px);
+      }
+      hr {
+        overflow: visible;
+        margin-block-start: 1.5em;
+        margin-block-end: 0em;
+        padding: 0;
+        border: none;
+        border-top: medium double #6FA6DF;
+        color: #6FA6DF;
+        text-align: center;
+      }
+      hr:after {
+        content: "✨";
+        display: inline-block;
+        position: relative;
+        top: -0.7em;
+        font-size: 1em;
+        padding: 0 0.25em;
+        background: white;
+      }
+      a {
+        color: #1E5EA3;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>{{ content | safe }}</main>
+    <footer>
+      <p><small><a href="https://github.com/Zmoki/zmoki.xyz">Source code on GitHub</a></small></p>
+      <p><small>Copyright © 2023 Zarema Khalilova</small></p>
+    </footer>
+  </body>
+</html>
