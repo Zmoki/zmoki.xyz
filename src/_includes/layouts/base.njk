@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %}{{ title }}{% else %}{{ meta.title }}{% endif %}</title>
+    <meta name="description" content="{% if description %}{{ description }}{% else %}{{ meta.description }}{% endif %}" />
+    <link rel="canonical" href="{% if canonical %}{{ canonical }}{% else %}{{ meta.baseUrl }}{{ page.url }}{% endif %}" />
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        min-height: 100vh;
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+      main, nav, footer {
+        box-sizing: border-box;
+        padding: 0 20px;
+      }
+      footer {
+        margin-top: auto;
+        text-align: center;
+      }
+      hr {
+        overflow: visible;
+        margin-block-start: 1.5em;
+        margin-block-end: 0em;
+        padding: 0;
+        border: none;
+        border-top: medium double #6FA6DF;
+        color: #6FA6DF;
+        text-align: center;
+      }
+      hr:after {
+        content: "✨";
+        display: inline-block;
+        position: relative;
+        top: -0.7em;
+        font-size: 1em;
+        padding: 0 0.25em;
+        background: white;
+      }
+      a {
+        color: #1E5EA3;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      .menu {
+        display: flex;
+        justify-content: space-around;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        gap: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <hr/>
+      {% set navPages = collections.all | eleventyNavigation %}
+      {% macro renderNavListItem(entry) -%}
+      <li class="menu__item {% if entry.url == page.url %} menu__item_active{% endif %}">
+        <a href="{{ entry.url }}">{{ entry.title }}</a>
+        {%- if entry.children.length -%}
+          <ul class="menu">
+            {%- for child in entry.children %}{{ renderNavListItem(child) }}{% endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+      {%- endmacro %}
+
+      <ul class="menu">
+      {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
+      </ul>
+      <hr/>
+    </nav>
+    <main>{{ content | safe }}</main>
+    <footer>
+      <p><small><a href="https://github.com/Zmoki/zmoki.xyz">Source code on GitHub</a></small></p>
+      <p><small>Copyright © 2023 Zarema Khalilova</small></p>
+    </footer>
+  </body>
+</html>
