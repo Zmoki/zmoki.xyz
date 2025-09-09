@@ -16,7 +16,7 @@ My memory works visually. In sequences. So, I created this short video for mysel
 
 It's a simple loop: *SEE. FEEL. HEAR. SMELL. TASTE.*
 
-Each word is layered over one of my own photographs—a piece of my world. The sky for sight, the ripples of the sea for sound. It's a tool built from my own art.
+Each word is layered over one of my own photographs, a piece of my world. The sky for sight, the ripples of the sea for sound. It's a tool built from my own art.
 
 Now, when the anxiety hits, I don't have to struggle to remember the steps. I just play this video in my mind. The sequence is there, clear and calm. It's a file I saved directly to my brain, a personal mnemonic that guides me back to the present moment.
 
