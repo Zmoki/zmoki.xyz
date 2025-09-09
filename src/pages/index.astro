@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get all posts from the feed collection
+const allPosts = await getCollection('feed');
+
+// Sort posts by publish date (newest first)
+const sortedPosts = allPosts.sort((a, b) => 
+  b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+
+<BaseLayout title="Digital Garden" description="A space for ideas, art, and research">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <!-- Hero Section -->
+    <section class="mb-16">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight font-serif">
+        Digital Garden
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl">
+        A minimalist space for cultivating ideas, sharing art, and documenting research. 
+        Welcome to my corner of the web.
+      </p>
+    </section>
+
+    <!-- Posts List -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-8 font-serif">Recent Posts</h2>
+      
+      {sortedPosts.length === 0 ? (
+        <div class="text-center py-12">
+          <p class="text-gray-500">No posts yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="space-y-8">
+          {sortedPosts.map((post) => <PostCard {...post} />)}
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
