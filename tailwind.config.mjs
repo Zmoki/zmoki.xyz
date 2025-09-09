@@ -9,16 +9,16 @@ export default {
       },
       colors: {
         background: {
-          light: '#f8f8f8',
-          dark: '#0a0a0a',
+          light: '#F9FAFF',
+          dark: '#051543',
         },
         text: {
-          light: '#333333',
-          dark: '#e5e5e5',
+          light: '#051543',
+          dark: '#F9FAFF',
         },
         accent: {
-          light: '#2563eb',
-          dark: '#3b82f6',
+          light: '#EF1399',
+          dark: '#EF1399',
         }
       }
     },
