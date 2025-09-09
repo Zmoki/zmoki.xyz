@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 
 // Get all posts from the feed collection
@@ -34,33 +35,7 @@ const sortedPosts = allPosts.sort((a, b) =>
         </div>
       ) : (
         <div class="space-y-8">
-          {sortedPosts.map((post) => (
-            <article class="group">
-              <a 
-                href={`/feed/${post.slug}`}
-                class="block p-6 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
-              >
-                <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">
-                  {post.data.title}
-                </h3>
-                {post.data.description && (
-                  <p class="text-gray-600 dark:text-gray-400 mb-3">
-                    {post.data.description}
-                  </p>
-                )}
-                <time 
-                  class="text-sm text-gray-500 dark:text-gray-500"
-                  datetime={post.data.publishDate.toISOString()}
-                >
-                  {post.data.publishDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </a>
-            </article>
-          ))}
+          {sortedPosts.map((post) => <PostCard {...post} />)}
         </div>
       )}
     </section>

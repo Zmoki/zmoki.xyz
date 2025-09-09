@@ -1,18 +1,21 @@
 ---
 export interface Props {
-  title: string;
-  description?: string;
-  publishDate: Date;
   slug: string;
+  data: {
+    title: string;
+    description: string;
+    publishDate: Date;
+  }
 }
 
-const { title, description, publishDate, slug } = Astro.props;
+const { data, slug } = Astro.props;
+const { title, description, publishDate } = data;
 ---
 
 <article class="group">
   <a 
     href={`/feed/${slug}`}
-    class="block p-6 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+    class="block"
   >
     <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors font-serif">
       {title}
