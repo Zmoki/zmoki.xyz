@@ -1,0 +1,36 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  publishDate: Date;
+  slug: string;
+}
+
+const { title, description, publishDate, slug } = Astro.props;
+---
+
+<article class="group">
+  <a 
+    href={`/feed/${slug}`}
+    class="block p-6 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+  >
+    <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">
+      {title}
+    </h3>
+    {description && (
+      <p class="text-gray-600 dark:text-gray-400 mb-3">
+        {description}
+      </p>
+    )}
+    <time 
+      class="text-sm text-gray-500 dark:text-gray-500"
+      datetime={publishDate.toISOString()}
+    >
+      {publishDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}
+    </time>
+  </a>
+</article>
