@@ -17,16 +17,16 @@ const { title, description, publishDate } = data;
     href={`/feed/${slug}`}
     class="block"
   >
-    <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors font-serif">
+    <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light transition-colors font-serif">
       {title}
     </h3>
     {description && (
-      <p class="text-gray-600 dark:text-gray-400 mb-3">
+      <p class="text-gray-600 mb-3">
         {description}
       </p>
     )}
     <time 
-      class="text-sm text-gray-500 dark:text-gray-500"
+      class="text-sm text-gray-500"
       datetime={publishDate.toISOString()}
     >
       {publishDate.toLocaleDateString('en-US', {

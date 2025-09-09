@@ -18,12 +18,12 @@ const { title, description, publishDate } = Astro.props;
         {title}
       </h1>
       {description && (
-        <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">
+        <p class="text-xl text-gray-600 mb-6">
           {description}
         </p>
       )}
       <time 
-        class="text-sm text-gray-500 dark:text-gray-400"
+        class="text-sm text-gray-500"
         datetime={publishDate.toISOString()}
       >
         {publishDate.toLocaleDateString('en-US', {
@@ -35,15 +35,15 @@ const { title, description, publishDate } = Astro.props;
     </header>
 
     <!-- Post Content -->
-    <div class="prose prose-lg prose-headings:font-serif max-w-none dark:prose-invert">
+    <div class="prose prose-lg prose-headings:font-serif max-w-none">
       <slot />
     </div>
 
     <!-- Navigation -->
-    <nav class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+    <nav class="mt-16 pt-8 border-t border-gray-200">
       <a 
         href="/" 
-        class="inline-flex items-center text-accent-light dark:text-accent-dark hover:underline"
+        class="inline-flex items-center text-accent-light hover:underline"
       >
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
