@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ site }) => {
     .map(
       (post) => `
   <url>
-    <loc>${site}feed/${post.slug}</loc>
+    <loc>${site}feed/${post.slug}/</loc>
     <lastmod>${post.data.publishDate.toISOString()}</lastmod>
   </url>`,
     )

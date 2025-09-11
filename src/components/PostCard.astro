@@ -13,8 +13,8 @@ const { title, description, publishDate } = data;
 ---
 
 <article class="group">
-  <a 
-    href={`/feed/${slug}`}
+  <a
+    href={`/feed/${slug}/`}
     class="block"
   >
     <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-light transition-colors font-serif">
@@ -25,7 +25,7 @@ const { title, description, publishDate } = data;
         {description}
       </p>
     )}
-    <time 
+    <time
       class="text-sm text-gray-500"
       datetime={publishDate.toISOString()}
     >
