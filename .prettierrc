@@ -4,7 +4,7 @@
     {
       "files": ["**/*.md", "**/*.mdx"],
       "options": {
-        "proseWrap": "always"
+        "proseWrap": "preserve"
       }
     },
     {
