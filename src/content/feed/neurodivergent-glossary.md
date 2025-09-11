@@ -39,6 +39,9 @@ on a task with another person present, either physically or virtually. They don'
 collaborate; their presence alone acts as an **anchor**, creating a quiet focus that helps break
 through the paralysis that comes with [executive dysfunction](#executive-dysfunction).
 
+Emotional Dysregulation
+: This is when an emotional response doesn't match the situation - at least on the outside. For me, it feels like having an emotional volume knob that goes from **0 to 11** with nothing in between. A small frustration can feel like a world-ending catastrophe. It's not a character flaw; it's a core part of how a [neurodivergent](#neurodivergence-nd) brain processes feelings with **high intensity**. It's exhausting to ride these emotional waves.
+
 Executive Dysfunction
 : This is the struggle with the brain's **management system**, and a core part
 of ADHD under the [neurodivergence](#neurodivergence-nd) umbrella. I know this one well. For me,
@@ -60,7 +63,7 @@ the human brain that includes Autism, ADHD, dyslexia, and more. The opposite is 
 
 Stimming
 : Short for self-stimulatory behavior, this is any repetitive action that helps **regulate
-emotions**. For me, it can be fidgeting with small plush toys or napkins, vaping, or more intense
+emotions**. For me, it can be **fidgeting** with small plush toys or napkins, vaping, or more intense
 actions like pulling small branches from a tree, tearing at my hair, or scratching my skin. It's a
 physical way to channel restless energy or **calm an overwhelmed nervous system**.
 
