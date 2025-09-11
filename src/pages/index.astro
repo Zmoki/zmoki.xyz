@@ -2,13 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostCard from "../components/PostCard.astro";
 import { getCollection } from "astro:content";
+import type { Props as PostCardProps } from "../components/PostCard.astro";
 
 // Get all posts from the feed collection
 const allPosts = await getCollection("feed");
 
 // Sort posts by publish date (newest first)
 const sortedPosts = allPosts.sort(
-  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  (a: PostCardProps, b: PostCardProps) =>
+    b.data.publishDate.getTime() - a.data.publishDate.getTime(),
 );
 ---
 
@@ -44,7 +46,7 @@ const sortedPosts = allPosts.sort(
           </div>
         ) : (
           <div class="space-y-8">
-            {sortedPosts.map((post) => (
+            {sortedPosts.map((post: PostCardProps) => (
               <PostCard {...post} />
             ))}
           </div>
