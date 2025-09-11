@@ -6,6 +6,7 @@ const feed = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.coerce.date(),
+    contentModifiedDate: z.coerce.date(),
   }),
 });
 

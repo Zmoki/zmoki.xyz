@@ -4,6 +4,9 @@ import PostCard from "../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import type { Props as PostCardProps } from "../components/PostCard.astro";
 
+export const publishDate = new Date("2025-09-09");
+export const contentModifiedDate = new Date("2025-09-10");
+
 // Get all posts from the feed collection
 const allPosts = await getCollection("feed");
 

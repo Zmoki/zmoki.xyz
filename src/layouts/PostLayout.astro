@@ -1,16 +1,19 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import type { CollectionEntry } from "astro:content";
+import Time from "../components/Time.astro";
 
 export interface Props {
   title: string;
   description?: string;
   publishDate: Date;
+  contentModifiedDate: Date;
   prevPost?: CollectionEntry<"feed"> | null;
   nextPost?: CollectionEntry<"feed"> | null;
 }
 
-const { title, description, publishDate, prevPost, nextPost } = Astro.props;
+const { title, description, publishDate, contentModifiedDate, prevPost, nextPost } = Astro.props;
+const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
 <BaseLayout title={title} description={description}>
@@ -21,15 +24,17 @@ const { title, description, publishDate, prevPost, nextPost } = Astro.props;
         {title}
       </h1>
       {description && <p class="mb-6 text-xl text-gray-600">{description}</p>}
-      <time class="text-sm text-gray-500" datetime={publishDate.toISOString()}>
+      <p class="flex flex-col gap-4 text-sm text-gray-500 sm:flex-row">
+        <Time datetime={publishDate} />
         {
-          publishDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
+          isContentModified && (
+            <em>
+              Updated
+              <Time datetime={contentModifiedDate} />
+            </em>
+          )
         }
-      </time>
+      </p>
     </header>
 
     <!-- Post Content -->

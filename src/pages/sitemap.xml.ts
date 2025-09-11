@@ -1,31 +1,43 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import {
+  publishDate as indexPagePublishDate,
+  contentModifiedDate as indexPageContentModifiedDate,
+} from "./index.astro";
 
 export const GET: APIRoute = async ({ site }) => {
   // Get all posts from the feed collection
-  const allPosts = await getCollection("feed");
+  const allFeedIems = await getCollection("feed");
 
   // Sort posts by publish date (newest first)
-  const sortedPosts = allPosts.sort(
+  const sortedFeedItems = allFeedIems.sort(
     (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
   );
+
+  const recentPostPublishedDate = sortedFeedItems[0].data.publishDate.getTime();
+
+  const indexPageLatestDateTimestamp = Math.max(
+    recentPostPublishedDate,
+    indexPagePublishDate.getTime(),
+    indexPageContentModifiedDate.getTime(),
+  );
+  const indexPageLatestDate = new Date(indexPageLatestDateTimestamp).toISOString().substring(0, 10);
 
   // Generate sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Static pages -->
   <url>
     <loc>${site}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${indexPageLatestDate}</lastmod>
   </url>
-
-  <!-- Feed posts -->
-  ${sortedPosts
+  ${sortedFeedItems
     .map(
       (post) => `
   <url>
     <loc>${site}feed/${post.slug}/</loc>
-    <lastmod>${post.data.publishDate.toISOString()}</lastmod>
+    <lastmod>${(post.data.contentModifiedDate ?? post.data.publishDate)
+      .toISOString()
+      .substring(0, 10)}</lastmod>
   </url>`,
     )
     .join("")}
@@ -34,7 +46,6 @@ export const GET: APIRoute = async ({ site }) => {
   return new Response(sitemap, {
     headers: {
       "Content-Type": "application/xml",
-      "Cache-Control": "public, max-age=3600", // Cache for 1 hour
     },
   });
 };

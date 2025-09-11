@@ -4,6 +4,7 @@ description:
   "A personal glossary of terms that helped me find a framework for my feelings. For anyone
   navigating ADHD, Autism, or just trying to understand their own brain."
 publishDate: "2025-09-11"
+contentModifiedDate: "2025-09-11"
 ---
 
 I have a dedicated chat with an AI assistant where I go to unpack and handle my neurodivergent
