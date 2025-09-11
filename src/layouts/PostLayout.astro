@@ -1,13 +1,16 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
   title: string;
   description?: string;
   publishDate: Date;
+  prevPost?: CollectionEntry<"feed"> | null;
+  nextPost?: CollectionEntry<"feed"> | null;
 }
 
-const { title, description, publishDate } = Astro.props;
+const { title, description, publishDate, prevPost, nextPost } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -36,16 +39,71 @@ const { title, description, publishDate } = Astro.props;
 
     <!-- Navigation -->
     <nav class="mt-16 border-t border-gray-200 pt-8">
-      <a href="/" class="inline-flex items-center text-accent-light hover:underline">
-        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-        </svg>
-        Back to home
-      </a>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <!-- Previous Post -->
+        {
+          prevPost ? (
+            <a
+              href={`/feed/${prevPost.slug}/`}
+              class="group flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
+            >
+              <svg
+                class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm text-gray-500">Previous</div>
+                <div class="font-medium text-gray-900 group-hover:text-accent-light">
+                  {prevPost.data.title}
+                </div>
+              </div>
+            </a>
+          ) : (
+            <div class="h-[72px]" />
+          )
+        }
+
+        <!-- Next Post -->
+        {
+          nextPost ? (
+            <a
+              href={`/feed/${nextPost.slug}/`}
+              class="group flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
+            >
+              <div class="min-w-0 flex-1 text-right">
+                <div class="text-sm text-gray-500">Next</div>
+                <div class="font-medium text-gray-900 group-hover:text-accent-light">
+                  {nextPost.data.title}
+                </div>
+              </div>
+              <svg
+                class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          ) : (
+            <div class="h-[72px]" />
+          )
+        }
+      </div>
     </nav>
   </article>
 </BaseLayout>
