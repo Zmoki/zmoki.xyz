@@ -1,29 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Noto Sans', 'system-ui', 'sans-serif'],
-        serif: ['Noto Serif', 'serif'],
+        sans: ["Noto Sans", "system-ui", "sans-serif"],
+        serif: ["Noto Serif", "serif"],
       },
       colors: {
         background: {
-          light: '#F9FAFF',
-          dark: '#051543',
+          light: "#F9FAFF",
+          dark: "#051543",
         },
         text: {
-          light: '#051543',
-          dark: '#F9FAFF',
+          light: "#051543",
+          dark: "#F9FAFF",
         },
         accent: {
-          light: '#EF1399',
-          dark: '#EF1399',
-        }
-      }
+          light: "#EF1399",
+          dark: "#EF1399",
+        },
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require("@tailwindcss/typography")],
+};

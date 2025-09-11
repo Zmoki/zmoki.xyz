@@ -1,52 +1,55 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import { getCollection } from "astro:content";
 
 // Get all posts from the feed collection
-const allPosts = await getCollection('feed');
+const allPosts = await getCollection("feed");
 
 // Sort posts by publish date (newest first)
-const sortedPosts = allPosts.sort((a, b) =>
-  b.data.publishDate.getTime() - a.data.publishDate.getTime()
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
 );
 ---
 
-<BaseLayout title="Digital Garden of Zarema Khalilova" description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche.">
-  <div class="max-w-4xl mx-auto px-6 py-12">
+<BaseLayout
+  title="Digital Garden of Zarema Khalilova"
+  description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
+>
+  <div class="mx-auto max-w-4xl px-6 py-12">
     <!-- Hero Section -->
     <section class="mb-16">
-      <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight font-serif">
-        Digital Garden
-      </h1>
-      <p class="text-xl text-gray-600 mb-6">
-        My name is Zarema, and this is my digital garden.
+      <h1 class="mb-6 font-serif text-5xl font-bold leading-tight md:text-6xl">Digital Garden</h1>
+      <p class="mb-6 text-xl text-gray-600">My name is Zarema, and this is my digital garden.</p>
+      <p class="mb-6 text-xl text-gray-600">
+        Think of it as a user manual for a brain that works a little differently. It's a living
+        collection of my hyper-fixations, my creative projects, and my attempts to find language for
+        my experiences.
       </p>
-      <p class="text-xl text-gray-600 mb-6">
-        Think of it as a user manual for a brain that works a little differently.
-        It's a living collection of my hyper-fixations, my creative projects,
-        and my attempts to find language for my experiences.
-      </p>
-      <p class="text-xl text-gray-600 mb-6">
-        One day that might be a list of art galleries in Tbilisi, the next,
-        a deep dive into my Circassian heritage, or a cheat sheet for an anxiety technique.
-        It's a space for curiosity, not a niche.
+      <p class="mb-6 text-xl text-gray-600">
+        One day that might be a list of art galleries in Tbilisi, the next, a deep dive into my
+        Circassian heritage, or a cheat sheet for an anxiety technique. It's a space for curiosity,
+        not a niche.
       </p>
     </section>
 
     <!-- Posts List -->
     <section>
-      <h2 class="text-2xl font-semibold mb-8 font-serif">Recent Posts</h2>
+      <h2 class="mb-8 font-serif text-2xl font-semibold">Recent Posts</h2>
 
-      {sortedPosts.length === 0 ? (
-        <div class="text-center py-12">
-          <p class="text-gray-500">No posts yet. Check back soon!</p>
-        </div>
-      ) : (
-        <div class="space-y-8">
-          {sortedPosts.map((post) => <PostCard {...post} />)}
-        </div>
-      )}
+      {
+        sortedPosts.length === 0 ? (
+          <div class="py-12 text-center">
+            <p class="text-gray-500">No posts yet. Check back soon!</p>
+          </div>
+        ) : (
+          <div class="space-y-8">
+            {sortedPosts.map((post) => (
+              <PostCard {...post} />
+            ))}
+          </div>
+        )
+      }
     </section>
   </div>
 </BaseLayout>

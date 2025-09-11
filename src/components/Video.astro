@@ -12,15 +12,17 @@ export interface Props {
 const hasText = Astro.slots.has("default");
 ---
 
-{hasText ? (
-<div class="grid gap-8 my-8 grid-cols-1 md:grid-cols-3">
-  <div class="not-prose flex justify-start col-span-1">
+{
+  hasText ? (
+    <div class="my-8 grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div class="not-prose col-span-1 flex justify-start">
+        <RawVideo {...Astro.props} />
+      </div>
+      <div class="col-span-2">
+        <slot />
+      </div>
+    </div>
+  ) : (
     <RawVideo {...Astro.props} />
-  </div>
-  <div class="col-span-2">
-      <slot />
-  </div>
-</div>
-) : (
-  <RawVideo {...Astro.props} />
-)}
+  )
+}

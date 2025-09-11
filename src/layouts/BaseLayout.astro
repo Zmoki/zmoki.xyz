@@ -8,7 +8,7 @@ const { title, description = "A digital garden of ideas, art, and research" } = 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
@@ -16,18 +16,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
-  <body class="min-h-full bg-background-light text-text-light font-sans">
-    <div class="min-h-screen flex flex-col">
+  <body class="min-h-full bg-background-light font-sans text-text-light">
+    <div class="flex min-h-screen flex-col">
       <!-- Header -->
       <header class="border-b border-gray-200">
-        <div class="max-w-4xl mx-auto px-6 py-4">
+        <div class="mx-auto max-w-4xl px-6 py-4">
           <div class="flex items-center justify-between">
-            <a href="/" class="text-xl font-semibold hover:text-accent-light transition-colors">
+            <a href="/" class="text-xl font-semibold transition-colors hover:text-accent-light">
               zmoki.xyz
             </a>
           </div>
@@ -40,8 +43,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </main>
 
       <!-- Footer -->
-      <footer class="border-t border-gray-200 mt-16">
-        <div class="max-w-4xl mx-auto px-6 py-8">
+      <footer class="mt-16 border-t border-gray-200">
+        <div class="mx-auto max-w-4xl px-6 py-8">
           <div class="text-center text-sm text-gray-500">
             <p>&copy; 2025 zmoki.xyz • A digital garden</p>
           </div>
