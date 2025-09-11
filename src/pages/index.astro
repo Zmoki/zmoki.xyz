@@ -7,12 +7,12 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('feed');
 
 // Sort posts by publish date (newest first)
-const sortedPosts = allPosts.sort((a, b) => 
+const sortedPosts = allPosts.sort((a, b) =>
   b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
 ---
 
-<BaseLayout title="Digital Garden" description="A space for ideas, art, and research">
+<BaseLayout title="Digital Garden of Zarema Khalilova" description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche.">
   <div class="max-w-4xl mx-auto px-6 py-12">
     <!-- Hero Section -->
     <section class="mb-16">
@@ -23,13 +23,13 @@ const sortedPosts = allPosts.sort((a, b) =>
         My name is Zarema, and this is my digital garden.
       </p>
       <p class="text-xl text-gray-600 mb-6">
-        Think of it as a user manual for a brain that works a little differently. 
-        It's a living collection of my hyper-fixations, my creative projects, 
+        Think of it as a user manual for a brain that works a little differently.
+        It's a living collection of my hyper-fixations, my creative projects,
         and my attempts to find language for my experiences.
       </p>
       <p class="text-xl text-gray-600 mb-6">
-        One day that might be a list of art galleries in Tbilisi, the next, 
-        a deep dive into my Circassian heritage, or a cheat sheet for an anxiety technique. 
+        One day that might be a list of art galleries in Tbilisi, the next,
+        a deep dive into my Circassian heritage, or a cheat sheet for an anxiety technique.
         It's a space for curiosity, not a niche.
       </p>
     </section>
@@ -37,7 +37,7 @@ const sortedPosts = allPosts.sort((a, b) =>
     <!-- Posts List -->
     <section>
       <h2 class="text-2xl font-semibold mb-8 font-serif">Recent Posts</h2>
-      
+
       {sortedPosts.length === 0 ? (
         <div class="text-center py-12">
           <p class="text-gray-500">No posts yet. Check back soon!</p>
