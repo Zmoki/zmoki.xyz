@@ -45,7 +45,7 @@ function rehypeDefinitionListIds() {
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), mdx()],
-  site: "https://zmoki.xyz/",
+  site: "https://zmoki.xyz",
   markdown: {
     shikiConfig: {
       theme: "github-light",
