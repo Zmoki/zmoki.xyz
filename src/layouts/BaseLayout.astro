@@ -5,12 +5,14 @@ export interface Props {
 }
 
 const { title, description = "A digital garden of ideas, art, and research" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!DOCTYPE html>
 <html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
+    <link rel="canonical" href={canonicalURL.toString()} />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
