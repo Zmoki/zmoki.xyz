@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@zmoki/shared-components": ["./packages/shared-components/src/index.ts"],
+      "@zmoki/shared-components/*": ["./packages/shared-components/src/*"]
+    }
+  },
+  "references": [
+    { "path": "./apps/zmoki-pages" },
+    { "path": "./apps/tech-zmoki-pages" },
+    { "path": "./packages/shared-components" }
+  ],
+  "files": [],
+  "include": []
+}

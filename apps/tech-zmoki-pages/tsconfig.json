@@ -1,9 +1,12 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@zmoki/shared-components": ["../../packages/shared-components/src/index.ts"],
+      "@zmoki/shared-components/*": ["../../packages/shared-components/src/*"]
     }
-  }
+  },
+  "include": ["src/**/*", "../../packages/shared-components/src/**/*"]
 }
