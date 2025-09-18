@@ -1,25 +1,21 @@
 {
-  "name": "zmoki-digital-garden",
-  "type": "module",
+  "name": "zmoki-monorepo",
   "version": "0.0.2",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^2.0.0",
-    "@astrojs/tailwind": "^5.0.0",
-    "@tailwindcss/typography": "^0.5.10",
-    "astro": "^4.0.0",
-    "remark-definition-list": "^2.0.0",
-    "tailwindcss": "^3.0.0",
-    "unist-util-visit": "^5.0.0"
+    "dev": "npm run dev --workspace=zmoki-pages",
+    "build": "npm run build --workspace=zmoki-pages",
+    "preview": "npm run preview --workspace=zmoki-pages",
+    "clean": "npm run clean --workspaces",
+    "install:all": "npm install",
+    "build:all": "npm run build --workspaces"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.14"
