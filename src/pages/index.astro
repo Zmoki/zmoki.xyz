@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PostCard from "../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import type { Props as PostCardProps } from "../components/PostCard.astro";
+import { Image } from "astro:assets";
+import Avatar from "../images/zmoki.jpg";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2025-09-10");
@@ -25,6 +27,13 @@ const sortedPosts = allPosts.sort(
     <!-- Hero Section -->
     <section class="mb-16">
       <h1 class="mb-6 font-serif text-5xl font-bold leading-tight md:text-6xl">Digital Garden</h1>
+      <Image
+        src={Avatar}
+        alt="Zarema Khalilova"
+        width={600}
+        height={600}
+        class="h-80 w-80 rounded-lg shadow-lg md:float-right md:ml-8"
+      />
       <p class="mb-6 text-xl text-gray-600">My name is Zarema, and this is my digital garden.</p>
       <p class="mb-6 text-xl text-gray-600">
         Think of it as a user manual for a brain that works a little differently. It's a living
