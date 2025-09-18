@@ -9,8 +9,11 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=zmoki-pages",
+    "dev:tech": "npm run dev --workspace=tech-zmoki-pages",
     "build": "npm run build --workspace=zmoki-pages",
+    "build:tech": "npm run build --workspace=tech-zmoki-pages",
     "preview": "npm run preview --workspace=zmoki-pages",
+    "preview:tech": "npm run preview --workspace=tech-zmoki-pages",
     "clean": "npm run clean --workspaces",
     "install:all": "npm install",
     "build:all": "npm run build --workspaces"

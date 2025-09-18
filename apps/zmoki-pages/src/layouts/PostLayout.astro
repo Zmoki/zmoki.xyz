@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import type { CollectionEntry } from "astro:content";
-import Time from "../components/Time.astro";
+import { Time } from "@zmoki/shared-components";
 
 export interface Props {
   title: string;
@@ -38,7 +38,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
     </header>
 
     <!-- Post Content -->
-    <div class="prose prose-lg max-w-none prose-headings:font-serif">
+    <div class="prose prose-lg prose-headings:font-serif max-w-none">
       <slot />
     </div>
 
@@ -80,7 +80,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
               </svg>
               <div class="min-w-0 flex-1">
                 <div class="text-sm text-gray-500">Previous</div>
-                <div class="font-medium text-gray-900 group-hover:text-accent-light">
+                <div class="group-hover:text-accent-light font-medium text-gray-900">
                   {prevPost.data.title}
                 </div>
               </div>
@@ -99,7 +99,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             >
               <div class="min-w-0 flex-1 text-right">
                 <div class="text-sm text-gray-500">Next</div>
-                <div class="font-medium text-gray-900 group-hover:text-accent-light">
+                <div class="group-hover:text-accent-light font-medium text-gray-900">
                   {nextPost.data.title}
                 </div>
               </div>
