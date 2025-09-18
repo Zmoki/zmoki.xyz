@@ -46,6 +46,9 @@ function rehypeDefinitionListIds() {
 export default defineConfig({
   integrations: [tailwind(), mdx()],
   site: "https://zmoki.xyz",
+  server: {
+    port: 4321,
+  },
   markdown: {
     shikiConfig: {
       theme: "github-light",

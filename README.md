@@ -24,15 +24,15 @@ npm install
 ### Development
 
 ```bash
-# Start the zmoki-pages development server
+# Start the zmoki-pages development server (port 4321)
 npm run dev
 
-# Start the tech blog development server
+# Start the tech blog development server (port 4322)
 npm run dev:tech
 
 # Or run from the specific app directory
-cd apps/zmoki-pages && npm run dev
-cd apps/tech-zmoki-pages && npm run dev
+cd apps/zmoki-pages && npm run dev    # http://localhost:4321
+cd apps/tech-zmoki-pages && npm run dev  # http://localhost:4322
 ```
 
 ### Building
