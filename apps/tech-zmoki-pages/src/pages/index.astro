@@ -4,6 +4,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { PostCard, type PostCardProps } from "@zmoki/shared-components";
 
+export const publishDate = new Date("2025-09-17");
+export const contentModifiedDate = new Date("2025-09-17");
+
 const posts = await getCollection("feed");
 const sortedPosts = posts.sort(
   (a: PostCardProps, b: PostCardProps) =>
