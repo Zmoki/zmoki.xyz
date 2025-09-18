@@ -1,0 +1,62 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Technical insights and development thoughts" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="canonical" href={canonicalURL.toString()} />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background-light text-text-light min-h-full font-sans">
+    <div class="flex min-h-screen flex-col">
+      <!-- Header -->
+      <header class="border-b border-gray-200">
+        <div class="mx-auto max-w-4xl px-6 py-4">
+          <div class="flex items-center justify-between">
+            <a href="/" class="hover:text-accent-light text-xl font-semibold transition-colors">
+              tech.zmoki.xyz
+            </a>
+            <nav class="flex items-center gap-6">
+              <a href="https://zmoki.xyz" class="hover:text-accent-light text-sm text-gray-600">
+                Main Site
+              </a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main
+        class="[&_a]:text-accent-light flex-1 [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
+      >
+        <slot />
+      </main>
+
+      <!-- Footer -->
+      <footer class="mt-16 border-t border-gray-200">
+        <div class="mx-auto max-w-4xl px-6 py-8">
+          <div class="text-center text-sm text-gray-500">
+            <p>&copy; 2025 tech.zmoki.xyz • Technical insights and development thoughts</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

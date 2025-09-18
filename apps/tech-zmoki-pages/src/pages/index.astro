@@ -1,32 +1,25 @@
 ---
 // Tech blog homepage
-import { Time } from "@zmoki/shared-components";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { PostCard, type PostCardProps } from "@zmoki/shared-components";
+
+const posts = await getCollection("feed");
+const sortedPosts = posts.sort(
+  (a: PostCardProps, b: PostCardProps) =>
+    b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Tech Blog - Zmoki</title>
-  </head>
-  <body>
-    <main class="mx-auto max-w-4xl p-8">
-      <h1 class="mb-8 text-4xl font-bold">Tech Blog</h1>
-      <p class="mb-8 text-lg text-gray-600">
-        Welcome to my technical blog where I share insights about development, technology, and more.
-      </p>
+<BaseLayout title="Tech Blog - Zmoki" description="Technical insights and development thoughts">
+  <div class="mx-auto max-w-4xl p-8">
+    <h1 class="mb-8 text-4xl font-bold">Tech Blog</h1>
+    <p class="mb-8 text-lg text-gray-600">
+      Welcome to my technical blog where I share insights about development, technology, and more.
+    </p>
 
-      <div class="grid gap-6">
-        <article class="rounded-lg border border-gray-200 p-6">
-          <h2 class="mb-2 text-2xl font-semibold">Coming Soon</h2>
-          <p class="text-gray-600">This is a placeholder for future tech blog posts.</p>
-          <p class="mt-4 text-sm text-gray-500">
-            Last updated: <Time datetime={new Date()} />
-          </p>
-        </article>
-      </div>
-    </main>
-  </body>
-</html>
+    <div class="grid gap-6">
+      {sortedPosts.map((post: PostCardProps) => <PostCard slug={post.slug} data={post.data} />)}
+    </div>
+  </div>
+</BaseLayout>

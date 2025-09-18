@@ -1,0 +1,53 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Time } from "@zmoki/shared-components";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("feed");
+  return posts.map((post: CollectionEntry<"feed">) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+const post = Astro.props as CollectionEntry<"feed">;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Post Header -->
+    <header class="mb-12">
+      <h1 class="mb-4 font-serif text-4xl font-bold leading-tight md:text-5xl">
+        {post.data.title}
+      </h1>
+      {post.data.description && <p class="mb-6 text-xl text-gray-600">{post.data.description}</p>}
+      <p class="flex flex-col gap-4 text-sm text-gray-500 sm:flex-row">
+        <Time datetime={post.data.publishDate} />
+        {
+          post.data.contentModifiedDate.getTime() > post.data.publishDate.getTime() && (
+            <em>
+              Updated <Time datetime={post.data.contentModifiedDate} />
+            </em>
+          )
+        }
+      </p>
+    </header>
+
+    <!-- Post Content -->
+    <div class="prose prose-lg prose-headings:font-serif max-w-none">
+      <Content />
+    </div>
+
+    <!-- About Author -->
+    <aside class="mt-16 border-t border-gray-200 pt-8">
+      <h2 class="mb-4 font-serif text-2xl font-bold">About the Author</h2>
+      <p class="mb-6 text-gray-600">
+        I'm a frontend developer, artist, and neurodivergent researcher exploring the intersections
+        of technology, creativity, and identity. This tech blog is part of my larger digital garden
+        where I share insights about development and the human side of code.
+      </p>
+    </aside>
+  </article>
+</BaseLayout>

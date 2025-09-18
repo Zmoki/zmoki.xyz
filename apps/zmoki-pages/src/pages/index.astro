@@ -1,8 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PostCard from "../components/PostCard.astro";
+import { PostCard, type PostCardProps } from "@zmoki/shared-components";
 import { getCollection } from "astro:content";
-import type { Props as PostCardProps } from "../components/PostCard.astro";
 import { Image } from "astro:assets";
 import Avatar from "../images/zmoki.jpg";
 
