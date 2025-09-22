@@ -10,6 +10,16 @@ const feed = defineCollection({
   }),
 });
 
+const resources = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.coerce.date(),
+  }),
+});
+
 export const collections = {
   feed,
+  resources,
 };
