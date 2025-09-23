@@ -10,7 +10,6 @@ export async function getStaticPaths() {
       name: resource.data.name,
     },
   }));
-  console.log(resourcesPaths);
   return [
     { params: { slug: undefined }, props: { name: "resource" } }, // /thank-you/ generic page
     ...resourcesPaths, // /thank-you/resources/*/ pages
