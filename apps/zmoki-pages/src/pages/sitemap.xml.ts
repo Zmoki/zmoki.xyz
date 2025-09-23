@@ -23,6 +23,14 @@ export const GET: APIRoute = async ({ site }) => {
   );
   const indexPageLatestDate = new Date(indexPageLatestDateTimestamp).toISOString().substring(0, 10);
 
+  // Get all resources from the resources collection
+  const allResources = await getCollection("resources");
+
+  // Sort resources by publish date (newest first)
+  const sortedResources = allResources.sort(
+    (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  );
+
   // Generate sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -38,6 +46,15 @@ export const GET: APIRoute = async ({ site }) => {
     <lastmod>${(post.data.contentModifiedDate ?? post.data.publishDate)
       .toISOString()
       .substring(0, 10)}</lastmod>
+  </url>`,
+    )
+    .join("")}
+  ${sortedResources
+    .map(
+      (resource) => `
+  <url>
+    <loc>${site}resources/${resource.slug}/</loc>
+    <lastmod>${resource.data.publishDate.toISOString().substring(0, 10)}</lastmod>
   </url>`,
     )
     .join("")}
