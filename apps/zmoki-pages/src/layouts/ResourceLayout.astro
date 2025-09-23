@@ -1,0 +1,58 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { Time } from "@zmoki/shared-components";
+import BrevoForm from "../components/BrevoForm.astro";
+
+export interface Props {
+  title: string;
+  description?: string;
+  publishDate: Date;
+  contentModifiedDate: Date;
+  form: {
+    brevoFormId: string;
+    buttonText: string;
+    title: string;
+    description: string;
+  };
+}
+
+const { title, description, publishDate, contentModifiedDate, form } = Astro.props;
+const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Post Header -->
+    <header class="mb-12">
+      <h1 class="mb-4 font-serif text-4xl font-bold leading-tight md:text-5xl">
+        {title}
+      </h1>
+      {description && <p class="mb-6 text-xl text-gray-600">{description}</p>}
+      <p class="flex flex-col gap-4 text-sm text-gray-500 sm:flex-row">
+        <Time datetime={publishDate} />
+        {
+          isContentModified && (
+            <em>
+              Updated
+              <Time datetime={contentModifiedDate} />
+            </em>
+          )
+        }
+      </p>
+    </header>
+
+    <div class="flex flex-col gap-8">
+      <!-- Post Content -->
+      <div class="prose prose-lg prose-headings:font-serif max-w-none">
+        <slot />
+      </div>
+      <div class="order-first">
+        <BrevoForm brevoFormId={form.brevoFormId} buttonText={form.buttonText}>
+          <h2>{form.title}</h2>
+          <p>{form.description}</p>
+          <p>You'll also join my occasional newsletter with new tools and ideas.</p>
+        </BrevoForm>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

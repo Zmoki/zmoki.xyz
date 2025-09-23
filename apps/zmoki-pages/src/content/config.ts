@@ -16,6 +16,13 @@ const resources = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.coerce.date(),
+    contentModifiedDate: z.coerce.date(),
+    form: z.object({
+      brevoFormId: z.string(),
+      buttonText: z.string(),
+      title: z.string(),
+      description: z.string(),
+    }),
   }),
 });
 
