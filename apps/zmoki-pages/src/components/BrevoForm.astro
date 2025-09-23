@@ -13,13 +13,13 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
   id="brevo-form"
   method="POST"
   action={`https://${import.meta.env.PUBLIC_BREVO_ACCOUNT_ID}.sibforms.com/serve/${brevoFormId}`}
-  class="flex gap-8 rounded-lg bg-white p-8 shadow-md sm:flex-col md:flex-row"
+  class="-mx-6 flex w-screen flex-col gap-8 bg-white px-6 py-8 md:-mx-0 md:w-full md:flex-row md:gap-12 md:rounded-lg md:px-8 md:py-12 md:shadow-md"
 >
-  <section class="prose prose-headings:font-serif">
+  <section class="prose prose-headings:font-serif md:w-1/2">
     <slot />
   </section>
 
-  <section class="flex flex-col gap-2">
+  <section class="flex min-w-[300px] flex-col gap-4 md:pt-2">
     <!-- Email input -->
     <label for="EMAIL" class="text-lg font-medium">Email</label>
     <input
@@ -28,7 +28,7 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
       name="EMAIL"
       placeholder="your@email.com"
       required
-      class="w-80 rounded-sm border border-gray-300 p-2 text-lg"
+      class="w-full rounded-sm border border-gray-300 p-2 text-lg"
     />
 
     <!-- Captcha -->
@@ -38,6 +38,23 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
       data-size="flexible"
       data-language="en"
     >
+    </div>
+
+    <!-- Legal consent checkbox -->
+    <div class="flex w-full items-start gap-2">
+      <input
+        type="checkbox"
+        id="consent"
+        name="consent"
+        required
+        class="text-accent-light focus:ring-accent-light mt-1 h-4 w-4 rounded border-gray-300"
+      />
+      <label for="consent" class="text-sm text-gray-600">
+        I agree to receive emails from zmoki.xyz. I understand I can unsubscribe at any time.
+        <a href="/legal/privacy" class="text-accent-light hover:underline" target="_blank">
+          Privacy Policy
+        </a>
+      </label>
     </div>
 
     <!-- Submit button -->
