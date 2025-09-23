@@ -13,6 +13,7 @@ const feed = defineCollection({
 const resources = defineCollection({
   type: "content",
   schema: z.object({
+    name: z.string(),
     title: z.string(),
     description: z.string(),
     publishDate: z.coerce.date(),
