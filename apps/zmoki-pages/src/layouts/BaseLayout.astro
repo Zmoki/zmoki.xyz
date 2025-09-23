@@ -24,13 +24,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
     <title>{title}</title>
   </head>
-  <body class="min-h-full bg-background-light font-sans text-text-light">
+  <body class="bg-background-light text-text-light min-h-full font-sans">
     <div class="flex min-h-screen flex-col">
       <!-- Header -->
       <header class="border-b border-gray-200">
         <div class="mx-auto max-w-4xl px-6 py-4">
           <div class="flex items-center justify-between">
-            <a href="/" class="text-xl font-semibold transition-colors hover:text-accent-light">
+            <a href="/" class="hover:text-accent-light text-xl font-semibold transition-colors">
               zmoki.xyz
             </a>
           </div>
@@ -39,7 +39,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       <!-- Main Content -->
       <main
-        class="flex-1 [&_a]:text-accent-light [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
+        class="[&_a]:text-accent-light flex-1 [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
       >
         <slot />
       </main>
@@ -49,6 +49,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <div class="mx-auto max-w-4xl px-6 py-8">
           <div class="text-center text-sm text-gray-500">
             <p>&copy; 2025 zmoki.xyz • A digital garden</p>
+            <div class="mt-2 space-x-4">
+              <a href="/legal/privacy" class="hover:text-accent-light transition-colors"
+                >Privacy Policy</a
+              >
+              <span>•</span>
+              <a href="/legal/terms" class="hover:text-accent-light transition-colors"
+                >Terms of Service</a
+              >
+            </div>
           </div>
         </div>
       </footer>
