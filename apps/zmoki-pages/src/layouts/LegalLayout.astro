@@ -2,10 +2,13 @@
 import BaseLayout from "./BaseLayout.astro";
 import { Time } from "@zmoki/shared-components";
 
-const { title, description, lastUpdated: lastUpdatedRaw } = Astro.props.frontmatter;
+const { title, description, contentModifiedDate: contentModifiedDateRaw } = Astro.props;
 
 // Convert string to Date if needed
-const lastUpdated = typeof lastUpdatedRaw === "string" ? new Date(lastUpdatedRaw) : lastUpdatedRaw;
+const contentModifiedDate =
+  typeof contentModifiedDateRaw === "string"
+    ? new Date(contentModifiedDateRaw)
+    : contentModifiedDateRaw;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -16,7 +19,7 @@ const lastUpdated = typeof lastUpdatedRaw === "string" ? new Date(lastUpdatedRaw
       </h1>
       {description && <p class="mb-6 text-xl text-gray-600">{description}</p>}
       <p class="text-sm text-gray-500">
-        Updated <Time datetime={lastUpdated} />
+        Updated <Time datetime={contentModifiedDate} />
       </p>
     </header>
     <section class="prose prose-lg prose-headings:font-serif max-w-none">

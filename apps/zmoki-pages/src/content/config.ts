@@ -26,7 +26,17 @@ const resources = defineCollection({
   }),
 });
 
+const legal = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    contentModifiedDate: z.coerce.date(),
+  }),
+});
+
 export const collections = {
   feed,
   resources,
+  legal,
 };
