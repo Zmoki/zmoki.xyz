@@ -41,6 +41,29 @@ function rehypeDefinitionListIds() {
   };
 }
 
+// Rehype plugin to add target="_blank" to external links
+function rehypeExternalLinks() {
+  return (tree) => {
+    visit(tree, "element", (node) => {
+      if (node.tagName === "a" && node.properties?.href) {
+        const href = node.properties.href;
+
+        // Check if it's an absolute URL (starts with http:// or https://)
+        if (
+          typeof href === "string" &&
+          (href.startsWith("http://") || href.startsWith("https://"))
+        ) {
+          node.properties = {
+            ...node.properties,
+            target: "_blank",
+            rel: "noopener noreferrer", // Security best practice for external links
+          };
+        }
+      }
+    });
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx()],
@@ -55,6 +78,6 @@ export default defineConfig({
     },
     remarkPlugins: [remarkDefinitionList],
     remarkRehype: { handlers: defListHastHandlers },
-    rehypePlugins: [rehypeDefinitionListIds],
+    rehypePlugins: [rehypeDefinitionListIds, rehypeExternalLinks],
   },
 });
