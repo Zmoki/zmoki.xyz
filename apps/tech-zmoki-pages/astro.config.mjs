@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import remarkDefinitionList from "remark-definition-list";
 import { defListHastHandlers } from "remark-definition-list";
@@ -44,7 +43,7 @@ function rehypeDefinitionListIds() {
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), mdx()],
+  integrations: [mdx()],
   site: "https://tech.zmoki.xyz",
   server: {
     port: 4322,

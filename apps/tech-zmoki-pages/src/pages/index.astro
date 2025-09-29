@@ -15,14 +15,36 @@ const sortedPosts = posts.sort(
 ---
 
 <BaseLayout title="Tech Blog - Zmoki" description="Technical insights and development thoughts">
-  <div class="mx-auto max-w-4xl p-8">
-    <h1 class="mb-8 text-4xl font-bold">Tech Blog</h1>
-    <p class="mb-8 text-lg text-gray-600">
-      Welcome to my technical blog where I share insights about development, technology, and more.
-    </p>
-
-    <div class="grid gap-6">
+  <section>
+    <header>
+      <h1>Zarema Khalilova</h1>
+      <p>
+        As a software architect with over 20 years of experience, I solve complex technical SEO
+        challenges. As co-founder of the <a href="https://scalekarma.com">Scalekarma</a> research team
+        and an independent consultant, I provide the data-driven strategies and developer-ready roadmaps
+        you need to navigate the shift to AI search.
+      </p>
+    </header>
+    <section>
+      <h2>Technical SEO & AI Search Consultancy</h2>
+      <h3>The Problem I Solve</h3>
+      <p>
+        The biggest challenge in technical SEO isn't always finding the right strategy - it's
+        getting it approved and implemented by busy engineering teams.
+      </p>
+      <h3>My Solution</h3>
+      <p>
+        I act as the bridge between marketing and engineering. I translate your goals into
+        developer-ready roadmaps and bulletproof, data-driven business cases that get your most
+        advanced projects for AI Search unblocked and shipped.
+      </p>
+    </section>
+    <section>
+      <h2>Latest Investigations & Builds</h2>
+    </section>
+    <section>
+      <h2>Recent Posts</h2>
       {sortedPosts.map((post: PostCardProps) => <PostCard slug={post.slug} data={post.data} />)}
-    </div>
-  </div>
+    </section>
+  </section>
 </BaseLayout>
