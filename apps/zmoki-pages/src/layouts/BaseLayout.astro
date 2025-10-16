@@ -4,6 +4,9 @@ export interface Props {
   description?: string;
 }
 
+import { Image } from "astro:assets";
+import Avatar from "../images/zmoki.jpg";
+
 const { title, description = "A digital garden of ideas, art, and research" } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -25,41 +28,46 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
   </head>
   <body class="bg-background-light text-text-light min-h-full font-sans">
-    <div class="flex min-h-screen flex-col">
+    <div class="gap-4 p-4 lg:grid lg:max-h-screen lg:grid-cols-[30%_70%] lg:grid-rows-3">
       <!-- Header -->
-      <header class="border-b border-gray-200">
-        <div class="mx-auto max-w-4xl px-6 py-4">
-          <div class="flex items-center justify-between">
-            <a href="/" class="hover:text-accent-light text-xl font-semibold transition-colors">
-              zmoki.xyz
-            </a>
-          </div>
-        </div>
+      <header
+        class="rounded-xl bg-white bg-[url(/zmoki.jpg)] bg-cover bg-center px-6 py-4 text-xl tracking-tighter shadow-sm"
+      >
+        <a href="/"> zmoki.xyz </a>
       </header>
 
       <!-- Main Content -->
       <main
-        class="[&_a]:text-accent-light flex-1 [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
+        class="[&_a]:text-accent-light flex-1 overflow-scroll lg:row-span-3 lg:max-h-max [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
       >
         <slot />
       </main>
 
+      <aside
+        class="space-y-2 rounded-xl bg-[#ff5933] px-6 pb-4 pt-8 text-xl tracking-tighter shadow-sm"
+      >
+        <h2 class="pb-4 text-4xl font-semibold">Contact</h2>
+        <p><a href="mailto:hey@zmoki.xyz">hey@zmoki.xyz</a></p>
+        <p>say hey!</p>
+      </aside>
+
       <!-- Footer -->
-      <footer class="mt-16 border-t border-gray-200">
-        <div class="mx-auto max-w-4xl px-6 py-8">
-          <div class="text-center text-sm text-gray-500">
-            <p>&copy; 2025 zmoki.xyz • A digital garden</p>
-            <div class="mt-2 space-x-4">
-              <a href="/legal/privacy/" class="hover:text-accent-light transition-colors"
-                >Privacy Policy</a
-              >
-              <span>•</span>
-              <a href="/legal/terms/" class="hover:text-accent-light transition-colors"
-                >Terms of Service</a
-              >
-            </div>
-          </div>
+      <footer
+        class="self-end rounded-xl bg-white p-4 font-mono text-xs uppercase tracking-tight text-gray-500 shadow-sm"
+      >
+        <div class="my-2">
+          <span>•</span>
+          <a href="/legal/privacy/" class="hover:text-accent-light transition-colors"
+            >Privacy Policy</a
+          >
+          <span>•</span>
+          <a href="/legal/terms/" class="hover:text-accent-light transition-colors"
+            >Terms of Service</a
+          >
+
+          <span>•</span>
         </div>
+        <p>&copy; zmoki.xyz 2025</p>
       </footer>
     </div>
   </body>

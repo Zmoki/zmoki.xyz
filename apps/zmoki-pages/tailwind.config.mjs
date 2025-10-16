@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Noto Sans", "system-ui", "sans-serif"],
+        sans: ["Inter Tight", "system-ui", "sans-serif"],
         serif: ["Noto Serif", "serif"],
       },
       colors: {
@@ -13,12 +13,12 @@ export default {
           dark: "#051543",
         },
         text: {
-          light: "#051543",
+          light: "#002027",
           dark: "#F9FAFF",
         },
         accent: {
-          light: "#EF1399",
-          dark: "#EF1399",
+          light: "#00c0eb",
+          dark: "#00c0eb",
         },
       },
     },
