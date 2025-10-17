@@ -12,23 +12,22 @@ const { data, slug } = Astro.props;
 const { title, description, publishDate } = data;
 ---
 
-<a
-  href={`/feed/${slug}/`}
-  class="group flex h-full w-full flex-col gap-4 p-12 text-xl !text-inherit !no-underline hover:!no-underline"
->
-  <h3 class="group-hover:text-accent-light text-4xl font-semibold leading-tight transition-colors">
-    {title}
-  </h3>
-  {description && <p class="flex-1">{description}</p>}
-  <p class="text-right font-mono text-xs uppercase tracking-normal">
-    <time datetime={publishDate.toISOString()}>
-      {
-        publishDate.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      }
-    </time>
-  </p>
-</a>
+<article class="overflow-hidden rounded-lg bg-white shadow-sm">
+  <a href={`/feed/${slug}/`} class="flex h-full w-full flex-col gap-4 p-6 text-xl md:p-8">
+    <h3 class="text-3xl font-semibold leading-tight md:text-4xl">
+      {title}
+    </h3>
+    {description && <p class="flex-1">{description}</p>}
+    <p class="text-right font-mono text-xs uppercase tracking-normal opacity-70">
+      <time datetime={publishDate.toISOString()}>
+        {
+          publishDate.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </time>
+    </p>
+  </a>
+</article>

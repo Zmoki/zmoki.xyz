@@ -43,13 +43,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </header>
 
       <!-- Main Content -->
-      <main class="overflow-y-scroll rounded-xl lg:row-span-3 lg:max-h-max lg:pr-4">
+      <main class="max-w-7xl overflow-y-scroll rounded-xl lg:row-span-3 lg:max-h-max lg:pr-4">
         <slot />
       </main>
 
-      <aside
-        class="bg-myorange-500 flex flex-col gap-2 rounded-xl px-6 pb-10 pt-8 tracking-tighter shadow-sm"
-      >
+      <aside class="bg-myorange-500 flex flex-col gap-2 rounded-xl p-6 tracking-tighter shadow-sm">
         <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Contact</h2>
         <p><a href="mailto:hey@zmoki.xyz">hey@zmoki.xyz</a></p>
         <p>say hey!</p>

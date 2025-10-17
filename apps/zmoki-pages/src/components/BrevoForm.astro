@@ -13,22 +13,22 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
   id="brevo-form"
   method="POST"
   action={`https://${import.meta.env.PUBLIC_BREVO_ACCOUNT_ID}.sibforms.com/serve/${brevoFormId}`}
-  class="-mx-6 flex w-screen flex-col gap-8 bg-white px-6 py-8 md:-mx-0 md:w-full md:flex-row md:gap-12 md:rounded-lg md:px-8 md:py-12 md:shadow-md"
+  class="flex flex-col gap-8 bg-white px-4 py-8 shadow-sm md:flex-row md:gap-12 md:rounded-lg md:p-16 lg:p-20"
 >
-  <section class="prose prose-headings:font-serif md:w-1/2">
+  <section class="prose lg:prose-xl prose-headings:font-semibold !leading-tight md:w-1/2">
     <slot />
   </section>
 
-  <section class="flex min-w-[300px] flex-col gap-4 md:pt-2">
+  <section class="flex min-w-[300px] flex-1 flex-col gap-4 md:pt-2">
     <!-- Email input -->
-    <label for="EMAIL" class="text-lg font-medium">Email</label>
+    <label for="EMAIL" class="font-mono text-xl font-medium">Email</label>
     <input
       type="email"
       id="EMAIL"
       name="EMAIL"
       placeholder="your@email.com"
       required
-      class="w-full rounded-sm border border-gray-300 p-2 text-lg"
+      class="w-full rounded-sm border border-slate-300 p-2 font-mono text-lg"
     />
 
     <!-- Captcha -->
@@ -47,20 +47,18 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
         id="consent"
         name="consent"
         required
-        class="text-accent-light focus:ring-accent-light mt-1 h-4 w-4 rounded border-gray-300"
+        class="text-accent-light focus:myblue-500 mt-1 h-4 w-4 rounded border-slate-400"
       />
-      <label for="consent" class="text-sm text-gray-600">
+      <label for="consent" class="font-mono text-xs">
         I agree to receive emails from zmoki.xyz. I understand I can unsubscribe at any time.
-        <a href="/legal/privacy/" class="text-accent-light hover:underline" target="_blank">
-          Privacy Policy
-        </a>
+        <a href="/legal/privacy/" class="text-myblue-500" target="_blank"> Privacy Policy </a>
       </label>
     </div>
 
     <!-- Submit button -->
     <button
       type="submit"
-      class="bg-accent-light hover:bg-accent-light/80 rounded-sm px-4 py-2 font-medium text-white"
+      class="rounded-sm bg-[#00cb4b] px-4 py-2 font-mono font-medium uppercase tracking-normal text-white hover:bg-[#00cb4b]/80"
     >
       {buttonText}
     </button>

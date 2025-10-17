@@ -21,14 +21,23 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="mx-auto max-w-4xl px-6 py-12">
+  <article class="space-y-4">
     <!-- Post Header -->
-    <header class="mb-12">
-      <h1 class="mb-4 font-serif text-4xl font-bold leading-tight md:text-5xl">
+    <header
+      class="flex flex-col gap-6 rounded-xl bg-[#07ff62] px-4 py-8 shadow-sm md:items-center md:p-16 md:text-center lg:p-20 lg:pb-16"
+    >
+      <h1 class="text-5xl font-semibold lg:text-6xl">
         {title}
       </h1>
-      {description && <p class="mb-6 text-xl text-gray-600">{description}</p>}
-      <p class="flex flex-col gap-4 text-sm text-gray-500 sm:flex-row">
+      {description && <p class="md:text-2xl">{description}</p>}
+      <p
+        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
+      >
+        Resource
+      </p>
+      <p
+        class="flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
+      >
         <Time datetime={publishDate} />
         {
           isContentModified && (
@@ -43,7 +52,9 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <div class="flex flex-col gap-8">
       <!-- Post Content -->
-      <div class="prose prose-lg prose-headings:font-serif max-w-none">
+      <div
+        class="prose lg:prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-4 py-8 shadow-sm md:p-16 lg:px-32 lg:py-16"
+      >
         <slot />
       </div>
       <div class="order-first">
