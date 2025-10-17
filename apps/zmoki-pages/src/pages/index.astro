@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { PostCard, type PostCardProps } from "@zmoki/shared-components";
+import PostCard, { type Props as PostCardProps } from "../components/PostCard.astro";
 import { getCollection } from "astro:content";
 
 export const publishDate = new Date("2025-09-09");
