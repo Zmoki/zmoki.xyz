@@ -20,40 +20,35 @@ const sortedPosts = allPosts.sort(
   title="Digital Garden of Zarema Khalilova"
   description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
 >
-  <div class="mx-auto max-w-4xl px-6 py-12">
-    <!-- Hero Section -->
-    <section class="mb-16">
-      <h1 class="mb-6 font-serif text-5xl font-bold leading-tight md:text-6xl">Digital Garden</h1>
-      <p class="mb-6 text-xl text-gray-600">My name is Zarema, and this is my digital garden.</p>
-      <p class="mb-6 text-xl text-gray-600">
-        Think of it as a user manual for a brain that works a little differently. It's a living
-        collection of my hyper-fixations, my creative projects, and my attempts to find language for
-        my experiences.
-      </p>
-      <p class="mb-6 text-xl text-gray-600">
-        One day that might be a list of art galleries in Tbilisi, the next, a deep dive into my
-        Circassian heritage, or a cheat sheet for an anxiety technique. It's a space for curiosity,
-        not a niche.
-      </p>
-    </section>
+  <!-- Hero Section -->
+  <section
+    class="bg-accent-light mb-4 space-y-4 rounded-xl px-8 py-16 text-2xl font-light text-white shadow-sm"
+  >
+    <h1 class="mb-6 text-8xl font-semibold leading-tight">Digital Garden</h1>
+    <p>
+      I'm Zarema, and this is my digital garden. A user manual for a brain that works differently. A
+      living collection of creative projects and deep dives where all my interests connect.
+    </p>
+  </section>
 
-    <!-- Posts List -->
-    <section>
-      <h2 class="mb-8 font-serif text-2xl font-semibold">Recent Posts</h2>
+  <!-- Posts List -->
+  <section class="rounded-xl bg-slate-200 px-8 py-12 shadow-sm">
+    <h2 class="pb-12 text-6xl font-semibold">Recent Posts</h2>
 
-      {
-        sortedPosts.length === 0 ? (
-          <div class="py-12 text-center">
-            <p class="text-gray-500">No posts yet. Check back soon!</p>
-          </div>
-        ) : (
-          <div class="space-y-8 [&_a]:!text-gray-900 [&_a]:!no-underline hover:[&_a]:!no-underline">
-            {sortedPosts.map((post: PostCardProps) => (
+    {
+      sortedPosts.length === 0 ? (
+        <div class="py-12 text-center">
+          <p class="text-gray-500">No posts yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="grid grid-flow-dense grid-cols-2 gap-6 [&_a]:!text-gray-900 [&_a]:!no-underline hover:[&_a]:!no-underline">
+          {sortedPosts.map((post: PostCardProps) => (
+            <article class="rounded-xl bg-white shadow-sm">
               <PostCard {...post} />
-            ))}
-          </div>
-        )
-      }
-    </section>
-  </div>
+            </article>
+          ))}
+        </div>
+      )
+    }
+  </section>
 </BaseLayout>

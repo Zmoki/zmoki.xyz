@@ -17,14 +17,18 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="mx-auto max-w-4xl px-6 py-12">
+  <article class="space-y-4">
     <!-- Post Header -->
-    <header class="mb-12">
-      <h1 class="mb-4 font-serif text-4xl font-bold leading-tight md:text-5xl">
+    <header
+      class="flex flex-col items-center gap-6 rounded-xl bg-white p-16 text-center text-2xl shadow-sm"
+    >
+      <h1 class="leading-tighter text-6xl font-semibold">
         {title}
       </h1>
-      {description && <p class="mb-6 text-xl text-gray-600">{description}</p>}
-      <p class="flex flex-col gap-4 text-sm text-gray-500 sm:flex-row">
+      {description && <p>{description}</p>}
+      <p
+        class="order-first flex flex-row gap-4 align-middle font-mono text-sm uppercase text-gray-500"
+      >
         <Time datetime={publishDate} />
         {
           isContentModified && (
@@ -38,32 +42,32 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
     </header>
 
     <!-- Post Content -->
-    <div class="prose prose-lg prose-headings:font-serif max-w-none">
+    <div
+      class="prose prose-2xl prose-headings:font-semibold max-w-none rounded-xl bg-white px-32 py-16 shadow-sm"
+    >
       <slot />
     </div>
 
     <!-- About Author -->
-    <aside class="mt-16 border-t border-gray-200 pt-8">
-      <h2 class="mb-4 font-serif text-2xl font-bold">About the Author</h2>
-      <p class="mb-6 text-gray-600">
+    <aside class="space-y-2 rounded-xl bg-[#ff66e3] p-16 text-xl tracking-tighter shadow-sm">
+      <h2 class="pb-4 text-4xl font-semibold">About the Author</h2>
+      <p class="[&_a]:text-[#ffd0f6]">
         What do a software engineer, a contemporary artist, and a neurodivergent researcher have in
         common? They're all me, Zarema Khalilova. This post is one piece of my digital garden, where
         I explore the connections between all my different worlds. You can find the bigger picture
-        on my "<a href="/feed/about-me/">Map of Me</a>" page.
+        in <a href="/feed/about-me/">Map of Me.</a>
       </p>
     </aside>
 
     <!-- Navigation -->
-    <nav
-      class="mt-16 border-t border-gray-200 pt-8 [&_a]:!text-gray-900 [&_a]:!no-underline hover:[&_a]:!no-underline"
-    >
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <nav class="[&_a]:!text-gray-900 [&_a]:!no-underline hover:[&_a]:!no-underline">
+      <div class="grid grid-cols-1 gap-4 text-2xl sm:grid-cols-2">
         <!-- Previous Post -->
         {
           prevPost ? (
             <a
               href={`/feed/${prevPost.slug}/`}
-              class="group flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
+              class="group flex items-start gap-3 rounded-xl bg-white p-8 shadow-sm transition-colors"
             >
               <svg
                 class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"
@@ -80,9 +84,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
               </svg>
               <div class="min-w-0 flex-1">
                 <div class="text-sm text-gray-500">Previous</div>
-                <div class="group-hover:text-accent-light font-medium text-gray-900">
-                  {prevPost.data.title}
-                </div>
+                <div class="group-hover:text-accent-light">{prevPost.data.title}</div>
               </div>
             </a>
           ) : (
@@ -95,13 +97,11 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
           nextPost ? (
             <a
               href={`/feed/${nextPost.slug}/`}
-              class="group flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
+              class="group flex items-start gap-3 rounded-xl bg-white p-8 shadow-sm transition-colors"
             >
               <div class="min-w-0 flex-1 text-right">
                 <div class="text-sm text-gray-500">Next</div>
-                <div class="group-hover:text-accent-light font-medium text-gray-900">
-                  {nextPost.data.title}
-                </div>
+                <div class="group-hover:text-accent-light">{nextPost.data.title}</div>
               </div>
               <svg
                 class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"

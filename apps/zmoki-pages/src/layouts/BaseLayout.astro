@@ -27,8 +27,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
     <title>{title}</title>
   </head>
-  <body class="bg-background-light text-text-light min-h-full font-sans">
-    <div class="gap-4 p-4 lg:grid lg:max-h-screen lg:grid-cols-[30%_70%] lg:grid-rows-3">
+  <body class="text-text-light min-h-full bg-slate-50 font-sans">
+    <div
+      class="w-full gap-4 py-8 pl-4 pr-8 lg:grid lg:max-h-screen lg:grid-cols-[30%_70%] lg:grid-rows-3"
+    >
       <!-- Header -->
       <header
         class="rounded-xl bg-white bg-[url(/zmoki.jpg)] bg-cover bg-center px-6 py-4 text-xl tracking-tighter shadow-sm"
@@ -38,7 +40,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       <!-- Main Content -->
       <main
-        class="[&_a]:text-accent-light flex-1 overflow-scroll lg:row-span-3 lg:max-h-max [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
+        class="[&_a]:text-accent-light overflow-y-scroll rounded-xl tracking-tight lg:row-span-3 lg:max-h-max [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
       >
         <slot />
       </main>
