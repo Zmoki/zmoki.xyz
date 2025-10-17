@@ -5,20 +5,25 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter Tight", "system-ui", "sans-serif"],
-        serif: ["Noto Serif", "serif"],
       },
       colors: {
-        background: {
-          light: "#F9FAFF",
-          dark: "#051543",
+        myblue: {
+          200: "#b7e5ff",
+          300: "#7ccfff",
+          400: "#42b9ff",
+          500: "#07a3ff",
+          600: "#0080cb",
+          700: "#005b90",
+          800: "#003655",
+          900: "#001d2e",
+          950: "#000407",
         },
-        text: {
-          light: "#002027",
-          dark: "#F9FAFF",
+        myorange: {
+          500: "#ff8035",
         },
-        accent: {
-          light: "#00b0d8",
-          dark: "#00b0d8",
+        mypink: {
+          200: "#ffdefb",
+          400: "#ff68ed",
         },
       },
     },

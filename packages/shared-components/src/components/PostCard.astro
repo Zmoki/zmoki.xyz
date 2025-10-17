@@ -20,7 +20,7 @@ const { title, description, publishDate } = data;
     {title}
   </h3>
   {description && <p class="flex-1">{description}</p>}
-  <p class="text-right font-mono text-xs uppercase text-gray-500">
+  <p class="text-right font-mono text-xs uppercase tracking-normal">
     <time datetime={publishDate.toISOString()}>
       {
         publishDate.toLocaleDateString("en-US", {

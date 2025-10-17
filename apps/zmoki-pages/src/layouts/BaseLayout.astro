@@ -27,45 +27,41 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
     <title>{title}</title>
   </head>
-  <body class="text-text-light min-h-full bg-slate-50 font-sans">
+  <body
+    class="text-myblue-900 hover:[&_a]:bg-myblue-500 hover:[&_a]:outline-solid hover:[&_a]:outline-myblue-500 min-h-full bg-slate-50 font-sans text-xl leading-tight tracking-tight [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:text-white hover:[&_a]:outline"
+  >
     <div
       class="w-full gap-4 py-8 pl-4 pr-8 lg:grid lg:max-h-screen lg:grid-cols-[30%_70%] lg:grid-rows-3"
     >
       <!-- Header -->
       <header
-        class="rounded-xl bg-white bg-[url(/zmoki.jpg)] bg-cover bg-center px-6 py-4 text-xl tracking-tighter shadow-sm"
+        class="rounded-xl bg-white bg-[url(/zmoki.jpg)] bg-cover bg-center px-6 py-4 tracking-tighter shadow-sm"
       >
-        <a href="/"> zmoki.xyz </a>
+        <a href="/">zmoki.xyz</a>
       </header>
 
       <!-- Main Content -->
-      <main
-        class="[&_a]:text-accent-light overflow-y-scroll rounded-xl tracking-tight lg:row-span-3 lg:max-h-max [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:underline"
-      >
+      <main class="overflow-y-scroll rounded-xl pr-4 lg:row-span-3 lg:max-h-max">
         <slot />
       </main>
 
       <aside
-        class="space-y-2 rounded-xl bg-[#ff5933] px-6 pb-4 pt-8 text-xl tracking-tighter shadow-sm"
+        class="bg-myorange-500 flex flex-col gap-2 rounded-xl px-6 pb-10 pt-8 tracking-tighter shadow-sm"
       >
-        <h2 class="pb-4 text-4xl font-semibold">Contact</h2>
+        <h2 class="flex-1 pb-4 text-4xl font-medium">Contact</h2>
         <p><a href="mailto:hey@zmoki.xyz">hey@zmoki.xyz</a></p>
         <p>say hey!</p>
       </aside>
 
       <!-- Footer -->
       <footer
-        class="self-end rounded-xl bg-white p-4 font-mono text-xs uppercase tracking-tight text-gray-500 shadow-sm"
+        class="self-end rounded-xl bg-white px-4 pb-4 pt-2 font-mono text-xs uppercase tracking-normal text-slate-500 shadow-sm"
       >
         <div class="my-2">
           <span>•</span>
-          <a href="/legal/privacy/" class="hover:text-accent-light transition-colors"
-            >Privacy Policy</a
-          >
+          <a href="/legal/privacy/">Privacy Policy</a>
           <span>•</span>
-          <a href="/legal/terms/" class="hover:text-accent-light transition-colors"
-            >Terms of Service</a
-          >
+          <a href="/legal/terms/">Terms of Service</a>
 
           <span>•</span>
         </div>

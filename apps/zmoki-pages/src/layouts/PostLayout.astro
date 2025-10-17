@@ -20,14 +20,14 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   <article class="space-y-4">
     <!-- Post Header -->
     <header
-      class="flex flex-col items-center gap-6 rounded-xl bg-white p-16 text-center text-2xl shadow-sm"
+      class="flex flex-col items-center gap-6 rounded-xl bg-white p-20 text-center text-2xl shadow-sm"
     >
-      <h1 class="leading-tighter text-6xl font-semibold">
+      <h1 class="text-6xl font-semibold">
         {title}
       </h1>
       {description && <p>{description}</p>}
       <p
-        class="order-first flex flex-row gap-4 align-middle font-mono text-sm uppercase text-gray-500"
+        class="order-first flex flex-row gap-4 align-middle font-mono text-sm uppercase tracking-normal opacity-70"
       >
         <Time datetime={publishDate} />
         {
@@ -43,85 +43,49 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose prose-2xl prose-headings:font-semibold max-w-none rounded-xl bg-white px-32 py-16 shadow-sm"
+      class="prose prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-32 py-16 shadow-sm"
     >
       <slot />
     </div>
 
     <!-- About Author -->
-    <aside class="space-y-2 rounded-xl bg-[#ff66e3] p-16 text-xl tracking-tighter shadow-sm">
-      <h2 class="pb-4 text-4xl font-semibold">About the Author</h2>
-      <p class="[&_a]:text-[#ffd0f6]">
+    <aside class="bg-mypink-400 space-y-2 rounded-xl p-20 tracking-tighter shadow-sm">
+      <h2 class="pb-4 text-4xl font-medium">About the Author</h2>
+      <p>
         What do a software engineer, a contemporary artist, and a neurodivergent researcher have in
         common? They're all me, Zarema Khalilova. This post is one piece of my digital garden, where
         I explore the connections between all my different worlds. You can find the bigger picture
-        in <a href="/feed/about-me/">Map of Me.</a>
+        in <a href="/feed/about-me/" class="text-white">Map of Me.</a>
       </p>
     </aside>
 
     <!-- Navigation -->
-    <nav class="[&_a]:!text-gray-900 [&_a]:!no-underline hover:[&_a]:!no-underline">
-      <div class="grid grid-cols-1 gap-4 text-2xl sm:grid-cols-2">
-        <!-- Previous Post -->
-        {
-          prevPost ? (
-            <a
-              href={`/feed/${prevPost.slug}/`}
-              class="group flex items-start gap-3 rounded-xl bg-white p-8 shadow-sm transition-colors"
-            >
-              <svg
-                class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <div class="min-w-0 flex-1">
-                <div class="text-sm text-gray-500">Previous</div>
-                <div class="group-hover:text-accent-light">{prevPost.data.title}</div>
-              </div>
-            </a>
-          ) : (
-            <div class="h-[72px]" />
-          )
-        }
+    <nav class="grid w-full grid-cols-2 gap-4 pb-6">
+      <!-- Previous Post -->
+      {
+        prevPost && (
+          <a
+            href={`/feed/${prevPost.slug}/`}
+            class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 shadow-sm"
+          >
+            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
+            <div class="text-2xl font-medium">{prevPost.data.title}</div>
+          </a>
+        )
+      }
 
-        <!-- Next Post -->
-        {
-          nextPost ? (
-            <a
-              href={`/feed/${nextPost.slug}/`}
-              class="group flex items-start gap-3 rounded-xl bg-white p-8 shadow-sm transition-colors"
-            >
-              <div class="min-w-0 flex-1 text-right">
-                <div class="text-sm text-gray-500">Next</div>
-                <div class="group-hover:text-accent-light">{nextPost.data.title}</div>
-              </div>
-              <svg
-                class="mt-1 h-4 w-4 text-gray-400 group-hover:text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          ) : (
-            <div class="h-[72px]" />
-          )
-        }
-      </div>
+      <!-- Next Post -->
+      {
+        nextPost && (
+          <a
+            href={`/feed/${nextPost.slug}/`}
+            class="col-start-2 flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 text-right shadow-sm"
+          >
+            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
+            <div class="text-2xl font-medium">{nextPost.data.title}</div>
+          </a>
+        )
+      }
     </nav>
   </article>
 </BaseLayout>
