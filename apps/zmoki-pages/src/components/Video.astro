@@ -14,11 +14,11 @@ const hasText = Astro.slots.has("default");
 
 {
   hasText ? (
-    <div class="my-8 grid grid-cols-1 gap-8 md:grid-cols-3">
-      <div class="not-prose col-span-1 flex justify-start">
+    <div class="grid grid-cols-[40%_60%]">
+      <div class="not-prose">
         <RawVideo {...Astro.props} />
       </div>
-      <div class="col-span-2">
+      <div class="">
         <slot />
       </div>
     </div>
