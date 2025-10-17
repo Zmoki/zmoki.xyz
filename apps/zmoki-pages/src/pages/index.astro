@@ -1,19 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PostCard, { type Props as PostCardProps } from "../components/PostCard.astro";
-import { getCollection } from "astro:content";
+import PostCard from "../components/PostCard.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2025-09-10");
 
 // Get all posts from the feed collection
-const allPosts = await getCollection("feed");
+const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
 
 // Sort posts by publish date (newest first)
-const sortedPosts = allPosts.sort(
-  (a: PostCardProps, b: PostCardProps) =>
-    b.data.publishDate.getTime() - a.data.publishDate.getTime(),
-);
+const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
 ---
 
 <BaseLayout

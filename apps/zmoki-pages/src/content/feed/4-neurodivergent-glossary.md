@@ -5,6 +5,7 @@ description:
   navigating ADHD, Autism, or just trying to understand their own brain."
 publishDate: "2025-09-11"
 contentModifiedDate: "2025-09-11"
+order: 4
 ---
 
 I have a dedicated chat with an AI assistant where I go to unpack and handle my neurodivergent
