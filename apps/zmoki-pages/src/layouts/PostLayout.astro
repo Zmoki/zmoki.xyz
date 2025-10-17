@@ -20,14 +20,14 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   <article class="space-y-4">
     <!-- Post Header -->
     <header
-      class="flex flex-col items-center gap-6 rounded-xl bg-white p-20 text-center text-2xl shadow-sm"
+      class="flex flex-col gap-6 rounded-xl bg-white px-4 py-8 shadow-sm md:items-center md:p-16 md:text-center lg:p-20"
     >
-      <h1 class="text-6xl font-semibold">
+      <h1 class="text-5xl font-semibold lg:text-6xl">
         {title}
       </h1>
-      {description && <p>{description}</p>}
+      {description && <p class="md:text-2xl">{description}</p>}
       <p
-        class="order-first flex flex-row gap-4 align-middle font-mono text-sm uppercase tracking-normal opacity-70"
+        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
       >
         <Time datetime={publishDate} />
         {
@@ -43,24 +43,26 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-32 py-16 shadow-sm"
+      class="prose lg:prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-4 py-8 shadow-sm md:p-16 lg:px-32 lg:py-16"
     >
       <slot />
     </div>
 
     <!-- About Author -->
-    <aside class="bg-mypink-400 space-y-2 rounded-xl p-20 tracking-tighter shadow-sm">
-      <h2 class="pb-4 text-4xl font-medium">About the Author</h2>
+    <aside
+      class="bg-mypink-400 space-y-2 rounded-xl px-4 py-8 tracking-tighter shadow-sm md:p-16 lg:p-20"
+    >
+      <h2 class="pb-4 text-3xl font-medium md:text-4xl">About the Author</h2>
       <p>
         What do a software engineer, a contemporary artist, and a neurodivergent researcher have in
         common? They're all me, Zarema Khalilova. This post is one piece of my digital garden, where
         I explore the connections between all my different worlds. You can find the bigger picture
-        in <a href="/feed/about-me/" class="text-white">Map of Me.</a>
+        in <a href="/feed/about-me/" class="text-white">Map&nbsp;of&nbsp;Me.</a>
       </p>
     </aside>
 
     <!-- Navigation -->
-    <nav class="grid w-full grid-cols-2 gap-4 pb-6">
+    <nav class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:pb-6">
       <!-- Previous Post -->
       {
         prevPost && (
@@ -79,7 +81,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         nextPost && (
           <a
             href={`/feed/${nextPost.slug}/`}
-            class="col-start-2 flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 text-right shadow-sm"
+            class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 text-right shadow-sm md:col-start-2"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
             <div class="text-2xl font-medium">{nextPost.data.title}</div>
