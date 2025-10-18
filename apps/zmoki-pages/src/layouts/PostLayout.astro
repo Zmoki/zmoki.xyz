@@ -25,7 +25,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       <h1 class="text-5xl font-semibold lg:text-6xl">
         {title}
       </h1>
-      {description && <p class="md:text-2xl">{description}</p>}
+      {description && <p class="text-xl md:text-2xl">{description}</p>}
       <p
         class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
       >
@@ -43,7 +43,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose lg:prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-4 py-8 shadow-sm md:p-16 lg:px-28 lg:py-16"
+      class="prose prose-xl lg:prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-4 py-8 shadow-sm md:p-16 lg:px-28 lg:py-16"
     >
       <slot />
     </div>
