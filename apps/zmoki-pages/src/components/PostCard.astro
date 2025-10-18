@@ -1,15 +1,7 @@
 ---
-export interface Props {
-  slug: string;
-  data: {
-    title: string;
-    description: string;
-    publishDate: Date;
-    order: number;
-  };
-}
+import type { CollectionEntry } from "astro:content";
 
-const { data, slug } = Astro.props;
+const { data, slug } = Astro.props as CollectionEntry<"feed">;
 const { title, description, publishDate } = data;
 ---
 

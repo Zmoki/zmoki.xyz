@@ -34,12 +34,10 @@ const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
 
     {
       sortedPosts.length === 0 ? (
-        <div class="py-12 text-center">
-          <p class="text-gray-500">No posts yet. Check back soon!</p>
-        </div>
+        <p>No posts yet. Check back soon!</p>
       ) : (
         <div class="grid grid-flow-dense grid-cols-1 gap-6 md:grid-cols-2">
-          {sortedPosts.map((post: PostCardProps) => (
+          {sortedPosts.map((post: CollectionEntry<"feed">) => (
             <PostCard {...post} />
           ))}
         </div>
