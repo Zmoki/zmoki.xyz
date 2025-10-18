@@ -16,6 +16,7 @@ const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
 <BaseLayout
   title="Digital Garden of Zarema Khalilova"
   description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
+  showRecentPosts={false}
 >
   <!-- Hero Section -->
   <section
@@ -29,8 +30,8 @@ const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
   </section>
 
   <!-- Posts List -->
-  <section class="rounded-xl bg-slate-200 px-4 py-8 shadow-sm md:px-8 md:py-12">
-    <h2 class="pb-8 text-5xl font-semibold md:pb-12 md:text-6xl">Recent Posts</h2>
+  <section class="pt-8 md:pt-12">
+    <h2 class="px-4 pb-8 text-5xl font-semibold md:px-8 md:pb-12 md:text-6xl">Recent Posts</h2>
 
     {
       sortedPosts.length === 0 ? (

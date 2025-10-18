@@ -24,6 +24,9 @@ export default {
         mypink: {
           200: "#ffdefb",
           400: "#ff68ed",
+          500: "#ff2de6",
+          600: "#f100d5",
+          700: "#ca00b2",
         },
       },
     },
