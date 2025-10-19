@@ -1,12 +1,18 @@
-# Zmoki Monorepo
+# Zmoki Digital Garden
 
-This is a monorepo containing the Zmoki digital garden and related projects.
+This is the source code for [zmoki.xyz](https://zmoki.xyz) - a personal digital garden built with Astro.
 
-## Structure
+## About
 
-- `apps/zmoki-pages/` - The main Astro website (zmoki.xyz)
-- `apps/tech-zmoki-pages/` - The tech blog (tech.zmoki.xyz)
-- `packages/shared-components/` - Shared Astro components used by both apps
+This site serves as a digital garden where I share thoughts, resources, and experiences. It's built with modern web technologies and focuses on clean, accessible design.
+
+## Tech Stack
+
+- **Astro** - Static site generator
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **MDX** - Rich content authoring
+- **Remark/Rehype** - Content processing
 
 ## Getting Started
 
@@ -24,79 +30,58 @@ npm install
 ### Development
 
 ```bash
-# Start the zmoki-pages development server (port 4321)
+# Start the development server
 npm run dev
 
-# Start the tech blog development server (port 4322)
-npm run dev:tech
-
-# Or run from the specific app directory
-cd apps/zmoki-pages && npm run dev    # http://localhost:4321
-cd apps/tech-zmoki-pages && npm run dev  # http://localhost:4322
+# The site will be available at http://localhost:4321
 ```
 
 ### Building
 
 ```bash
-# Build all apps
-npm run build:all
-
-# Build only zmoki-pages
+# Build the site for production
 npm run build
+
+# Preview the built site
+npm run preview
 ```
 
 ## Available Scripts
 
-- `npm run dev` - Start development server for zmoki-pages
-- `npm run build` - Build zmoki-pages
-- `npm run preview` - Preview built zmoki-pages
-- `npm run clean` - Clean all node_modules and dist folders
-- `npm run install:all` - Install dependencies for all workspaces
-- `npm run build:all` - Build all workspaces
+- `npm run dev` - Start development server
+- `npm run build` - Build the site for production
+- `npm run preview` - Preview the built site
+- `npm run clean` - Clean node_modules and dist folders
 
-## Shared Components
+## Project Structure
 
-The `packages/shared-components/` package contains reusable Astro components that can be used across all apps.
+```
+src/
+├── components/     # Reusable Astro components
+├── content/       # MDX/Markdown content
+│   ├── feed/      # Blog posts and articles
+│   ├── legal/     # Legal pages
+│   └── resources/ # Resource pages
+├── images/        # Static images
+├── layouts/       # Page layouts
+└── pages/         # Astro pages and routes
+```
+
+## Content Management
+
+Content is written in MDX and Markdown files in the `src/content/` directory. The site automatically generates pages and routes based on the content structure.
+
+### Adding New Content
+
+1. Create a new `.mdx` or `.md` file in the appropriate content directory
+2. Add frontmatter with title, description, and other metadata
+3. The site will automatically generate the page
 
 ### Available Components
 
 - `Time` - Formats and displays dates
 - `RawVideo` - Video player with autoplay and responsive design
-
-### Using Shared Components
-
-```astro
----
-import { Time, RawVideo } from "@zmoki/shared-components";
----
-
-<Time datetime={new Date()} />
-<RawVideo src="/video.mp4" poster="/poster.jpg" />
-```
-
-### Adding New Shared Components
-
-1. Add your component to `packages/shared-components/src/components/`
-2. Export it in `packages/shared-components/src/index.ts`
-3. Add the package as a dependency in your app's `package.json`:
-   ```json
-   {
-     "dependencies": {
-       "@zmoki/shared-components": "*"
-     }
-   }
-   ```
-
-## Adding New Apps/Packages
-
-To add a new app:
-
-1. Create a new directory in `apps/`
-2. Add a `package.json` with the appropriate name and dependencies
-3. The workspace will automatically detect it
-
-To add a new shared package:
-
-1. Create a new directory in `packages/`
-2. Add a `package.json` with the appropriate name and dependencies
-3. Other workspaces can reference it using the package name
+- `Video` - Enhanced video component
+- `PostCard` - Card component for displaying posts
+- `ThemeToggle` - Dark/light theme toggle
+- `BrevoForm` - Newsletter signup form
