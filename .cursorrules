@@ -1,0 +1,206 @@
+# ZMOKI.XYZ - Personal Brand Cursor Rules
+
+# Based on Personal Brand Blueprint V2.0 - The Creator Brand
+
+## CORE IDENTITY & MISSION
+
+You are working on zmoki.xyz, a digital garden exploring the intersection of technology, creativity, and systems-thinking. The mission is to share practical systems, tools, and creative inspiration from 20+ years in tech and art, helping curious people build a more intentional and effective life.
+
+## BRAND ARCHETYPE & VOICE
+
+- **Primary Archetype**: The Investigator (explores interests, researches problems)
+- **Secondary Archetype**: The Builder (creates tangible products and solutions)
+- **Storytelling Style**: "The Pragmatic Storyteller" - blending personal, vulnerable stories with practical, systematic solutions
+- **Writing Voice**: First-person, authentic, honest, vulnerable, practical
+
+## TECHNICAL STACK & STANDARDS
+
+- **Framework**: Astro 4.0+ with TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Content**: MDX for blog posts and resources
+- **Performance**: Lighthouse CI integration for performance monitoring
+- **Code Quality**: Prettier with Astro and Tailwind plugins
+
+## DESIGN SYSTEM - "Structured Creativity"
+
+### Brand Colors (from blueprint):
+
+- **Off-White**: #F9FAFF (primary background)
+- **Deep Blue**: #051543 (primary text/accents)
+- **Cyan Accent**: #00D0FF (call-to-action elements)
+
+### Current Implementation (from tailwind.config.mjs):
+
+- **myblue**: 200-950 scale (primary brand color)
+- **myorange**: 500 (#ff8035) for contact/CTA
+- **mypink**: 200-700 scale for highlights
+- **Typography**: Inter Tight font family
+
+### Design Principles:
+
+- Clean, structured layouts with creative flourishes
+- High contrast for accessibility
+- Consistent spacing and typography
+- Visual hierarchy through color and size
+- Mobile-first responsive design
+
+## CONTENT STRATEGY GUIDELINES
+
+### Content Pillars:
+
+1. **The Investigation**: Deep dives and original research (tech SEO myths, productivity systems)
+2. **The Builder's Workshop**: Tools, code, templates, creative processes
+3. **The Studio**: Art, creative philosophy, personal interests
+
+### Content Structure:
+
+- Use MDX for rich content with interactive elements
+- Include frontmatter with title, description, order, date
+- Implement proper SEO with meta descriptions and canonical URLs
+- Add definition lists with auto-generated IDs for better navigation
+- External links should open in new tabs with security attributes
+
+### Writing Guidelines:
+
+- Write from first-person perspective
+- Use storytelling with problem -> journey -> solution structure
+- Be honest and vulnerable about challenges
+- Provide practical, actionable advice
+- Include personal anecdotes and experiences
+- Balance technical depth with accessibility
+
+## CODE QUALITY STANDARDS
+
+### TypeScript & Astro:
+
+- Use TypeScript for all components and utilities
+- Define proper interfaces for props and data structures
+- Use Astro's built-in collections for content management
+- Implement proper error handling and edge cases
+- Follow Astro's component patterns and best practices
+
+### Performance:
+
+- Optimize images with proper formats (WebP when possible)
+- Implement lazy loading for non-critical resources
+- Use Astro's built-in optimizations
+- Monitor with Lighthouse CI (mobile and desktop)
+- Minimize bundle size and unused CSS
+
+### Accessibility:
+
+- Use semantic HTML elements
+- Implement proper ARIA labels where needed
+- Ensure keyboard navigation works
+- Maintain color contrast ratios
+- Test with screen readers
+
+### SEO & Meta:
+
+- Include proper meta descriptions
+- Use canonical URLs
+- Implement structured data where appropriate
+- Optimize for Core Web Vitals
+- Include proper heading hierarchy (H1, H2, H3)
+
+## FILE ORGANIZATION
+
+### Content Structure:
+
+- `/src/content/feed/` - Blog posts (numbered for ordering)
+- `/src/content/resources/` - Digital products and templates
+- `/src/content/legal/` - Legal pages
+- Use descriptive filenames with hyphens
+- Include proper frontmatter for all content
+
+### Component Organization:
+
+- Keep components in `/src/components/`
+- Use descriptive, PascalCase names
+- Include TypeScript interfaces for props
+- Document complex components with comments
+
+### Layout Patterns:
+
+- `BaseLayout.astro` - Main site layout
+- `PostLayout.astro` - Blog post layout
+- `ResourceLayout.astro` - Resource/product layout
+- `LegalLayout.astro` - Legal page layout
+
+## BRAND MESSAGING CONSISTENCY
+
+### Value Proposition:
+
+"I share practical systems, tools, and creative inspiration from my 20+ years in tech and art, helping curious people build a more intentional and effective life."
+
+### Brand Tagline:
+
+"Exploring Tech, Art & Identity"
+
+### Call-to-Actions:
+
+- **Direct CTA**: "Get the [Product Name] Template" / "Buy the Guide"
+- **Transitional CTA**: "Subscribe to my newsletter" / "Follow my feed"
+- **Contact**: "hey@zmoki.xyz" / "say hey!"
+
+### Tone & Voice:
+
+- Curious and investigative
+- Practical and systematic
+- Personal and vulnerable
+- Creative and inspiring
+- Professional but approachable
+
+## DEVELOPMENT WORKFLOW
+
+### Before Making Changes:
+
+1. Understand the brand context and user journey
+2. Consider the content pillar being addressed
+3. Ensure technical decisions align with performance goals
+4. Maintain design system consistency
+
+### Code Reviews:
+
+- Check for brand voice consistency in content
+- Verify design system compliance
+- Ensure accessibility standards
+- Validate performance impact
+- Confirm SEO optimization
+
+### Content Creation:
+
+- Start with the user's problem/need
+- Share personal experience and journey
+- Provide practical, actionable solutions
+- Include relevant tools or resources
+- End with clear next steps or CTAs
+
+## SPECIFIC IMPLEMENTATION NOTES
+
+### Current Site Features:
+
+- Grid-based layout with sidebar navigation
+- Color-coded sections (blue, pink, orange, green)
+- Recent posts display
+- Resources showcase
+- Contact information
+- Legal pages integration
+
+### Technical Patterns:
+
+- Use Astro collections for content management
+- Implement proper TypeScript interfaces
+- Follow Tailwind utility-first approach
+- Use remark/rehype plugins for content processing
+- Implement proper external link handling
+
+### Brand Consistency Checks:
+
+- Verify color usage matches brand palette
+- Ensure typography follows Inter Tight system
+- Check that content voice matches "Pragmatic Storyteller"
+- Validate that CTAs are clear and action-oriented
+- Confirm that technical content is accessible to target audience
+
+Remember: Every piece of code, content, and design decision should reinforce the brand identity of "Exploring Tech, Art & Identity" while providing practical value to curious, creative, and technically-minded people seeking better systems for their lives and work.
