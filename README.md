@@ -52,6 +52,10 @@ npm run preview
 - `npm run build` - Build the site for production
 - `npm run preview` - Preview the built site
 - `npm run clean` - Clean node_modules and dist folders
+- `npm run lhci:mobile` - Run Lighthouse CI audits on mobile
+- `npm run lhci:desktop` - Run Lighthouse CI audits on desktop
+- `npm run lhci:collect` - Collect Lighthouse data
+- `npm run lhci:assert` - Run assertions against performance budgets
 
 ## Project Structure
 
@@ -85,3 +89,37 @@ Content is written in MDX and Markdown files in the `src/content/` directory. Th
 - `PostCard` - Card component for displaying posts
 - `ThemeToggle` - Dark/light theme toggle
 - `BrevoForm` - Newsletter signup form
+
+## Performance Monitoring
+
+This site uses Lighthouse CI to monitor performance, accessibility, best practices, and SEO scores.
+
+### Local Performance Testing
+
+Run performance audits locally:
+
+```bash
+# Test mobile performance
+npm run lhci:mobile
+
+# Test desktop performance
+npm run lhci:desktop
+```
+
+Reports are generated in the `.lighthouseci/` directory with detailed HTML reports.
+
+### Automated Testing
+
+Lighthouse CI runs automatically on:
+
+- Every push to the main branch
+- Every pull request
+
+Results are uploaded as GitHub Actions artifacts and include:
+
+- Performance scores (target: ≥90)
+- Accessibility scores (target: ≥90)
+- Best practices scores (target: ≥90)
+- SEO scores (target: ≥90)
+
+View detailed reports in the GitHub Actions tab of any workflow run.

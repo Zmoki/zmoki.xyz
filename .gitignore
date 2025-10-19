@@ -5,6 +5,9 @@ node_modules/
 dist/
 .astro/
 
+# Lighthouse CI
+.lighthouseci/
+
 # Environment variables
 .env
 .env.local
