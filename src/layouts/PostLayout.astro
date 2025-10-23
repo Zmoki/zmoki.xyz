@@ -29,13 +29,12 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       <p
         class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
       >
-        <Time datetime={publishDate} />
+        <span>Published on <Time datetime={publishDate} /></span>
         {
           isContentModified && (
-            <em>
-              Updated
-              <Time datetime={contentModifiedDate} />
-            </em>
+            <span>
+              [updated on <Time datetime={contentModifiedDate} />]
+            </span>
           )
         }
       </p>
