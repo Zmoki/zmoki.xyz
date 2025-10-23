@@ -43,23 +43,23 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose prose-xl lg:prose-2xl prose-headings:font-semibold [&_a]:text-myblue-500 max-w-none rounded-xl bg-white px-4 py-8 shadow-sm md:p-16 lg:px-28 lg:py-16"
+      class="prose prose-xl max-w-none rounded-xl bg-white px-4 py-8 shadow-sm lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16 [&_a]:text-myblue-500"
     >
       <slot />
     </div>
 
     <!-- About Author -->
     <aside
-      class="bg-mypink-700 space-y-2 rounded-xl px-4 py-8 tracking-tighter text-white shadow-sm md:p-16 lg:p-20"
+      class="space-y-2 rounded-xl bg-mypink-700 px-4 py-8 tracking-tighter text-white shadow-sm md:p-16 lg:p-20"
     >
-      <h2 class="pb-4 text-3xl font-medium md:text-4xl">About the Author</h2>
+      <h2 class="pb-4 text-3xl font-medium md:text-4xl">About me</h2>
       <p>
         What do a software engineer, a contemporary artist, and a neurodivergent researcher have in
         common? They're all me, Zarema Khalilova. This post is one piece of my digital garden, where
         I explore the connections between all my different worlds. You can find the bigger picture
-        in <a href="/feed/1-about-me/" class="border-b-2 border-dotted hover:border-none"
-          >Map&nbsp;of&nbsp;Me.</a
-        >
+        on the <a href="/feed/1-about-me/" class="border-b-2 border-dotted hover:border-none"
+          >map of me</a
+        > post.
       </p>
     </aside>
 
