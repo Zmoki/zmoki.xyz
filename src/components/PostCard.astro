@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 
 const { data, slug } = Astro.props as CollectionEntry<"feed">;
-const { title, description, publishDate } = data;
+const { title, description, contentModifiedDate } = data;
 ---
 
 <article class="overflow-hidden rounded-lg bg-white shadow-sm">
@@ -12,9 +12,9 @@ const { title, description, publishDate } = data;
     </h3>
     {description && <p class="flex-1">{description}</p>}
     <p class="text-right font-mono text-xs uppercase tracking-normal opacity-70">
-      <time datetime={publishDate.toISOString()}>
+      <time datetime={contentModifiedDate.toISOString()}>
         {
-          publishDate.toLocaleDateString("en-US", {
+          contentModifiedDate.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
