@@ -17,8 +17,8 @@ export const GET: APIRoute = async ({ site }) => {
 
   // Get the most recent post published date and calc the index page latest date
   const recentPostPublishedDate = allFeedIems
-    .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())[0]
-    .data.publishDate.getTime();
+    .sort((a, b) => b.data.contentModifiedDate.getTime() - a.data.contentModifiedDate.getTime())[0]
+    .data.contentModifiedDate.getTime();
   const indexPageLatestDateTimestamp = Math.max(
     recentPostPublishedDate,
     indexPagePublishDate.getTime(),
