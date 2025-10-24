@@ -69,3 +69,17 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
 </form>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+
+<!-- Plausible Form Tracking -->
+<script>
+  import { track } from "@plausible-analytics/tracker";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("brevo-form");
+    if (form) {
+      form.addEventListener("submit", () => {
+        track("Form Submit", {});
+      });
+    }
+  });
+</script>

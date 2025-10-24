@@ -17,6 +17,7 @@
   "dependencies": {
     "@astrojs/mdx": "^2.0.0",
     "@astrojs/tailwind": "^5.0.0",
+    "@plausible-analytics/tracker": "^0.4.3",
     "@tailwindcss/typography": "^0.5.10",
     "astro": "^4.0.0",
     "remark-definition-list": "^2.0.0",

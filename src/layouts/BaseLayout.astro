@@ -41,6 +41,17 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       rel="stylesheet"
     />
     <title set:html={title} />
+
+    <!-- Plausible Analytics -->
+    <script>
+      import { init } from "@plausible-analytics/tracker";
+
+      init({
+        domain: import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN,
+        captureOnLocalhost: true,
+        autoCapturePageviews: true,
+      });
+    </script>
   </head>
   <body
     class="hover:[&_a]:outline-solid min-h-full bg-slate-100 font-sans text-lg leading-tight tracking-tight text-myblue-900 lg:text-xl [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:bg-myblue-500 hover:[&_a]:text-white hover:[&_a]:outline hover:[&_a]:outline-myblue-500"
