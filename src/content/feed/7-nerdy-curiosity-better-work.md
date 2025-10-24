@@ -1,12 +1,12 @@
 ---
-title: "How My Nerdy Curiosity Makes My Work Better"
+title: "How my nerdy curiosity makes my work better"
 description: "A story about my recent client work, where a deep dive into linguistics proved that fundamental curiosity is the best SEO tool."
 publishDate: "2025-10-17"
-contentModifiedDate: "2025-10-17"
+contentModifiedDate: "2025-10-24"
 order: 7
 ---
 
-## The Feeling
+## That uneasy feeling
 
 I have a long-term client for whom I do tech SEO. Recently, we've been trying to improve their presence in AI Overviews, and we landed on a brilliant idea from their Head of Content:
 
@@ -24,7 +24,7 @@ The Head of Content had constantly been asking before,
 
 and now, looking at this list, his question echoed in my mind. I had a feeling these questions were _not_ good. But a feeling isn't a good argument for a client. I needed proof.
 
-## The Rabbit Hole
+## Diving down the rabbit hole
 
 So, in a moment of what felt like pure childlike curiosity, I opened a chat with an AI and asked a ridiculously simple question:
 
@@ -36,7 +36,7 @@ I fell headfirst into a deep-dive rabbit hole on the Theory of Questions. I was 
 
 I learned about **auxiliary** verbs, **interrogative** words, and the wonderfully nerdy concept of **modality** ("Epistemic" vs. "Deontic"). And through it all, a hypothesis started to form: for SEO and AI search, it seemed like **interrogative questions** (starting with _who, what, where, when, why, how_) would be far more powerful than simple **yes/no questions** (starting with _is, are, do, can_).
 
-## The Proof in the Data
+## Proof in the data
 
 An AI chat agreed with my hypothesis, but again, that's not proof. I needed real data.
 
@@ -48,7 +48,7 @@ The result was staggering. The data was undeniable.
 
 I had found it. The real, data-backed proof.
 
-## The Realization
+## Realizing what was wrong
 
 Suddenly, I knew what was wrong with that list of 5,000 questions. I went back and checked. Just as I'd suspected, about half of them were the low-impact "yes/no" type. My feeling wasn't just a feeling; it was my brain recognizing a pattern I hadn't yet found the language for.
 
