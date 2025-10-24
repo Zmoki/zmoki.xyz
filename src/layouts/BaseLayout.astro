@@ -50,6 +50,8 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
         domain: import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN,
         captureOnLocalhost: true,
         autoCapturePageviews: true,
+        outboundLinks: true,
+        formSubmissions: true,
       });
     </script>
   </head>
