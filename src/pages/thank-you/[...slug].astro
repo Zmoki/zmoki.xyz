@@ -3,52 +3,60 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const resources = await getCollection("resources");
-  const resourcesPaths = resources.map((resource: CollectionEntry<"resources">) => ({
-    params: { slug: `resources/${resource.slug}` },
-    props: {
-      name: resource.data.name,
-    },
+  const allResources: CollectionEntry<"resources">[] = await getCollection("resources");
+  return allResources.map((resource) => ({
+    params: { slug: `resources/${resource.slug}/` },
+    props: { name: resource.data.name, url: `/resources/${resource.slug}/` },
   }));
-  return [
-    { params: { slug: undefined }, props: { name: "resource" } }, // /thank-you/ generic page
-    ...resourcesPaths, // /thank-you/resources/*/ pages
-  ];
 }
 
-const { name } = Astro.props;
+const { name, url } = Astro.props;
+
+// Get 3 random feed posts
+const allFeedPosts: CollectionEntry<"feed">[] = await getCollection("feed");
+const randomFeedPosts = allFeedPosts.sort(() => Math.random() - 0.5).slice(0, 3);
 ---
 
 <BaseLayout
   title={`Thank You! Your ${name} is on its way.`}
   description={`Confirmation for downloading ${name}. Check your inbox for the link and find other useful resources while you wait.`}
 >
-  <section class="prose prose-lg prose-headings:font-serif mx-auto max-w-4xl px-6 py-12">
-    <h1>Your {name} is on its way.</h1>
-    <p>
-      Thank you for signing up! I've just sent <b>{name}</b> to the email address you provided.
-    </p>
-    <p>It should arrive in your inbox in the next minute or two.</p>
-    <p>
-      <b>Important:</b> If you don't see the email, please check your spam or "Promotions" folder, as
-      it can sometimes end up there. If you need help, please contact me at <a
-        href="mailto:hey@zmoki.xyz">hey@zmoki.xyz</a
-      >.
-    </p>
-    <section>
-      <h2>While You Wait...</h2>
-      <p>You might also find these posts from my digital garden useful:</p>
-      <ul>
-        <li>
-          <a href="/feed/3-remembering-grounding-technique/">Remembering Grounding Technique</a>
-        </li>
-        <li>
-          <a href="/feed/2-why-im-building-a-digital-garden/">Why I'm Building a Digital Garden</a>
-        </li>
-        <li>
-          <a href="/feed/1-about-me/">About the Author</a>
-        </li>
-      </ul>
+  <section class="space-y-4">
+    <header
+      class="flex flex-col gap-6 rounded-xl border-4 border-dashed border-[#07ff62] bg-white px-4 py-8 md:items-center md:p-16 md:text-center lg:p-20"
+    >
+      <h1
+        class="bg-[#07ff62] text-5xl font-semibold lg:text-6xl"
+        set:html={`Your ${name} is on its way`}
+      />
+    </header>
+
+    <section
+      class="prose prose-xl max-w-none rounded-xl bg-white px-4 py-8 shadow-sm lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16 [&_a]:text-myblue-500"
+    >
+      <p>Thank you for signing up!</p>
+      <p>I've just sent <a href={url} set:html={name} /> to the email address you provided.</p>
+      <p>It should arrive in your inbox in the next minute or two.</p>
+      <p>
+        <b>Important:</b> If you don't see the email, please check your <em>spam</em> or <em
+          >Promotions</em
+        > folder, as it can sometimes end up there. If you need help, please contact me at <a
+          href="mailto:hey@zmoki.xyz">hey@zmoki.xyz</a
+        >.
+      </p>
+      <section>
+        <h2>While you wait...</h2>
+        <p>You might also find these posts from my digital garden useful:</p>
+        <ul>
+          {
+            randomFeedPosts.map((post) => (
+              <li>
+                <a href={`/feed/${post.slug}/`} set:html={post.data.title} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
     </section>
   </section>
 </BaseLayout>
