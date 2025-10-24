@@ -40,10 +40,10 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>{title}</title>
+    <title set:html={title} />
   </head>
   <body
-    class="text-myblue-900 hover:[&_a]:bg-myblue-500 hover:[&_a]:outline-solid hover:[&_a]:outline-myblue-500 min-h-full bg-slate-100 font-sans text-lg leading-tight tracking-tight lg:text-xl [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:text-white hover:[&_a]:outline"
+    class="hover:[&_a]:outline-solid min-h-full bg-slate-100 font-sans text-lg leading-tight tracking-tight text-myblue-900 lg:text-xl [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:bg-myblue-500 hover:[&_a]:text-white hover:[&_a]:outline hover:[&_a]:outline-myblue-500"
   >
     <div
       class="grid w-full grid-cols-1 gap-4 p-2 lg:grid-cols-[30%_70%] lg:grid-rows-[200px_200px_minmax(200px,max-content)_200px_minmax(0,max-content)_2fr] lg:py-8 lg:pl-4 lg:pr-8"
@@ -62,13 +62,13 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
         <slot />
       </main>
 
-      <aside class="bg-mypink-400 flex flex-col gap-2 rounded-xl p-6 tracking-tighter shadow-sm">
+      <aside class="flex flex-col gap-2 rounded-xl bg-mypink-400 p-6 tracking-tighter shadow-sm">
         <h2 class="flex-1 pb-4 text-xl font-medium md:text-2xl">Exploring Tech, Art & Identity</h2>
         <p class="flex flex-col items-start gap-2 md:flex-row md:justify-between">
           <span>Zarema Khalilova | zmoki</span>
           <a
             href="/feed/1-about-me/"
-            class="border-myblue-900 border-b-4 border-dotted hover:border-white">About</a
+            class="border-b-4 border-dotted border-myblue-900 hover:border-white">About</a
           >
         </p>
       </aside>
@@ -79,21 +79,23 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
           {
             allResources.map((resource) => (
               <li>
-                <a href={`/resources/${resource.slug}`} class="bg-[#07ff62]">
-                  {resource.data.title}
-                </a>
+                <a
+                  href={`/resources/${resource.slug}`}
+                  class="bg-[#07ff62]"
+                  set:html={resource.data.title}
+                />
               </li>
             ))
           }
         </ul>
       </aside>
 
-      <aside class="bg-myorange-500 flex flex-col gap-2 rounded-xl p-6 tracking-tighter shadow-sm">
+      <aside class="flex flex-col gap-2 rounded-xl bg-myorange-500 p-6 tracking-tighter shadow-sm">
         <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Contact</h2>
         <p>
           <a
             href="mailto:hey@zmoki.xyz"
-            class="border-myblue-900 border-b-4 border-dotted hover:border-white">hey@zmoki.xyz</a
+            class="border-b-4 border-dotted border-myblue-900 hover:border-white">hey@zmoki.xyz</a
           >
         </p>
         <p>say hey!</p>
@@ -102,11 +104,11 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       {
         recentPosts ? (
           <aside class="flex flex-col gap-2 rounded-xl bg-slate-300 p-6 tracking-tighter shadow-sm">
-            <h2 class="flex-1 text-3xl font-medium md:text-4xl">Recent Posts</h2>
+            <h2 class="flex-1 text-3xl font-medium md:text-4xl">Recent posts</h2>
             <ul>
               {recentPosts.map((post) => (
-                <li class="border-myblue-500 border-b-8 border-dotted py-8">
-                  <a href={`/feed/${post.slug}`}>{post.data.title}</a>
+                <li class="border-b-8 border-dotted border-myblue-500 py-8">
+                  <a href={`/feed/${post.slug}`} set:html={post.data.title} />
                 </li>
               ))}
             </ul>

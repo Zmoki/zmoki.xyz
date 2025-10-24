@@ -7,10 +7,8 @@ const { title, description, contentModifiedDate } = data;
 
 <article class="overflow-hidden rounded-lg bg-white shadow-sm">
   <a href={`/feed/${slug}/`} class="flex h-full w-full flex-col gap-4 p-6 text-xl md:p-8">
-    <h3 class="text-3xl font-semibold leading-tight md:text-4xl">
-      {title}
-    </h3>
-    {description && <p class="flex-1">{description}</p>}
+    <h3 class="text-3xl font-semibold leading-tight md:text-4xl" set:html={title} />
+    {description && <p class="flex-1" set:html={description} />}
     <p class="text-right font-mono text-xs uppercase tracking-normal opacity-70">
       <time datetime={contentModifiedDate.toISOString()}>
         {
