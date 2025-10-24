@@ -73,7 +73,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 shadow-sm"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
-            <div class="text-2xl font-medium">{prevPost.data.title}</div>
+            <div class="text-2xl font-medium" set:html={prevPost.data.title} />
           </a>
         )
       }
@@ -86,7 +86,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 text-right shadow-sm md:col-start-2"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
-            <div class="text-2xl font-medium">{nextPost.data.title}</div>
+            <div class="text-2xl font-medium" set:html={nextPost.data.title} />
           </a>
         )
       }
