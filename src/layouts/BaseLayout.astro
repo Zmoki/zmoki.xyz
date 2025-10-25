@@ -14,39 +14,18 @@ const {
   description = "A digital garden of ideas, art, and research",
   accentColor = "gray",
 } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-// Generate OG image path from URL pathname
-function getOGImagePath(pathname: string) {
-  let imagePath;
+const isProduction = import.meta.env.PROD;
 
-  if (pathname === "/") {
-    imagePath = "/og-images/index/wide.png";
-  } else {
-    // Remove leading slash and trailing slash
-    const cleanPath = pathname.replace(/^\/|\/$/g, "");
+const siteBaseUrl = Astro.site;
+const currentBaseUrl = isProduction ? siteBaseUrl : `http://localhost:${Astro.url.port}`;
 
-    // Split path into segments and create directory structure
-    const segments = cleanPath.split("/");
-    const directory = segments.join("/");
+const pagePathname = Astro.url.pathname;
+const isHomePage = pagePathname === "/";
 
-    imagePath = `/og-images/${directory}/wide.png`;
-  }
+const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
 
-  // Add cache-busting parameter for production builds
-  const isProduction = import.meta.env.PROD;
-  if (isProduction) {
-    // Use build timestamp or a simple hash for cache busting
-    const buildTime = new Date().getTime();
-    imagePath = `${imagePath}?v=${buildTime}`;
-  }
-
-  // Convert to absolute URL
-  const baseUrl = isProduction ? Astro.site : `http://localhost:${Astro.url.port}`;
-  return new URL(imagePath, baseUrl).toString();
-}
-
-const ogImagePath = getOGImagePath(Astro.url.pathname);
+const pageImageWideUrl = new URL(`/og-images${pagePathname}wide.png`, currentBaseUrl).toString();
 
 // If showRecentPosts is true, get 3 latest posts from the feed collection
 let recentPosts: CollectionEntry<"feed">[] | null = null;
@@ -64,8 +43,6 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
 <html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
-    <link rel="canonical" href={canonicalURL.toString()} />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,13 +51,23 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title set:html={title} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph meta tags -->
-    <meta property="og:image" content={ogImagePath} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={isHomePage ? "website" : "article"} />
+    <meta property="og:site_name" content="Zarema's Digital Garden" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={pageImageWideUrl} />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Plausible Analytics -->
     <script>

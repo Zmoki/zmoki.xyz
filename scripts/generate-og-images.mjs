@@ -31,7 +31,7 @@ function parseSitemap(sitemapPath) {
 // Function to generate filename from URL path
 function getImageFilename(path) {
   if (path === "/") {
-    return "index/wide.png";
+    return "wide.png";
   }
 
   // Remove leading slash and trailing slash
