@@ -94,9 +94,6 @@ async function generateOGImage(browser, url, filename) {
       return false;
     }
 
-    const screenshotWidth = 800;
-    const screenshotHeight = 500;
-
     // Create directory for the image if it doesn't exist
     const imagePath = join(OG_IMAGES_DIR, filename);
     const imageDir = imagePath.substring(0, imagePath.lastIndexOf("/"));
@@ -105,16 +102,65 @@ async function generateOGImage(browser, url, filename) {
     }
 
     // Take screenshot of the main element, starting from the top
-    await mainElement.screenshot({
-      path: imagePath,
+    const screenshotBuffer = await mainElement.screenshot({
       type: "png",
       clip: {
         x: 0, // Start from the left edge of the main element
         y: 0, // Start from the top of the main element
-        width: screenshotWidth,
-        height: screenshotHeight,
+        width: 800,
+        height: 500,
       },
     });
+
+    // Create a new page for compositing the final image
+    const compositePage = await browser.newPage();
+    await compositePage.setViewport({ width: 1200, height: 630 });
+
+    // Create HTML for the composite image
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              width: 1200px;
+              height: 630px;
+              background-color: #e2e8f0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .screenshot {
+              max-width: 100%;
+              max-height: 100%;
+              object-fit: contain;
+            }
+          </style>
+        </head>
+        <body>
+          <img class="screenshot" src="data:image/png;base64,${screenshotBuffer.toString("base64")}" />
+        </body>
+      </html>
+    `;
+
+    await compositePage.setContent(html);
+    await compositePage.waitForSelector(".screenshot");
+
+    // Take screenshot of the composite page
+    await compositePage.screenshot({
+      path: imagePath,
+      type: "png",
+      clip: {
+        x: 0,
+        y: 0,
+        width: 1200,
+        height: 630,
+      },
+    });
+
+    await compositePage.close();
 
     console.log(`✓ Generated: ${filename}`);
     await page.close();
