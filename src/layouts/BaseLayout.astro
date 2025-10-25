@@ -38,10 +38,12 @@ function getOGImagePath(pathname: string) {
   if (isProduction) {
     // Use build timestamp or a simple hash for cache busting
     const buildTime = new Date().getTime();
-    return `${imagePath}?v=${buildTime}`;
+    imagePath = `${imagePath}?v=${buildTime}`;
   }
 
-  return imagePath;
+  // Convert to absolute URL
+  const baseUrl = isProduction ? Astro.site : `http://localhost:${Astro.url.port}`;
+  return new URL(imagePath, baseUrl).toString();
 }
 
 const ogImagePath = getOGImagePath(Astro.url.pathname);
