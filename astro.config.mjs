@@ -57,7 +57,13 @@ function rehypeExternalLinks() {
           node.properties = {
             ...node.properties,
             target: "_blank",
+            "data-external": "true",
             rel: "noopener noreferrer", // Security best practice for external links
+          };
+        } else if (typeof href === "string" && href.startsWith("/resources/")) {
+          node.properties = {
+            ...node.properties,
+            "data-resource": "true",
           };
         }
       }

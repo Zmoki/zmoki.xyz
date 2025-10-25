@@ -15,6 +15,12 @@ export default {
               "border-bottom-width": "4px",
               "border-style": "dotted",
             },
+            "[data-external]": {
+              color: "#f24500",
+            },
+            "[data-resource]": {
+              color: "#00cb4b",
+            },
           },
         },
       }),
