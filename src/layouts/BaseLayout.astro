@@ -17,19 +17,31 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 // Generate OG image path from URL pathname
-function getOGImagePath(pathname) {
+function getOGImagePath(pathname: string) {
+  let imagePath;
+
   if (pathname === "/") {
-    return "/og-images/index/wide.png";
+    imagePath = "/og-images/index/wide.png";
+  } else {
+    // Remove leading slash and trailing slash
+    const cleanPath = pathname.replace(/^\/|\/$/g, "");
+
+    // Split path into segments and create directory structure
+    const segments = cleanPath.split("/");
+    const directory = segments.join("/");
+
+    imagePath = `/og-images/${directory}/wide.png`;
   }
 
-  // Remove leading slash and trailing slash
-  const cleanPath = pathname.replace(/^\/|\/$/g, "");
+  // Add cache-busting parameter for production builds
+  const isProduction = import.meta.env.PROD;
+  if (isProduction) {
+    // Use build timestamp or a simple hash for cache busting
+    const buildTime = new Date().getTime();
+    return `${imagePath}?v=${buildTime}`;
+  }
 
-  // Split path into segments and create directory structure
-  const segments = cleanPath.split("/");
-  const directory = segments.join("/");
-
-  return `/og-images/${directory}/wide.png`;
+  return imagePath;
 }
 
 const ogImagePath = getOGImagePath(Astro.url.pathname);
@@ -64,6 +76,9 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
 
     <!-- Open Graph meta tags -->
     <meta property="og:image" content={ogImagePath} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Plausible Analytics -->
     <script>
