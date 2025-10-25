@@ -49,22 +49,27 @@ function rehypeExternalLinks() {
       if (node.tagName === "a" && node.properties?.href) {
         const href = node.properties.href;
 
-        // Check if it's an absolute URL (starts with http:// or https://)
-        if (
-          typeof href === "string" &&
-          (href.startsWith("http://") || href.startsWith("https://"))
-        ) {
-          node.properties = {
-            ...node.properties,
-            target: "_blank",
-            "data-external": "true",
-            rel: "noopener noreferrer", // Security best practice for external links
-          };
-        } else if (typeof href === "string" && href.startsWith("/resources/")) {
-          node.properties = {
-            ...node.properties,
-            "data-resource": "true",
-          };
+        if (typeof href === "string") {
+          if (href.startsWith("http://") || href.startsWith("https://")) {
+            node.properties = {
+              ...node.properties,
+              target: "_blank",
+              "data-external": "true",
+              rel: "noopener noreferrer", // Security best practice for external links
+            };
+          }
+          if (href.startsWith("/resources/")) {
+            node.properties = {
+              ...node.properties,
+              "data-resource": "true",
+            };
+          }
+          if (href.startsWith("#")) {
+            node.properties = {
+              ...node.properties,
+              "data-anchor": "true",
+            };
+          }
         }
       }
     });

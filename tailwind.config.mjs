@@ -21,6 +21,11 @@ export default {
             "[data-resource]": {
               color: "#00cb4b",
             },
+            "[data-anchor]": {
+              color: "#001d2e",
+              "border-style": "dashed",
+              "border-bottom-width": "2px",
+            },
           },
         },
       }),
