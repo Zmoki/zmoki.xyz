@@ -16,6 +16,19 @@ const {
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
+// Generate OG image path from URL pathname
+function getOGImagePath(pathname) {
+  if (pathname === "/") {
+    return "/og-images/index.png";
+  }
+
+  // Remove leading slash and trailing slash, replace slashes with hyphens
+  const cleanPath = pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-");
+  return `/og-images/${cleanPath}.png`;
+}
+
+const ogImagePath = getOGImagePath(Astro.url.pathname);
+
 // If showRecentPosts is true, get 3 latest posts from the feed collection
 let recentPosts: CollectionEntry<"feed">[] | null = null;
 
@@ -43,6 +56,9 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       rel="stylesheet"
     />
     <title set:html={title} />
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:image" content={ogImagePath} />
 
     <!-- Plausible Analytics -->
     <script>
