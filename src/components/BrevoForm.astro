@@ -50,8 +50,15 @@ const { brevoFormId, buttonText = defaultButtonText } = Astro.props;
         class="text-accent-light focus:myblue-500 mt-1 h-4 w-4 rounded border-slate-400"
       />
       <label for="consent" class="font-mono text-xs">
-        I agree to receive emails from zmoki.xyz. I understand I can unsubscribe at any time.
-        <a href="/legal/privacy/" class="text-myblue-500" target="_blank"> Privacy Policy </a>
+        By checking this box, I acknowledge that I have read, understood, and agree to the <a
+          href="/legal/terms/"
+          class="border-b-2 border-dotted border-current text-slate-600"
+          target="_blank">Terms of Service</a
+        > and <a
+          href="/legal/privacy/"
+          class="border-b-2 border-dotted border-current text-slate-600"
+          target="_blank">Privacy Policy</a
+        >.
       </label>
     </div>
 
