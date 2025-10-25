@@ -96,7 +96,7 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
             allResources.map((resource) => (
               <li>
                 <a
-                  href={`/resources/${resource.slug}`}
+                  href={`/resources/${resource.slug}/`}
                   class="border-b-4 border-dotted border-current text-[#07ff62]"
                   set:html={resource.data.title}
                 />
@@ -126,7 +126,7 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
               {recentPosts.map((post) => (
                 <li class="py-4">
                   <a
-                    href={`/feed/${post.slug}`}
+                    href={`/feed/${post.slug}/`}
                     class="border-b-4 border-dotted border-current text-[#55c0ff]"
                     set:html={post.data.title}
                   />
