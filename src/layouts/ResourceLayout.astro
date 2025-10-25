@@ -20,7 +20,7 @@ const { title, description, publishDate, contentModifiedDate, form } = Astro.pro
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} accentColor="green">
   <article class="space-y-4">
     <!-- Post Header -->
     <header
