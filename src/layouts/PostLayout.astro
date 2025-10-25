@@ -22,10 +22,10 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
     <header
       class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-[#1a9eec] md:items-center md:p-16 md:text-center lg:p-20"
     >
-      <h1 class="text-5xl font-semibold lg:text-6xl" set:html={title} />
-      {description && <p class="text-2xl md:text-3xl" set:html={description} />}
+      <h1 class="text-5xl font-semibold xl:text-6xl" set:html={title} />
+      {description && <p class="text-2xl xl:text-3xl" set:html={description} />}
       <p
-        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 lg:text-sm"
+        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 xl:text-sm"
       >
         <span>Published on <Time datetime={publishDate} /></span>
         {
@@ -40,16 +40,16 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose prose-xl max-w-none rounded-xl bg-slate-50 px-4 py-8 shadow-md lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16"
+      class="prose prose-xl max-w-none rounded-xl bg-slate-50 px-4 py-8 shadow-md xl:prose-2xl prose-headings:font-semibold md:p-16 xl:px-28 xl:py-16"
     >
       <slot />
     </div>
 
     <!-- About Author -->
     <aside
-      class="space-y-2 rounded-xl bg-slate-50 px-4 py-8 leading-normal text-myblue-900 shadow-md md:bg-[#f20098] md:p-16 md:text-slate-50 lg:p-20"
+      class="space-y-2 rounded-xl bg-slate-50 px-4 py-8 leading-normal text-myblue-900 shadow-md md:bg-[#f20098] md:p-16 md:text-slate-50 xl:p-20"
     >
-      <h2 class="pb-4 text-3xl font-medium md:text-4xl">Written by Zarema Khalilova</h2>
+      <h2 class="pb-4 text-3xl font-medium xl:text-4xl">Written by Zarema Khalilova</h2>
       <p>
         I'm a software engineer, a contemporary artist, and a neurodivergent researcher. This post
         is one piece of my <a
