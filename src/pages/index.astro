@@ -20,24 +20,23 @@ const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
 >
   <!-- Hero Section -->
   <section
-    class="mb-4 space-y-4 rounded-xl bg-myblue-500 px-4 py-8 font-light text-white shadow-sm md:px-8 md:py-16 lg:py-20"
+    class="mb-4 space-y-4 rounded-xl bg-[#0098f2] px-4 py-8 font-light text-slate-50 shadow-md md:px-8 md:py-16 lg:py-20"
   >
-    <h1 class="mb-6 text-7xl font-semibold md:text-8xl">Digital Garden</h1>
+    <h1 class="mb-6 text-6xl font-semibold md:text-7xl">Digital Garden</h1>
     <p class="text-2xl md:text-3xl">
-      I'm Zarema, and this is my digital garden. A user manual for a brain that works differently. A
-      living collection of creative projects and deep dives where all my interests connect.
+      A living collection of creative projects and deep dives where all my interests connect.
     </p>
   </section>
 
   <!-- Posts List -->
-  <section class="pt-8 md:pt-12">
-    <h2 class="px-4 pb-8 text-5xl font-semibold md:px-8 md:pb-12 md:text-6xl">Posts</h2>
+  <section class="pt-2 md:pt-4">
+    <h2 class="px-4 pb-8 text-5xl font-semibold md:px-8 md:text-6xl">Posts</h2>
 
     {
       sortedPosts.length === 0 ? (
         <p>No posts yet. Check back soon!</p>
       ) : (
-        <div class="grid grid-flow-dense grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="grid grid-flow-dense grid-cols-1 gap-6">
           {sortedPosts.map((post: CollectionEntry<"feed">) => (
             <PostCard {...post} />
           ))}

@@ -3,6 +3,21 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            "--tw-prose-headings": "#001d2e",
+            "--tw-prose-body": "#001d2e",
+            "--tw-prose-bold": "#001d2e",
+            "--tw-prose-links": "#1a9eec",
+            a: {
+              "border-color": "currentColor",
+              "border-bottom-width": "4px",
+              "border-style": "dotted",
+            },
+          },
+        },
+      }),
       fontFamily: {
         sans: ["Inter Tight", "system-ui", "sans-serif"],
       },

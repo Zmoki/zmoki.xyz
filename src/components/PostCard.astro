@@ -5,11 +5,13 @@ const { data, slug } = Astro.props as CollectionEntry<"feed">;
 const { title, description, contentModifiedDate } = data;
 ---
 
-<article class="overflow-hidden rounded-lg bg-white shadow-sm">
-  <a href={`/feed/${slug}/`} class="flex h-full w-full flex-col gap-4 p-6 text-xl md:p-8">
-    <h3 class="text-3xl font-semibold leading-tight md:text-4xl" set:html={title} />
-    {description && <p class="flex-1" set:html={description} />}
-    <p class="text-right font-mono text-xs uppercase tracking-normal opacity-70">
+<article class="overflow-hidden rounded-lg bg-slate-50 shadow-md">
+  <a href={`/feed/${slug}/`} class="flex h-full w-full flex-col gap-2 p-6 text-xl md:p-8">
+    <h3 class="pb-2 text-3xl font-semibold leading-normal md:text-4xl">
+      <span set:html={title} class="border-b-4 border-dotted border-current" />
+    </h3>
+    {description && <p class="opacity-80" set:html={description} />}
+    <p class="order-first font-mono text-xs uppercase tracking-normal opacity-70">
       <time datetime={contentModifiedDate.toISOString()}>
         {
           contentModifiedDate.toLocaleDateString("en-US", {

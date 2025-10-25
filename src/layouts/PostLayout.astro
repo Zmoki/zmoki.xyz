@@ -20,7 +20,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   <article class="space-y-4">
     <!-- Post Header -->
     <header
-      class="flex flex-col gap-6 rounded-xl bg-white px-4 py-8 shadow-sm md:items-center md:p-16 md:text-center lg:p-20"
+      class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-[#1a9eec] md:items-center md:p-16 md:text-center lg:p-20"
     >
       <h1 class="text-5xl font-semibold lg:text-6xl" set:html={title} />
       {description && <p class="text-2xl md:text-3xl" set:html={description} />}
@@ -40,25 +40,24 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- Post Content -->
     <div
-      class="prose prose-xl max-w-none rounded-xl bg-white px-4 py-8 shadow-sm lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16 [&_a]:text-myblue-500"
+      class="prose prose-xl max-w-none rounded-xl bg-slate-50 px-4 py-8 shadow-md lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16"
     >
       <slot />
     </div>
 
     <!-- About Author -->
     <aside
-      class="space-y-2 rounded-xl bg-mypink-700 px-4 py-8 tracking-tighter text-white shadow-sm md:p-16 lg:p-20"
+      class="space-y-2 rounded-xl bg-slate-50 px-4 py-8 leading-normal text-myblue-900 shadow-md md:bg-[#f20098] md:p-16 md:text-slate-50 lg:p-20"
     >
-      <h2 class="pb-4 text-3xl font-medium md:text-4xl">About me</h2>
+      <h2 class="pb-4 text-3xl font-medium md:text-4xl">Written by Zarema Khalilova</h2>
       <p>
-        What do a software engineer, a contemporary artist, and a neurodivergent researcher have in
-        common? They're all me, Zarema Khalilova. This post is one piece of my <a
+        I'm a software engineer, a contemporary artist, and a neurodivergent researcher. This post
+        is one piece of my <a
           href="/feed/2-why-im-building-a-digital-garden/"
-          class="border-b-2 border-dotted hover:border-none">digital&nbsp;garden</a
+          class="border-b-4 border-dotted border-current">digital&nbsp;garden</a
         >, where I explore the connections between all my different worlds. You can find the bigger
-        picture on the <a
-          href="/feed/1-about-me/"
-          class="border-b-2 border-dotted hover:border-none">map&nbsp;of&nbsp;me</a
+        picture on the <a href="/feed/1-about-me/" class="border-b-4 border-dotted border-current"
+          >map&nbsp;of&nbsp;me</a
         > post.
       </p>
     </aside>
@@ -70,10 +69,15 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         prevPost && (
           <a
             href={`/feed/${prevPost.slug}/`}
-            class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 shadow-sm"
+            class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 shadow-md"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
-            <div class="text-2xl font-medium" set:html={prevPost.data.title} />
+            <div class="text-2xl font-medium leading-normal">
+              <span
+                set:html={prevPost.data.title}
+                class="border-b-4 border-dotted border-current"
+              />
+            </div>
           </a>
         )
       }
@@ -83,10 +87,15 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         nextPost && (
           <a
             href={`/feed/${nextPost.slug}/`}
-            class="flex flex-col gap-2 rounded-xl bg-white px-6 pb-10 pt-8 text-right shadow-sm md:col-start-2"
+            class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
-            <div class="text-2xl font-medium" set:html={nextPost.data.title} />
+            <div class="text-2xl font-medium leading-normal">
+              <span
+                set:html={nextPost.data.title}
+                class="border-b-4 border-dotted border-current"
+              />
+            </div>
           </a>
         )
       }

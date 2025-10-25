@@ -23,7 +23,7 @@ const randomFeedPosts = allFeedPosts.sort(() => Math.random() - 0.5).slice(0, 3)
 >
   <section class="space-y-4">
     <header
-      class="flex flex-col gap-6 rounded-xl border-4 border-dashed border-[#07ff62] bg-white px-4 py-8 md:items-center md:p-16 md:text-center lg:p-20"
+      class="flex flex-col gap-6 rounded-xl border-4 border-dashed border-[#07ff62] bg-slate-50 px-4 py-8 md:items-center md:p-16 md:text-center lg:p-20"
     >
       <h1
         class="bg-[#07ff62] text-5xl font-semibold lg:text-6xl"
@@ -32,7 +32,7 @@ const randomFeedPosts = allFeedPosts.sort(() => Math.random() - 0.5).slice(0, 3)
     </header>
 
     <section
-      class="prose prose-xl max-w-none rounded-xl bg-white px-4 py-8 shadow-sm lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16 [&_a]:text-myblue-500"
+      class="prose prose-xl max-w-none rounded-xl bg-slate-50 px-4 py-8 shadow-sm lg:prose-2xl prose-headings:font-semibold md:p-16 lg:px-28 lg:py-16 [&_a]:text-myblue-500"
     >
       <p>Thank you for signing up!</p>
       <p>I've just sent <a href={url} set:html={name} /> to the email address you provided.</p>
