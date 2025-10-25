@@ -131,22 +131,40 @@ async function generateOGImage(browser, url, filename) {
               display: flex;
               align-items: center;
               justify-content: center;
+              position: relative;
             }
             .screenshot {
               max-width: 100%;
               max-height: 100%;
               object-fit: contain;
             }
+            .gradient-overlay {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 1200px;
+              height: 200px;
+              background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(226, 232, 240, 0.5) 30%,
+                #e2e8f0 70%
+              );
+              pointer-events: none;
+              z-index: 10;
+            }
           </style>
         </head>
         <body>
           <img class="screenshot" src="data:image/png;base64,${screenshotBuffer.toString("base64")}" />
+          <div class="gradient-overlay"></div>
         </body>
       </html>
     `;
 
     await compositePage.setContent(html);
     await compositePage.waitForSelector(".screenshot");
+    await compositePage.waitForSelector(".gradient-overlay");
 
     // Take screenshot of the composite page
     await compositePage.screenshot({
