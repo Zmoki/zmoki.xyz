@@ -29,7 +29,10 @@ const isPageArticle = publishDate && contentModifiedDate;
 
 const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
 
-const pageImageWideUrl = new URL(`/og-images${pagePathname}wide.png`, currentBaseUrl).toString();
+const pageImageWideUrl = new URL(
+  `/og-images${isPageArticle ? pagePathname : "/"}wide.png`,
+  currentBaseUrl,
+).toString();
 
 // If showRecentPosts is true, get 3 latest posts from the feed collection
 let recentPosts: CollectionEntry<"feed">[] | null = null;
@@ -178,45 +181,53 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
         )
       }
 
-      <div
-        class:list={[
-          "flex w-[calc(50%+8px)] items-end border-r-8 border-dashed max-lg:hidden",
-          accentColor === "gray" && "border-slate-400",
-          accentColor === "blue" && "border-[#0098f2]",
-          accentColor === "green" && "border-[#00f25a]",
-          accentColor === "orange" && "border-[#f24500]",
-          accentColor === "pink" && "border-[#f20098]",
-        ]}
-      >
-        <!-- Button to scroll to the top of the page -->
-        <button
-          id="go-to-top-button"
-          class="group ml-4 flex flex-col items-center gap-2 text-slate-600"
-        >
-          <span
+      {
+        isPageArticle ? (
+          <div
             class:list={[
-              "font-mono text-5xl uppercase transition-all duration-200",
-              accentColor === "gray" && "group-hover:text-slate-400",
-              accentColor === "blue" && "group-hover:text-[#0098f2]",
-              accentColor === "green" && "group-hover:text-[#00f25a]",
-              accentColor === "orange" && "group-hover:text-[#f24500]",
-              accentColor === "pink" && "group-hover:text-[#f20098]",
-            ]}>&#8593;</span
+              "flex w-[calc(50%+8px)] items-end border-r-8 border-dashed max-lg:hidden",
+              accentColor === "gray" && "border-slate-400",
+              accentColor === "blue" && "border-[#0098f2]",
+              accentColor === "green" && "border-[#00f25a]",
+              accentColor === "orange" && "border-[#f24500]",
+              accentColor === "pink" && "border-[#f20098]",
+            ]}
           >
-          <span class="font-mono text-xs uppercase group-hover:text-slate-900">Go to top</span>
-        </button>
-        <script>
-          const goToTopButton = document.getElementById("go-to-top-button");
-          if (goToTopButton) {
-            goToTopButton.addEventListener("click", () => {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
+            <button
+              id="go-to-top-button"
+              class="group ml-4 flex flex-col items-center gap-2 text-slate-600"
+            >
+              <span
+                class:list={[
+                  "font-mono text-5xl uppercase transition-all duration-200",
+                  accentColor === "gray" && "group-hover:text-slate-400",
+                  accentColor === "blue" && "group-hover:text-[#0098f2]",
+                  accentColor === "green" && "group-hover:text-[#00f25a]",
+                  accentColor === "orange" && "group-hover:text-[#f24500]",
+                  accentColor === "pink" && "group-hover:text-[#f20098]",
+                ]}
+              >
+                &#8593;
+              </span>
+              <span class="font-mono text-xs uppercase group-hover:text-slate-900">Go to top</span>
+            </button>
+          </div>
+        ) : (
+          <div />
+        )
+      }
+
+      <script>
+        const goToTopButton = document.getElementById("go-to-top-button");
+        if (goToTopButton) {
+          goToTopButton.addEventListener("click", () => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
             });
-          }
-        </script>
-      </div>
+          });
+        }
+      </script>
 
       <!-- Footer -->
       <footer
