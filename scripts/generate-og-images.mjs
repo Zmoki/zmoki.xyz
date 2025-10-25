@@ -1,9 +1,10 @@
 import puppeteer from "puppeteer";
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
+import { readFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
-import { spawn } from "child_process";
 
-let SITE_URL = "http://localhost:4321";
+// Get port from command line arguments, default to 4321
+const port = process.argv[2] || "4321";
+const SITE_URL = `http://localhost:${port}`;
 const OG_IMAGES_DIR = "public/og-images";
 
 // Ensure og-images directory exists
@@ -30,59 +31,27 @@ function parseSitemap(sitemapPath) {
 // Function to generate filename from URL path
 function getImageFilename(path) {
   if (path === "/") {
-    return "index.png";
+    return "index/wide.png";
   }
 
-  // Remove leading slash and trailing slash, replace slashes with hyphens
-  const cleanPath = path.replace(/^\/|\/$/g, "").replace(/\//g, "-");
-  return `${cleanPath}.png`;
+  // Remove leading slash and trailing slash
+  const cleanPath = path.replace(/^\/|\/$/g, "");
+
+  // Split path into segments and create directory structure
+  const segments = cleanPath.split("/");
+  const directory = segments.join("/");
+
+  return `${directory}/wide.png`;
 }
 
-// Function to start Astro preview server
-function startPreviewServer() {
-  return new Promise((resolve, reject) => {
-    console.log("Starting Astro preview server...");
-    const server = spawn("npm", ["run", "preview"], {
-      stdio: "pipe",
-      shell: true,
-    });
-
-    let serverReady = false;
-
-    server.stdout.on("data", (data) => {
-      const output = data.toString();
-      console.log("Server output:", output);
-
-      if (output.includes("Local") && output.includes("http://localhost:") && !serverReady) {
-        // Extract the actual port from the output
-        const portMatch = output.match(/http:\/\/localhost:(\d+)/);
-        if (portMatch) {
-          SITE_URL = `http://localhost:${portMatch[1]}`;
-          console.log(`Using server URL: ${SITE_URL}`);
-        }
-        serverReady = true;
-        console.log("Preview server is ready!");
-        resolve(server);
-      }
-    });
-
-    server.stderr.on("data", (data) => {
-      console.error("Server error:", data.toString());
-    });
-
-    server.on("error", (error) => {
-      console.error("Failed to start server:", error);
-      reject(error);
-    });
-
-    // Timeout after 60 seconds
-    setTimeout(() => {
-      if (!serverReady) {
-        server.kill();
-        reject(new Error("Server startup timeout"));
-      }
-    }, 60000);
-  });
+// Function to check if server is running
+async function checkServerRunning() {
+  try {
+    const response = await fetch(SITE_URL);
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
 }
 
 // Function to generate OG image for a single page
@@ -92,8 +61,8 @@ async function generateOGImage(browser, url, filename) {
 
     const page = await browser.newPage();
 
-    // Set viewport to 1000px width
-    await page.setViewport({ width: 1000, height: 800 });
+    // Set viewport to 816px width
+    await page.setViewport({ width: 816, height: 800 });
 
     // Navigate to the page
     await page.goto(`${SITE_URL}${url}`, {
@@ -125,15 +94,19 @@ async function generateOGImage(browser, url, filename) {
       return false;
     }
 
-    console.log(`Main element bounding box for ${url}:`, boundingBox);
+    const screenshotWidth = 800;
+    const screenshotHeight = 500;
 
-    // Calculate screenshot dimensions (1000px width, 500px height max)
-    const screenshotWidth = Math.min(1000, boundingBox.width);
-    const screenshotHeight = Math.min(500, boundingBox.height);
+    // Create directory for the image if it doesn't exist
+    const imagePath = join(OG_IMAGES_DIR, filename);
+    const imageDir = imagePath.substring(0, imagePath.lastIndexOf("/"));
+    if (!existsSync(imageDir)) {
+      mkdirSync(imageDir, { recursive: true });
+    }
 
     // Take screenshot of the main element, starting from the top
     await mainElement.screenshot({
-      path: join(OG_IMAGES_DIR, filename),
+      path: imagePath,
       type: "png",
       clip: {
         x: 0, // Start from the left edge of the main element
@@ -155,16 +128,22 @@ async function generateOGImage(browser, url, filename) {
 // Main function
 async function main() {
   console.log("🚀 Starting OG image generation...");
+  console.log(`Using server URL: ${SITE_URL}`);
 
-  let server;
   let browser;
 
   try {
-    // Start the preview server
-    server = await startPreviewServer();
+    // Check if server is running
+    console.log("🔍 Checking if server is running...");
+    const isServerRunning = await checkServerRunning();
 
-    // Wait a bit for server to be fully ready
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    if (!isServerRunning) {
+      console.error(`❌ Server is not running at ${SITE_URL}`);
+      console.error("Please start the preview server first with: npm run preview");
+      process.exit(1);
+    }
+
+    console.log("✅ Server is running!");
 
     // Parse sitemap to get all URLs
     console.log("📄 Reading sitemap...");
@@ -207,9 +186,6 @@ async function main() {
     // Cleanup
     if (browser) {
       await browser.close();
-    }
-    if (server) {
-      server.kill();
     }
   }
 }

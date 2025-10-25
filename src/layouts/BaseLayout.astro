@@ -19,12 +19,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // Generate OG image path from URL pathname
 function getOGImagePath(pathname) {
   if (pathname === "/") {
-    return "/og-images/index.png";
+    return "/og-images/index/wide.png";
   }
 
-  // Remove leading slash and trailing slash, replace slashes with hyphens
-  const cleanPath = pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-");
-  return `/og-images/${cleanPath}.png`;
+  // Remove leading slash and trailing slash
+  const cleanPath = pathname.replace(/^\/|\/$/g, "");
+
+  // Split path into segments and create directory structure
+  const segments = cleanPath.split("/");
+  const directory = segments.join("/");
+
+  return `/og-images/${directory}/wide.png`;
 }
 
 const ogImagePath = getOGImagePath(Astro.url.pathname);
@@ -89,7 +94,7 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
       </header>
 
       <!-- Main Content -->
-      <main class="max-w-7xl rounded-xl lg:row-span-7 lg:pb-4 lg:pr-4">
+      <main class="max-w-7xl rounded-xl max-lg:px-2 max-lg:pt-2 lg:row-span-7 lg:pb-4 lg:pr-4">
         <slot />
       </main>
 
