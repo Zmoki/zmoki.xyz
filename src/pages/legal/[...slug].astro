@@ -17,6 +17,7 @@ const { Content } = await post.render();
 <LegalLayout
   title={post.data.title}
   description={post.data.description}
+  publishDate={post.data.publishDate}
   contentModifiedDate={post.data.contentModifiedDate}
 >
   <Content />

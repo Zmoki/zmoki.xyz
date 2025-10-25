@@ -16,7 +16,13 @@ const { title, description, publishDate, contentModifiedDate, prevPost, nextPost
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
-<BaseLayout title={title} description={description} accentColor="blue">
+<BaseLayout
+  title={title}
+  description={description}
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+  accentColor="blue"
+>
   <article class="space-y-4">
     <!-- Post Header -->
     <header

@@ -2,16 +2,15 @@
 import BaseLayout from "./BaseLayout.astro";
 import Time from "../components/Time.astro";
 
-const { title, description, contentModifiedDate: contentModifiedDateRaw } = Astro.props;
-
-// Convert string to Date if needed
-const contentModifiedDate =
-  typeof contentModifiedDateRaw === "string"
-    ? new Date(contentModifiedDateRaw)
-    : contentModifiedDateRaw;
+const { title, description, publishDate, contentModifiedDate } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+>
   <section class="space-y-4">
     <header
       class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 shadow-sm outline-dashed outline-8 -outline-offset-2 outline-slate-400 md:items-center md:p-16 md:text-center xl:p-20"
