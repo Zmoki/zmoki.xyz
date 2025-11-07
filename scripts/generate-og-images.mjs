@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readFileSync, mkdirSync, existsSync } from "fs";
+import { mkdirSync, existsSync } from "fs";
 import { join } from "path";
 
 // Get port from command line arguments, default to 4321
@@ -13,19 +13,28 @@ if (!existsSync(OG_IMAGES_DIR)) {
 }
 
 // Function to parse sitemap.xml and extract URLs
-function parseSitemap(sitemapPath) {
-  const sitemapContent = readFileSync(sitemapPath, "utf-8");
-  const urlMatches = sitemapContent.match(/<loc>(.*?)<\/loc>/g);
+async function parseSitemap(sitemapUrl) {
+  try {
+    const response = await fetch(sitemapUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch sitemap: ${response.status} ${response.statusText}`);
+    }
+    const sitemapContent = await response.text();
+    const urlMatches = sitemapContent.match(/<loc>(.*?)<\/loc>/g);
 
-  if (!urlMatches) {
-    console.log("No URLs found in sitemap");
-    return [];
+    if (!urlMatches) {
+      console.log("No URLs found in sitemap");
+      return [];
+    }
+
+    return urlMatches.map((match) => {
+      const url = match.replace(/<\/?loc>/g, "");
+      return url.replace("https://zmoki.xyz", ""); // Convert to local path
+    });
+  } catch (error) {
+    console.error(`Error fetching sitemap from ${sitemapUrl}:`, error.message);
+    throw error;
   }
-
-  return urlMatches.map((match) => {
-    const url = match.replace(/<\/?loc>/g, "");
-    return url.replace("https://zmoki.xyz", ""); // Convert to local path
-  });
 }
 
 // Function to generate filename from URL path
@@ -210,8 +219,8 @@ async function main() {
     console.log("✅ Server is running!");
 
     // Parse sitemap to get all URLs
-    console.log("📄 Reading sitemap...");
-    const urls = parseSitemap("dist/sitemap.xml");
+    console.log("📄 Fetching sitemap...");
+    const urls = await parseSitemap(`${SITE_URL}/sitemap.xml`);
     console.log(`Found ${urls.length} URLs in sitemap`);
 
     // Launch Puppeteer
