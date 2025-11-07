@@ -1,0 +1,19 @@
+---
+import { getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  slug: string;
+  class: string;
+}
+
+const { slug, class: className } = Astro.props;
+
+const resource: CollectionEntry<"resources"> = await getEntry("resources", slug);
+
+const href = resource.data.type === "link" ? resource.data.url : `/resources/${slug}/`;
+---
+
+<a href={href} data-resource="true" class={className}>
+  <slot set:html={resource.data.name} />
+</a>

@@ -4,11 +4,12 @@ import Time from "../components/Time.astro";
 import BrevoForm from "../components/BrevoForm.astro";
 
 export interface Props {
+  type: "page" | "link";
   title: string;
   description?: string;
   publishDate: Date;
   contentModifiedDate: Date;
-  form: {
+  form?: {
     brevoFormId: string;
     buttonText: string;
     title: string;
@@ -56,16 +57,20 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       >
         <slot />
       </div>
-      <div class="order-first">
-        <BrevoForm brevoFormId={form.brevoFormId} buttonText={form.buttonText}>
-          <h2 set:html={form.title} />
-          <p set:html={form.description} />
-          <p>
-            You'll also join my occasional newsletter with new tools and ideas, you can unsubscribe
-            at any time though.
-          </p>
-        </BrevoForm>
-      </div>
+      {
+        form && (
+          <div class="order-first">
+            <BrevoForm brevoFormId={form.brevoFormId} buttonText={form.buttonText}>
+              <h2 set:html={form.title} />
+              <p set:html={form.description} />
+              <p>
+                You'll also join my occasional newsletter with new tools and ideas, you can
+                unsubscribe at any time though.
+              </p>
+            </BrevoForm>
+          </div>
+        )
+      }
     </div>
   </article>
 </BaseLayout>

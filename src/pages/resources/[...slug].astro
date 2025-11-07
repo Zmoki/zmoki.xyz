@@ -3,23 +3,19 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import ResourceLayout from "../../layouts/ResourceLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("resources");
-  return posts.map((post: CollectionEntry<"resources">) => ({
-    params: { slug: post.slug },
-    props: post,
+  const items: CollectionEntry<"resources">[] = await getCollection(
+    "resources",
+    ({ data }: { data: CollectionEntry<"resources">["data"] }) => data.type === "page",
+  );
+
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: item,
   }));
 }
 
-const post = Astro.props as CollectionEntry<"resources">;
-const { Content } = await post.render();
+const item = Astro.props as CollectionEntry<"resources">;
+const { Content } = await item.render();
 ---
 
-<ResourceLayout
-  title={post.data.title}
-  description={post.data.description}
-  publishDate={post.data.publishDate}
-  contentModifiedDate={post.data.contentModifiedDate}
-  form={post.data.form}
->
-  <Content />
-</ResourceLayout>
+<ResourceLayout {...item.data}><Content /></ResourceLayout>

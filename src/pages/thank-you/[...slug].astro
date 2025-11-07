@@ -3,7 +3,11 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const allResources: CollectionEntry<"resources">[] = await getCollection("resources");
+  const allResources: CollectionEntry<"resources">[] = await getCollection(
+    "resources",
+    ({ data }: { data: CollectionEntry<"resources">["data"] }) => data.type === "page",
+  );
+
   return allResources.map((resource) => ({
     params: { slug: `resources/${resource.slug}/` },
     props: { name: resource.data.name, url: `/resources/${resource.slug}/` },

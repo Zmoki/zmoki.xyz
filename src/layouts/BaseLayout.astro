@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import ResourceLink from "../components/ResourceLink.astro";
 
 export interface Props {
   showRecentPosts?: boolean;
@@ -135,12 +136,11 @@ const allResources: CollectionEntry<"resources">[] = await getCollection("resour
         <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Resources</h2>
         <ul>
           {
-            allResources.map((resource) => (
-              <li>
-                <a
-                  href={`/resources/${resource.slug}/`}
+            allResources.map(({ slug }) => (
+              <li class="py-2">
+                <ResourceLink
+                  slug={slug}
                   class="border-b-4 border-dotted border-current text-[#07ff62]"
-                  set:html={resource.data.title}
                 />
               </li>
             ))

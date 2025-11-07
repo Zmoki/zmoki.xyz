@@ -10,7 +10,10 @@ export const GET: APIRoute = async ({ site }) => {
   const allFeedIems: CollectionEntry<"feed">[] = await getCollection("feed");
 
   // Get all resources from the resources collection
-  const allResources: CollectionEntry<"resources">[] = await getCollection("resources");
+  const allResources: CollectionEntry<"resources">[] = await getCollection(
+    "resources",
+    ({ data }: { data: CollectionEntry<"resources">["data"] }) => data.type === "page",
+  );
 
   // Get all legal items from the legal collection
   const allLegalItems: CollectionEntry<"legal">[] = await getCollection("legal");

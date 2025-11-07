@@ -14,17 +14,21 @@ const feed = defineCollection({
 const resources = defineCollection({
   type: "content",
   schema: z.object({
+    type: z.enum(["page", "link"]),
     name: z.string(),
     title: z.string(),
     description: z.string(),
+    url: z.string().optional(),
     publishDate: z.coerce.date(),
     contentModifiedDate: z.coerce.date(),
-    form: z.object({
-      brevoFormId: z.string(),
-      buttonText: z.string(),
-      title: z.string(),
-      description: z.string(),
-    }),
+    form: z
+      .object({
+        brevoFormId: z.string(),
+        buttonText: z.string(),
+        title: z.string(),
+        description: z.string(),
+      })
+      .optional(),
   }),
 });
 
