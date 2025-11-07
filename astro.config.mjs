@@ -50,7 +50,11 @@ function rehypeExternalLinks() {
         const href = node.properties.href;
 
         if (typeof href === "string") {
-          if (href.startsWith("http://") || href.startsWith("https://")) {
+          if (
+            href.startsWith("http://") ||
+            href.startsWith("https://") ||
+            href.startsWith("mailto:")
+          ) {
             node.properties = {
               ...node.properties,
               target: "_blank",
