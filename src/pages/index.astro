@@ -10,7 +10,7 @@ export const contentModifiedDate = new Date("2025-09-10");
 const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
 
 // Sort posts by publish date (newest first)
-const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
+const sortedPosts = allPosts.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
