@@ -21,10 +21,18 @@ const resources = defineCollection({
     url: z.string().optional(),
     publishDate: z.coerce.date(),
     contentModifiedDate: z.coerce.date(),
+    order: z.number(),
     form: z
       .object({
         brevoFormId: z.string(),
         buttonText: z.string(),
+        title: z.string(),
+        description: z.string(),
+      })
+      .optional(),
+    platform: z
+      .object({
+        name: z.string(),
         title: z.string(),
         description: z.string(),
       })
