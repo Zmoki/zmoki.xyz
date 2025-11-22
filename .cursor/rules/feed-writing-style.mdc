@@ -10,26 +10,31 @@ alwaysApply: false
 ## Core Philosophy & Voice
 
 **Authentic & Personal:**
+
 - Write in the first person ("I"). Be honest, vulnerable, and direct.
 - Share personal stories, struggles, and specific details (like crying from the cold in Tbilisi or writing 14 pages of braindump at night).
 - Include concrete, sensory details that ground the narrative.
 
 **Neurodivergent Lens:**
+
 - Frame experiences through a neurodivergent perspective (ADHD, Autism, sensory processing).
 - Use terms like "executive dysfunction," "braindump," "low-dopamine," "rabbit hole," and "special interest" naturally.
 - Don't over-explain neurodivergent terms; trust the reader or link to the glossary.
 
 **"User Manual" Metaphor:**
+
 - Treat the website as a "user manual for my brain" or a "Personal OS."
 - Frame solutions as "tools" or "systems" you've built for yourself, not generic advice for others.
 - Use language like "This is what works for me" rather than "You should do this."
 
 **Process Over Polish:**
+
 - Emphasize the journey, the "work in progress," and the evolution of ideas.
 - Reference the Seeds -> Sprouts -> Blooms framework when relevant.
 - Show the messy process, not just polished results.
 
 **Multifaceted Identity:**
+
 - Embrace being a "scanner" or "multipotentialite." Don't try to niche down.
 - Connect disparate topics (tech, art, identity, neurodivergence).
 - Celebrate the intersections between different parts of your life.
@@ -37,43 +42,64 @@ alwaysApply: false
 ## Tone & Language
 
 **Conversational & Warm:**
+
 - Write as if talking to a friend. Use contractions ("I'm," "don't," "it's").
 - Be approachable and human, not corporate or distant.
 
 **Direct & Clear:**
+
 - Avoid passive voice and complex sentence structures. Be punchy.
 - Prefer: "It's a reminder that..." over "It is a reminder that sometimes the best way..."
 - Break up long paragraphs. Use short sentences for emphasis.
 
 **No Corporate Jargon:**
+
 - Avoid business-speak, buzzwords, and generic productivity language.
 - Use plain, evocative language that feels authentic.
 - Replace "leverage," "synergy," "optimize" with simpler, more direct words.
 
 **Empowering but Realistic:**
+
 - Acknowledge difficulties (the "Wall of Awful") but focus on finding personal solutions.
 - Use phrases like "negotiating with my brain" rather than "overcoming challenges."
 - Be honest about what doesn't work, not just what does.
 
+## Content Sources & Workflow
+
+**Notion Database "My Thoughts":**
+
+- The Notion database "My Thoughts" is the main source for future feed posts.
+- Drafts and ideas start there before being developed into full posts.
+- When working on a new post, check "My Thoughts" database for source material, drafts, or related notes.
+- Posts may evolve from Seeds (early thoughts) to Sprouts (developing ideas) to Blooms (polished posts) - the Notion database often contains the earlier stages.
+
 ## Formatting & Structure
 
 **Headings:**
+
 - Use sentence case for all headings (e.g., `## My writing routine`, `## The system I use now`).
-- Do NOT use colons in headings (e.g., use – or rephrase: `## My writing routine – what works`).
+- Do NOT use colons in headings or titles. Rephrase instead (e.g., `## My writing routine and what works`).
 - Use Markdown headers (`##`, `###`), never HTML tags (`<h2>`).
 - Keep headings descriptive and specific, not generic.
 
 **Lists:**
+
 - Use bulleted or numbered lists to break up dense text and make content scannable.
 - Especially useful for steps, tools, or lists of items.
 - Keep list items parallel in structure.
 
 **Internal Linking:**
-- Actively look for opportunities to link to other posts in the digital garden.
+
+- Actively look for opportunities to link to other posts in the digital garden. This is critical for building connections between ideas.
+- When mentioning books, tools, concepts, or systems that appear in other posts, always create bidirectional links:
+  - Link FROM the new post TO existing relevant posts
+  - Link BACK FROM existing posts TO the new post when it adds value
 - Use natural, contextual links (e.g., "My [Day Themes system](/feed/5-day-themes-system/)...").
 - Don't over-link; only link when it adds value and context.
+- Before publishing, review the post for any mentions of books, tools, systems, or concepts that might exist in other posts.
 
 **Paragraphs:**
+
 - Keep paragraphs short and focused (2-4 sentences typically).
 - Use white space intentionally to create breathing room.
 - Break up long blocks of text with headings, lists, or short paragraphs.
@@ -81,19 +107,23 @@ alwaysApply: false
 ## Specific Content Preferences
 
 **Dates:**
+
 - When mentioning note-taking or journal entries, use the format: `DD.MM.YYYY HH:mm + Day + cycle day`.
 - Example: `07.11.2024 23:45 + Thursday + cycle day 12`
 
 **Tools:**
+
 - Mention specific tools/methods when relevant (Notion, physical notebooks, specific books like "Refuse to Choose" or "The Artist's Way").
 - Be specific about what you use and why, not just generic mentions.
 
 **FAQs:**
+
 - If adding an FAQ section, ensure the questions are authentic and personal.
 - Example: "Are these terms 'real' or just made up?" not generic SEO filler.
 - Answer in the same voice as the rest of the post.
 
 **Examples from Real Life:**
+
 - Include specific, concrete examples from your actual experience.
 - Name places, tools, dates, and people when relevant (e.g., "Misha," "Tbilisi," "Structured app").
 - Ground abstract concepts in real, tangible details.
@@ -101,37 +131,50 @@ alwaysApply: false
 ## "Don'ts" - Critical Rules
 
 **No SEO Fluff:**
+
 - Do NOT add generic intro/outro paragraphs just for keywords.
 - Do NOT write meta descriptions that don't match the actual content.
 - Every sentence should serve the reader, not search engines.
 
 **No "Niche" Pressure:**
+
 - Never suggest narrowing the focus. The lack of a niche IS the niche.
 - Don't apologize for covering multiple topics. Celebrate the diversity.
 
 **No Preaching:**
+
 - Don't tell the reader what they should do.
 - Share what you did and how it worked for you.
 - Use "I" statements, not "you should" statements.
 
 **No Perfectionism:**
+
 - Don't wait for perfect. Show the work in progress.
 - It's okay to have incomplete thoughts or evolving ideas.
 - The digital garden is intentionally imperfect.
 
 **No Generic Advice:**
+
 - Avoid "just do X" or "simply try Y" without context.
 - Every piece of advice should be grounded in your specific experience.
 - If something didn't work, say so. If it's experimental, say so.
 
+**No Dashes:**
+
+- Do NOT use em dashes (—) or en dashes (–) in content.
+- Replace dashes with periods, commas, or rephrase sentences to avoid them.
+- Use colons sparingly and only when they add clarity.
+
 ## Voice Examples
 
 **Good:**
+
 - "I've tried different methods. I love the analog feel of writing in a notebook, so I made several enthusiastic attempts at _bullet journaling_."
 - "Then, in 2023, I had a realization: **I am an artist, too**."
 - "For years, I thought about starting a website. The advice was always the same: **'find your niche'**."
 
 **Avoid:**
+
 - "You should find your niche to build a successful blog."
 - "It is important to note that productivity systems can be beneficial."
 - "In conclusion, these strategies will help you achieve your goals."
@@ -152,11 +195,12 @@ Before publishing any feed post, verify:
 
 - [ ] Written in first person ("I")
 - [ ] Uses contractions naturally
-- [ ] Headings are sentence case, no colons
+- [ ] Headings and titles are sentence case, no colons
+- [ ] No dashes (em or en dashes) in content
 - [ ] Personal, specific details included
 - [ ] No corporate jargon
 - [ ] No preaching or "you should" statements
-- [ ] Internal links to related posts where relevant
+- [ ] Internal links to related posts where relevant (bidirectional when possible)
 - [ ] Honest about what works and what doesn't
 - [ ] Shows the process, not just the result
 - [ ] Authentic voice throughout
