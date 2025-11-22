@@ -1,6 +1,11 @@
-# ZMOKI.XYZ - Personal Brand Cursor Rules
+---
+description: Core project guidelines for zmoki.xyz - brand identity, technical stack, code quality, and development workflow
+alwaysApply: true
+---
 
-# Based on Personal Brand Blueprint V2.0 - The Creator Brand
+# ZMOKI.XYZ - Project Guidelines
+
+Based on Personal Brand Blueprint V2.0 - The Creator Brand
 
 ## CORE IDENTITY & MISSION
 
@@ -59,15 +64,6 @@ You are working on zmoki.xyz, a digital garden exploring the intersection of tec
 - Implement proper SEO with meta descriptions and canonical URLs
 - Add definition lists with auto-generated IDs for better navigation
 - External links should open in new tabs with security attributes
-
-### Writing Guidelines:
-
-- Write from first-person perspective
-- Use storytelling with problem -> journey -> solution structure
-- Be honest and vulnerable about challenges
-- Provide practical, actionable advice
-- Include personal anecdotes and experiences
-- Balance technical depth with accessibility
 
 ## CODE QUALITY STANDARDS
 
