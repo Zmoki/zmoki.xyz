@@ -82,6 +82,12 @@ alwaysApply: false
 - Use Markdown headers (`##`, `###`), never HTML tags (`<h2>`).
 - Keep headings descriptive and specific, not generic.
 
+**Titles:**
+
+- Do NOT use colons in post titles. Rephrase to avoid them (e.g., "Learning to breathe and my journey" instead of "Learning to breathe: my journey").
+- Use sentence case for titles.
+- Keep titles descriptive and authentic to your voice.
+
 **Lists:**
 
 - Use bulleted or numbered lists to break up dense text and make content scannable.
@@ -195,7 +201,8 @@ Before publishing any feed post, verify:
 
 - [ ] Written in first person ("I")
 - [ ] Uses contractions naturally
-- [ ] Headings and titles are sentence case, no colons
+- [ ] Headings are sentence case, no colons
+- [ ] Titles are sentence case, no colons (rephrase to avoid colons)
 - [ ] No dashes (em or en dashes) in content
 - [ ] Personal, specific details included
 - [ ] No corporate jargon
