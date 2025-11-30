@@ -65,6 +65,12 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
     <meta name="description" content={description} />
     <meta name="robots" content="max-image-preview:large" />
     <link rel="canonical" href={canonicalURL} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed"
+      href={new URL("rss.xml", siteBaseUrl).toString()}
+    />
 
     <!-- Open Graph meta tags -->
     <meta property="og:title" content={title} />
