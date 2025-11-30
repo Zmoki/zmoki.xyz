@@ -1,16 +1,20 @@
 ---
-title: "My journey into air quality awareness"
-description: "How moving to Cyprus and then Tbilisi taught me to pay attention to the air I breathe, and the tools I use to protect myself."
+title: "Air quality in beautiful places became bad and what I learned"
+description: "How I discovered that beautiful places like Cyprus and Tbilisi have bad air quality, and what I learned about AQI, air pollution, and protecting myself."
 publishDate: "2025-11-30"
 contentModifiedDate: "2025-11-30"
 order: 12
 ---
 
+import { Image } from "astro:assets";
+import ResourceExhibitionMyInstallation from "../../images/resource-exhibition-zarema-installation-prints-limassol-cyprus.jpg";
+import AqiInTbilisiScreenshot from "../../images/screenshot-aqi-in-tbilisi-nov-30-2025.jpg";
+
 ## Current bad air quality in Tbilisi
 
-Today, November 30, 2025, the air quality in Tbilisi, the city in Georgia where I currently live, has an AQI of 102. Yesterday evening the AQI was 171.
+Today, November 30, 2025, the air quality in Tbilisi, the city in Georgia where I currently live, has an AQI of 142. Yesterday evening the AQI was 171.
 
-It's poor quality level. Good level is in the range between 0 and 50. So, the air in Tbilisi is bad.
+It's poor quality level. Good level is in the range between 0 and 50. So, the air in Tbilisi is bad. [Recent reports](https://dfwatch.net/georgia-records-high-air-pollution-levels-in-five-cities-65278/) show that Georgia has been experiencing unusually high air pollution levels, with elevated concentrations of fine dust particles (PM10 and PM2.5) affecting Tbilisi and other cities.
 
 Tbilisi is a beautiful South Caucasian ancient city. River, gorgeous mountains, trees, rich local food. There are no industrial things like copper and nickel factories in Norilsk, where I grew up.
 
@@ -42,44 +46,59 @@ Sahara's dust storms are a common thing in Cyprus, but it's supposed to be like 
 
 I was scared as fuck. And I'm from Norilsk, the most polluted northern city in the world! I thought that nothing could scare me. For the first time in my life I bought an air purifier. At least my room was cleaned from dust.
 
-And I started to take photos of the Cypriot sky. Every day by paying attention to the sky, I began to discern with just one glance the level of air pollution. This practice formed the basis of my first art works.
+And I started to take photos of the Cypriot sky. Every day by paying attention to the sky, I began to discern with just one glance the level of air pollution. This practice formed the basis of my first art works, which were featured in [my exhibition "Do you love the color of the sky?" in Limassol](https://limassoltoday.com.cy/fakos/lemesos-do-you-love-the-color-of-the-sky-fotos-apo-ta-egkainia/) and my installation on the group exhibition "RE:SOURCE".
+
+<figure class="flex w-full flex-col items-center">
+  <Image
+    src={ResourceExhibitionMyInstallation}
+    alt="Zarema's installation view from RE:SOURCE group exhibition showing 'The Blue' artwork on the left and small photo prints on the right, displayed on a stone wall in Limassol, Cyprus"
+    widths={[600, 900, 1200]}
+    sizes="(min-width: 1200px) 600px, 90vw"
+    loading="lazy"
+    class="max-w-[600px] rounded-lg text-center shadow-lg"
+  />
+  <figcaption class="!mt-0 text-center text-sm text-gray-500">
+    My installation from "RE:SOURCE" group exhibition, 17-21 May 2024, Limassol, Cyprus. "The Blue"
+    (left). I searched for months for a clear sky, but even this one contains dust particles.
+  </figcaption>
+</figure>
 
 ### Meeting AQI and learning about air quality
 
-And I started to learn about air quality. It turns out that the dusty horror I witnessed with my own eyes has a recognized designation - the Air Quality Index (AQI).
+And I started to learn about air quality. It turns out that the dusty horror I witnessed with my own eyes has a recognized designation - the **Air Quality Index (AQI)**.
 
 AQI is a standardized scale used worldwide to communicate how polluted the air currently is or how polluted it is forecast to become. The index typically ranges from 0 to 500, with higher values indicating greater levels of air pollution and greater health concerns.
 
-AQI values are divided into categories:
+**AQI values** are divided into categories:
 
-- **0-50** is considered good
-- **51-100** is moderate
-- **101-150** is unhealthy for sensitive groups
-- **151-200** is unhealthy
-- **201-300** is very unhealthy
-- **301-500+** is hazardous.
+- **0-50 (Good)**: Air quality is satisfactory and poses little or no risk.
+- **51-100 (Moderate)**: Acceptable for most people, but sensitive individuals may experience minor breathing discomfort.
+- **101-150 (Unhealthy for sensitive groups)**: Members of sensitive groups may experience health effects. General public is less likely to be affected.
+- **151-200 (Unhealthy)**: Everyone may begin to experience health effects. Sensitive groups may experience more serious effects.
+- **201-300 (Very unhealthy)**: Health alert: everyone may experience more serious health effects.
+- **301-500+ (Hazardous)**: Health warning of emergency conditions. The entire population is likely to be affected.
 
-In Cyprus somedays AQI was higher than 300! I was unlucky to have such bad day during host my first art exhibition in Limassol.
+In Cyprus some days AQI was higher than 300! I was unlucky to have such a bad day while hosting my first art exhibition in Limassol. [Health experts warned](https://cyprus-mail.com/2023/05/30/weekends-high-dust-levels-a-serious-public-health-issue) that these high dust levels were a serious public health issue. I had almost zero visitors those days, and I don't blame people. It was just really unlucky timing.
 
 #### Understanding air quality metrics
 
 The air quality index takes into account multiple pollutants and reports the highest value among them, giving you a single number that represents the overall air quality risk.
 
-There are key pollutants that are measured and reported:
+There are **key pollutants** that are measured and reported:
 
-- **PM2.5** (Particulate Matter 2.5): Fine particles smaller than 2.5 micrometers that can penetrate deep into the lungs and even enter the bloodstream. These are among the most dangerous pollutants because they can carry toxic substances and cause serious health problems.
+- **PM2.5 (Particulate Matter 2.5)**: Fine particles smaller than 2.5 micrometers that can penetrate deep into the lungs and even enter the bloodstream. These are among the most dangerous pollutants because they can carry toxic substances and cause serious health problems.
 
-- **PM10** (Particulate Matter 10): Larger particles up to 10 micrometers that can irritate the eyes, nose, and throat. While less dangerous than PM 2.5, they still pose health risks, especially for people with respiratory conditions.
+- **PM10 (Particulate Matter 10)**: Larger particles up to 10 micrometers that can irritate the eyes, nose, and throat. While less dangerous than PM 2.5, they still pose health risks, especially for people with respiratory conditions.
 
-- **CO** (Carbon Monoxide): A colorless, odorless gas produced by incomplete combustion. High levels can cause headaches, dizziness, and in extreme cases, can be fatal.
+- **CO (Carbon Monoxide)**: A colorless, odorless gas produced by incomplete combustion. High levels can cause headaches, dizziness, and in extreme cases, can be fatal.
 
-- **SO2** (Sulfur Dioxide): A gas produced by burning fossil fuels, especially coal. It can cause respiratory problems and contribute to acid rain.
+- **SO2 (Sulfur Dioxide)**: A gas produced by burning fossil fuels, especially coal. It can cause respiratory problems and contribute to acid rain.
 
-- **NO2** (Nitrogen Dioxide): A reddish-brown gas produced by vehicle emissions and industrial processes. It can irritate the respiratory system and contribute to the formation of other harmful pollutants.
+- **NO2 (Nitrogen Dioxide)**: A reddish-brown gas produced by vehicle emissions and industrial processes. It can irritate the respiratory system and contribute to the formation of other harmful pollutants.
 
-- **O3** (Ozone): While ozone in the upper atmosphere protects us from UV radiation, ground-level ozone is a harmful pollutant formed by chemical reactions between sunlight and pollutants. It can cause breathing problems and worsen asthma.
+- **O3 (Ozone)**: While ozone in the upper atmosphere protects us from UV radiation, ground-level ozone is a harmful pollutant formed by chemical reactions between sunlight and pollutants. It can cause breathing problems and worsen asthma.
 
-In Cyprus and Georgia the most common pollutants are PM2.5 and PM10. Near roads and industrial areas the most common pollutants are CO, SO2, NO2, O3. They could be measured by sensors if this sensors placed in the right places. In Cyprus a lot of sensors nears roads, but in Tbilisi sensors are placed not so closed to the roads, so the data can not be so accurate.
+In Cyprus and Georgia the most common pollutants are PM2.5 and PM10. Near roads and industrial areas the most common pollutants are CO, SO2, NO2, O3. They could be measured by sensors if these sensors are placed in the right places. In Cyprus a lot of sensors are near roads, but in Tbilisi sensors are placed not so close to the roads, so the data cannot be so accurate.
 
 ### The sadness of leaving
 
@@ -99,22 +118,38 @@ My neighbor asked me when I recently told her about air quality, what I'm doing 
 
 I answered that, at first, I'm happy to know such things and be aware of them. I know where to look. I know how to protect myself. And I can make my friends aware and help them to protect themselves.
 
-### How I monitor AQI
+### Monitor AQI levels
 
 [aqi.in](https://www.aqi.in/) is the best choice. It provides real-time air quality data for cities worldwide, showing AQI values along with detailed breakdowns of all the key pollutants (PM2.5, PM10, CO, SO2, NO2, O3). The site offers historical data, forecasts, and health recommendations based on current air quality levels. It's become my go-to resource for checking air quality before making decisions about going outside or opening windows.
 
-I also downloaded all apps with AQI I could find and checked government websites with real-time dashboards. Having multiple sources helps me verify the data and stay informed throughout the day.
+<figure class="flex w-full flex-col items-center">
+  <Image
+    src={AqiInTbilisiScreenshot}
+    alt="Screenshot of aqi.in website showing real-time air quality data for Tbilisi, Georgia, displaying AQI of 145 (Poor), with PM10 and PM2.5 levels, weather information, and a map with air quality markers"
+    widths={[800, 1200, 1600]}
+    sizes="(min-width: 1200px) 1200px, 90vw"
+    loading="lazy"
+    class="max-w-full rounded-lg shadow-lg"
+  />
+  <figcaption class="!mt-0 text-center text-sm text-gray-500">
+    Air quality in Tbilisi on November 30th 2025 on aqi.in showing AQI 145 (Poor), with PM10 at 72
+    &micro;g/m<sup>3</sup> and PM2.5 at 56 &micro;g/m<sup>3</sup>
+  </figcaption>
+</figure>
 
-### Air quality safety rules I follow every day
+I also use [AccuWeather](https://www.accuweather.com/) as a good replacement for other weather apps. It shows weather, AQI, and allergen pollen levels all in one place, which makes it convenient for checking both air quality and weather conditions together.
+
+### Safety rules I follow every day to protect myself from air pollution
 
 There are rules I follow:
 
-- Check AQI level before opening the window or going out
-- If quality is bad, I'll wait until at least it slightly drops to open the window to add some oxygen
-- Buy an air purifier and keep it in my room
-- If I need to go out and air quality is bad, wear a special mask or at least cover my face with a scarf
-- Apartment should be far enough away from the road
-- Avoid walking near crowded roads, pick a route with the least polluted air
-- Ask taxi drivers to close windows and switch to inner circulation of air inside
+1. Check AQI level before opening the window or going out
+2. If quality is bad, I'll wait until at least it slightly drops to open the window to add some oxygen
+3. Buy an air purifier and keep it in my room
+4. If I need to go out and air quality is bad, wear a special mask or at least cover my face with a scarf
+5. Apartment should be far enough away from the road
+6. Avoid walking near crowded roads, pick a route with the least polluted air
+7. Ask taxi drivers to close windows and switch to inner circulation of air inside
+8. Use eye drops and gel to protect my eyes from dust
 
-And one big one: for future moving, if I can afford it, pick a city with a lower AQI index.
+For future moving, if I can afford it, pick a city with a lower AQI index
