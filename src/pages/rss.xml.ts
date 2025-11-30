@@ -49,14 +49,15 @@ function convertMdxComponentsToHtml(content: string, siteUrl: string, postSlug: 
 
   // First, handle <figure> tags with Image components - process them as a unit
   // This needs to happen before individual Image processing
+  // Remove captions since images aren't displayed in RSS, only alt text
   processed = processed.replace(
     /<figure[^>]*>[\s\S]*?<Image\s+([^>]+)\s*\/?>[\s\S]*?<figcaption[^>]*>([\s\S]*?)<\/figcaption>[\s\S]*?<\/figure>/g,
-    (match, imageAttrs, caption) => {
+    (match, imageAttrs) => {
       const altMatch = imageAttrs.match(/alt=["']([^"']+)["']/);
       const alt = altMatch ? altMatch[1] : "Image";
 
-      // Create a proper figure with image placeholder and caption
-      return `<figure><p><em>[Image: ${alt}]</em></p><figcaption>${caption.trim()}</figcaption></figure>`;
+      // Just show the image placeholder, no caption (since images aren't displayed in RSS)
+      return `<p><em>[Image: ${alt}]</em></p>`;
     },
   );
 
@@ -130,6 +131,11 @@ export async function GET(context: { site: string | undefined }) {
       const ogImagePath = `og-images/feed/${post.slug}/wide.png`;
       const baseUrl = String(siteUrl).replace(/\/$/, "");
       const ogImageUrl = `${baseUrl}/${ogImagePath}`;
+
+      // Remove any remaining figcaption tags (captions are redundant since images aren't displayed)
+      contentHtml = contentHtml.replace(/<figcaption[^>]*>[\s\S]*?<\/figcaption>/gi, "");
+      // Also remove empty figure tags
+      contentHtml = contentHtml.replace(/<figure[^>]*>\s*<\/figure>/gi, "");
 
       // Sanitize the HTML to ensure safe RSS output
       // Allow video tags and their attributes (simplified for RSS compatibility)
