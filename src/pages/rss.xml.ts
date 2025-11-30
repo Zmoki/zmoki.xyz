@@ -24,6 +24,23 @@ function stripImports(content: string): string {
 }
 
 /**
+ * Converts relative URLs to absolute URLs in HTML content
+ */
+function convertRelativeUrlsToAbsolute(html: string, siteUrl: string): string {
+  // Convert relative URLs in href attributes
+  html = html.replace(/href=["'](\/[^"']+)["']/g, (match, path) => {
+    return `href="${siteUrl}${path}"`;
+  });
+
+  // Convert relative URLs in src attributes
+  html = html.replace(/src=["'](\/[^"']+)["']/g, (match, path) => {
+    return `src="${siteUrl}${path}"`;
+  });
+
+  return html;
+}
+
+/**
  * Converts MDX components to HTML for RSS feed
  * Handles <Image> and <Video> components using regex parsing
  */
@@ -53,26 +70,25 @@ function convertMdxComponentsToHtml(content: string, siteUrl: string, postSlug: 
   });
 
   // Convert <Video> components to <video> tags
+  // Note: RSS validators prefer simpler video tags without controls/poster
   // Matches: <Video src="..." poster="..." width="..." height="..." />
   processed = processed.replace(/<Video\s+([^>]+)\s*\/?>/g, (match, attrs) => {
     // Extract attributes
     const srcMatch = attrs.match(/src=["']([^"']+)["']/);
-    const posterMatch = attrs.match(/poster=["']([^"']+)["']/);
     const widthMatch = attrs.match(/width=["']?(\d+)["']?/);
     const heightMatch = attrs.match(/height=["']?(\d+)["']?/);
 
     const src = srcMatch ? srcMatch[1] : "";
-    const poster = posterMatch ? posterMatch[1] : "";
     const width = widthMatch ? widthMatch[1] : "";
     const height = heightMatch ? heightMatch[1] : "";
 
     if (!src) return "";
 
-    // Build video tag with proper attributes
-    let videoTag = `<video controls`;
+    // Build video tag - simplified for RSS compatibility
+    // Remove controls and poster attributes as validators prefer simpler tags
+    let videoTag = `<video`;
     if (width) videoTag += ` width="${width}"`;
     if (height) videoTag += ` height="${height}"`;
-    if (poster) videoTag += ` poster="${poster}"`;
     videoTag += `><source src="${src}" type="video/mp4" />Your browser does not support the video tag.</video>`;
 
     return videoTag;
@@ -82,7 +98,8 @@ function convertMdxComponentsToHtml(content: string, siteUrl: string, postSlug: 
 }
 
 export async function GET(context: { site: string | undefined }) {
-  const siteUrl = context.site || "https://zmoki.xyz";
+  // Ensure siteUrl is always a string
+  const siteUrl = String(context.site || "https://zmoki.xyz");
 
   // Get all posts from the feed collection
   const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
@@ -102,15 +119,20 @@ export async function GET(context: { site: string | undefined }) {
       processedContent = convertMdxComponentsToHtml(processedContent, siteUrl, post.slug);
 
       // Then render the Markdown to HTML using markdown-it
-      const contentHtml = parser.render(processedContent);
+      let contentHtml = parser.render(processedContent);
+
+      // Convert relative URLs to absolute URLs for RSS compatibility
+      contentHtml = convertRelativeUrlsToAbsolute(contentHtml, siteUrl);
 
       // Use the OG image for this post (already generated for each post)
       // This follows the pattern from https://webreaper.dev/posts/astro-rss-feed-blog-post-images/
-      const ogImagePath = `/og-images/feed/${post.slug}/wide.png`;
-      const ogImageUrl = `${siteUrl}${ogImagePath}`;
+      // Ensure no double slashes in URL
+      const ogImagePath = `og-images/feed/${post.slug}/wide.png`;
+      const baseUrl = String(siteUrl).replace(/\/$/, "");
+      const ogImageUrl = `${baseUrl}/${ogImagePath}`;
 
       // Sanitize the HTML to ensure safe RSS output
-      // Allow video tags and their attributes
+      // Allow video tags and their attributes (simplified for RSS compatibility)
       const sanitizedContent = sanitizeHtml(contentHtml, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat([
           "img",
@@ -122,14 +144,9 @@ export async function GET(context: { site: string | undefined }) {
         allowedAttributes: {
           ...sanitizeHtml.defaults.allowedAttributes,
           video: [
-            "controls",
             "width",
             "height",
-            "poster",
-            "playsinline",
-            "loop",
-            "autoplay",
-            "muted",
+            // Removed controls and poster for RSS validator compatibility
           ],
           source: ["src", "type"],
           img: ["src", "alt", "width", "height", "loading", "class"],
@@ -160,10 +177,13 @@ export async function GET(context: { site: string | undefined }) {
     description:
       "A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche.",
     site: siteUrl,
-    // Add media namespace for image support
+    // Add media and atom namespaces for better RSS compatibility
     xmlns: {
       media: "http://search.yahoo.com/mrss/",
+      atom: "http://www.w3.org/2005/Atom",
     },
+    // Add atom:link for better interoperability
+    customData: `<atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />`,
     items: items,
   });
 }
