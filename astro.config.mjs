@@ -89,8 +89,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: "github-light",
-      wrap: true,
+      theme: "catppuccin-latte",
     },
     remarkPlugins: [remarkDefinitionList],
     remarkRehype: { handlers: defListHastHandlers },
