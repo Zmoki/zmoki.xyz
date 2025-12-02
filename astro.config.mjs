@@ -80,6 +80,72 @@ function rehypeExternalLinks() {
   };
 }
 
+// Rehype plugin to add copy button to code blocks
+function rehypeCodeBlockCopy() {
+  return (tree) => {
+    // Recursive function to transform the tree
+    function transformNode(node) {
+      // Transform children first
+      if (node.children) {
+        node.children = node.children.map((child) => {
+          // Check if this child is a <pre> element with a <code> child
+          if (child.type === "element" && child.tagName === "pre") {
+            const codeNode = child.children?.find(
+              (c) => c.type === "element" && c.tagName === "code",
+            );
+
+            if (codeNode) {
+              // Create wrapper div
+              const wrapper = {
+                type: "element",
+                tagName: "div",
+                properties: {
+                  class: "relative",
+                },
+                children: [],
+              };
+
+              // Create copy button
+              // Code will be extracted from DOM at runtime to preserve all formatting
+              const copyButton = {
+                type: "element",
+                tagName: "button",
+                properties: {
+                  type: "button",
+                  class:
+                    "absolute top-2 right-2 px-3 py-1.5 text-xs font-medium font-mono uppercase tracking-normal rounded-md bg-[#00cb4b] text-white hover:bg-[#00cb4b]/80 focus:outline-none focus:ring-2 focus:ring-myblue-500 focus:ring-offset-2 transition-colors duration-200",
+                  "data-copy-button": "true",
+                  "aria-label": "Copy code to clipboard",
+                },
+                children: [
+                  {
+                    type: "text",
+                    value: "Copy",
+                  },
+                ],
+              };
+
+              // Add <pre> and button to wrapper
+              wrapper.children.push(child);
+              wrapper.children.push(copyButton);
+
+              return wrapper;
+            }
+          }
+
+          // Recursively transform other nodes
+          return transformNode(child);
+        });
+      }
+
+      return node;
+    }
+
+    // Transform the tree
+    transformNode(tree);
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), mdx()],
@@ -93,6 +159,6 @@ export default defineConfig({
     },
     remarkPlugins: [remarkDefinitionList],
     remarkRehype: { handlers: defListHastHandlers },
-    rehypePlugins: [rehypeDefinitionListIds, rehypeExternalLinks],
+    rehypePlugins: [rehypeDefinitionListIds, rehypeExternalLinks, rehypeCodeBlockCopy],
   },
 });

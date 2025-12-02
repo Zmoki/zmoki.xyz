@@ -115,4 +115,65 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       }
     </nav>
   </article>
+
+  <script>
+    // Handle copy button functionality for code blocks
+    document.addEventListener("DOMContentLoaded", () => {
+      const copyButtons = document.querySelectorAll('[data-copy-button="true"]');
+
+      copyButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+          // Find the code block element (the <pre><code> that's a sibling in the wrapper)
+          const wrapper = button.closest(".relative");
+          const codeBlock = wrapper?.querySelector("pre code");
+
+          if (!codeBlock) {
+            return;
+          }
+
+          // Extract text content directly from the code element
+          // This preserves all formatting including line breaks
+          const codeContent = codeBlock.textContent;
+          const originalText = button.textContent;
+
+          if (!codeContent) {
+            return;
+          }
+
+          try {
+            // Copy to clipboard
+            await navigator.clipboard.writeText(codeContent);
+
+            // Update button text to "Copied"
+            button.textContent = "Copied";
+
+            // Revert to "Copy" after 2 seconds
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          } catch (err) {
+            // Fallback for older browsers
+            console.error("Failed to copy code:", err);
+            // Try fallback method
+            const textArea = document.createElement("textarea");
+            textArea.value = codeContent;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+              document.execCommand("copy");
+              button.textContent = "Copied";
+              setTimeout(() => {
+                button.textContent = originalText;
+              }, 2000);
+            } catch (fallbackErr) {
+              console.error("Fallback copy failed:", fallbackErr);
+            }
+            document.body.removeChild(textArea);
+          }
+        });
+      });
+    });
+  </script>
 </BaseLayout>
