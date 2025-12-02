@@ -1,6 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  safelist: [
+    // Copy button classes added dynamically in rehype plugin
+    "relative",
+    "absolute",
+    "top-2",
+    "right-2",
+    "px-3",
+    "py-1.5",
+    "text-xs",
+    "font-medium",
+    "font-mono",
+    "uppercase",
+    "tracking-normal",
+    "rounded-md",
+    "bg-[#00cb4b]",
+    "text-white",
+    "hover:bg-[#00cb4b]/80",
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-myblue-500",
+    "focus:ring-offset-2",
+    "transition-colors",
+    "duration-200",
+  ],
   theme: {
     extend: {
       typography: () => ({
