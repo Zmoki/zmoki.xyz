@@ -14,7 +14,7 @@ export default {
     "font-mono",
     "uppercase",
     "tracking-normal",
-    "rounded-md",
+    "rounded-sm",
     "bg-[#00cb4b]",
     "text-white",
     "hover:bg-[#00cb4b]/80",

@@ -113,7 +113,7 @@ function rehypeCodeBlockCopy() {
                 properties: {
                   type: "button",
                   class:
-                    "absolute top-2 right-2 px-3 py-1.5 text-xs font-medium font-mono uppercase tracking-normal rounded-md bg-[#00cb4b] text-white hover:bg-[#00cb4b]/80 focus:outline-none focus:ring-2 focus:ring-myblue-500 focus:ring-offset-2 transition-colors duration-200",
+                    "absolute top-2 right-2 px-3 py-1.5 text-xs font-medium font-mono uppercase tracking-normal rounded-sm bg-[#00cb4b] text-white hover:bg-[#00cb4b]/80 focus:outline-none focus:ring-2 focus:ring-myblue-500 focus:ring-offset-2 transition-colors duration-200",
                   "data-copy-button": "true",
                   "aria-label": "Copy code to clipboard",
                 },
