@@ -1,0 +1,512 @@
+---
+title: "My tech SEO recommendations for new websites"
+description: "A practical checklist for setting up a new domain and website based on my experience creating dozens of websites since 2004."
+publishDate: "2025-12-02"
+contentModifiedDate: "2025-12-02"
+order: 13
+---
+
+I've been an active internet user since about 2002, and in 2004 I fell in love with web development. Over the years since then, I've created dozens of websites for myself personally, as pet projects, for my own businesses, and for companies where I worked as a software engineer.
+
+And only now, while working on this digital garden of mine, I thought to write down and share the main things that need to be taken into account when launching a new website.
+
+## TLDR: Quick SEO checklist for new websites
+
+Here's a copyable checklist you can paste into your task management system:
+
+```markdown
+Domain & Registration
+
+- [] Buy domain from official registrar (GoDaddy, Namecheap, or Cloudflare)
+- [ ] Domain belongs to you, not the platform, and has your details
+
+Domain-Level Settings
+
+- [ ] Enable SSL and redirect http to https
+- [ ] Enable HSTS (HTTP Strict Transport Security)
+- [ ] Set up Content-Security-Policy (CSP)
+- [ ] Set up Permissions-Policy
+- [ ] Check security headers on securityheaders.com and got at least B grade
+
+URLs
+
+- [ ] Decide www or non-www and set up redirect
+- [ ] Decide trailing slash preference and set up redirect
+- [ ] Keep URL structure max 3 levels deep
+
+Sitemap & Robots
+
+- [ ] Create sitemap.xml with `loc` and `lastmod` in W3C Datetime format
+- [ ] Create image sitemap (if applicable)
+- [ ] Add robots.txt file
+- [ ] Reference sitemap in robots.txt
+
+Pages
+
+- [ ] Create custom 404 page
+- [ ] Add favicon (use realfavicongenerator.net)
+- [ ] Add canonical URLs to pages
+- [ ] Set up hreflang tags (if multi-language)
+- [ ] Add title tags to all pages
+- [ ] Add meta descriptions to all pages
+- [ ] Add HTML lang attribute
+- [ ] Add Open Graph tags
+- [ ] Add mobile viewport meta tag
+
+Search Engines
+
+- [ ] Set up Google Search Console
+- [ ] Set up Bing Webmaster Tools
+- [ ] Set up other search engine tools (Yandex, etc. if applicable)
+- [ ] Submit sitemap to search engines
+
+Monitoring
+
+- [ ] Set up free Ahrefs account
+
+Protection
+
+- [ ] Protect staging domain (password, redirect, or x-robots-tag)
+- [ ] Add noindex to pages that shouldn't be indexed
+
+For Blogs/News Sites
+
+- [ ] Show publication date and last modification date (modification first in HTML)
+- [ ] Add high-quality images (min 1200px, 16:9 ratio) for Google Discover
+- [ ] Add `max-image-preview:large` meta tag
+- [ ] Create RSS feed with full content or intro + link
+
+Content Quality (Most Important!)
+
+- [ ] Learn about E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)
+- [ ] Create content that helps people, not just search engines
+- [ ] Show who created the content (bylines, author pages)
+```
+
+## Every website starts with a domain
+
+Think of a domain like your website's address. Just like your home has a street address, your website needs a domain name (like `zmoki.xyz`) so people can find it on the internet.
+
+### Buy domains from official registrars only
+
+My advice to everyone is always: **buy and register domains only with official registrars!**
+
+There are a huge number of website builders, like Webflow, that offer domain registration, but don't use their built-in registrars. More often than not, this ends up with the domain not belonging to you, but to the platform you registered it through.
+
+When you buy a domain from an official registrar, the domain belongs to you or your company. It's like buying a house directly from the owner versus renting through a property management company. You want to own it yourself.
+
+Most popular international domain registrars are:
+
+- **GoDaddy**: One of the largest and most well-known registrars
+- **Namecheap**: Popular for competitive pricing and good customer service
+- **Cloudflare**: Great for developers, often the cheapest option and includes privacy protection for free
+
+For country-specific domains (like `.ge` for Georgia or `.ru` for Russia), there are usually local registrars that handle those extensions.
+
+## Domain-level settings
+
+Once you own your domain, you need to configure it properly. Think of this like setting up utilities and security for your new home.
+
+### SSL: The lock icon in your browser
+
+Always enable SSL and set up redirect from `http://` to `https://`.
+
+SSL (Secure Sockets Layer) is like a lock on your front door. When someone visits your website, SSL encrypts the connection between their browser and your website. You can see it working when there's a little lock icon in the address bar of your browser.
+
+Without SSL, anyone can intercept the data being sent between your website and your visitors. With SSL, that data is encrypted and safe.
+
+**HTTP Strict Transport Security (HSTS)** is an extra security layer. It tells browsers: "Always use the secure version (https) of this website, never the insecure version (http)." This prevents attackers from tricking visitors into using an insecure connection.
+
+For Cloudflare users, you can enable HSTS here: [Cloudflare HSTS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/)
+
+### Other security headers
+
+Security headers are like security guards for your website. They tell browsers how to behave when visiting your site.
+
+1. **Content-Security-Policy (CSP)**: This tells the browser which sources are allowed to load content on your page. It's like a bouncer at a club who checks IDs. Only approved sources can load scripts, images, or styles.
+
+   For Cloudflare Pages, you can set this up here: [Cloudflare Pages headers configuration](https://developers.cloudflare.com/pages/configuration/headers/)
+
+   Here's my example CSP:
+
+   ```
+   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: i.zmoki.xyz; media-src 'self' i.zmoki.xyz; font-src 'self'; connect-src 'self' cloudflareinsights.com; object-src 'none'; frame-ancestors 'none';
+   ```
+
+   This says: "Only load scripts and styles from my own domain, allow images from my image subdomain, and don't allow any embedded objects or frames."
+
+2. **Permissions-Policy**: This controls which browser features your website can use. For example, you can disable the camera or microphone access, even if your code tries to use them.
+
+Check your website's security headers here: [securityheaders.com](https://securityheaders.com/) and follow their instructions to fix any issues.
+
+## Website-level settings
+
+These are settings that apply to the entire website, not just individual pages.
+
+### www or not www
+
+Decide whether you want `www.yourdomain.com` or just `yourdomain.com`, and set up a redirect from one to the other.
+
+It doesn't matter which one you choose, but you must pick one and stick with it. Having both versions without redirects confuses search engines. They think you have two different websites with the same content.
+
+I chose to use `zmoki.xyz` without the `www` prefix because it's shorter and cleaner. But many people prefer `www` because it's more traditional and clearly indicates it's a website.
+
+### Trailing slashes
+
+Decide whether your URLs end with a slash (`/`) or not, and set up redirects to enforce your choice.
+
+For example:
+
+- `zmoki.xyz/about/` (with trailing slash)
+- `zmoki.xyz/about` (without trailing slash)
+
+Again, pick one and redirect the other. Consistency helps search engines understand your site structure.
+
+### URLs structure
+
+URLs are like the paths through your website. You want them to be consistent and predictable, like having a clear address system in a building.
+
+Decide how folders and pages should look in URLs. Try to keep no more than 3 levels deep.
+
+Think of it like organizing files on your computer:
+
+- Good: `zmoki.xyz/feed/post-name` (2 levels)
+- Too deep: `zmoki.xyz/category/year/month/day/post-name` (5 levels)
+
+Shorter URLs are easier to remember, share, and type. They also tend to rank better in search engines.
+
+### Add sitemap
+
+A sitemap is like a map of your entire website. It tells search engines (like Google) all the pages you have and when they were last updated.
+
+#### sitemap.xml
+
+Add `sitemap.xml` with a list of indexable pages with properties `loc` (location/URL) and `lastmod` (last modified date).
+
+The `lastmod` date should be in W3C Datetime format. This means dates should look like `2005-02-21T18:00:15+00:00` or `2005-02-21T00:00:00Z` (for midnight UTC).
+
+Important note: The `<lastmod>` value should reflect the date and time of the last significant update to the page. For example, an update to the main content, the structured data, or links on the page is generally considered significant. However, an update to the copyright date is not.
+
+Learn more: [How to build a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+
+#### Image sitemap
+
+If your website has many images, you can create a separate image sitemap to help search engines discover and index them. This is especially useful for photography sites, portfolios, or blogs with lots of images.
+
+Learn more: [Google's image sitemap documentation](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps)
+
+### Add robots.txt
+
+`robots.txt` is like a sign on your door that tells search engine crawlers (the robots that scan websites) which parts of your site they can and cannot visit.
+
+Add a `robots.txt` file to your website root. Here's a basic example:
+
+```text
+User-agent: *
+Allow: /
+
+Sitemap: https://www.example.com/sitemap.xml
+```
+
+This says: "All search engines, you're allowed to crawl everything on my site, and here's where my sitemap is located."
+
+<callout icon="/icons/new-badge_pink.svg" color="pink_bg">
+  If you want to disallow something in robots.txt, first be sure that it's not indexed, because
+  robots.txt doesn't control indexing, only crawling. These are different things! Crawling means the
+  search engine visits the page. Indexing means the search engine adds it to their search results.
+</callout>
+
+### What about hyped llms.txt?
+
+You don't need it, don't waste your time. See [Ahrefs' explanation of llms.txt](https://ahrefs.com/blog/what-is-llms-txt/) for why it's not necessary.
+
+### Add a custom 404 page
+
+Add a custom design and handle for 404 pages.
+
+A 404 page is what visitors see when they try to visit a page that doesn't exist on your website. Instead of showing a generic "Page Not Found" error, create a friendly, helpful 404 page that matches your website's design.
+
+This page should:
+
+- Look like the rest of your website
+- Help visitors find what they're looking for (maybe with a search box or links to popular pages)
+- Be friendly and not make visitors feel bad for clicking a broken link
+
+### Favicon, please
+
+Add a favicon. That's the little icon that appears in browser tabs next to your website's name.
+
+A favicon is like your website's logo in miniature. It helps people identify your site when they have many tabs open. Without one, browsers show a generic icon, which makes your site look less professional.
+
+Use [RealFaviconGenerator](https://realfavicongenerator.net/) to create favicons for all devices and browsers. It generates all the different sizes and formats you need.
+
+## Page-level things
+
+These are settings that apply to individual pages on your website.
+
+### Canonical as a way to say where is the original page
+
+Add the right canonical URL to pages.
+
+Sometimes the same content appears at multiple URLs. For example:
+
+- `zmoki.xyz/about`
+- `zmoki.xyz/about/`
+- `zmoki.xyz/about?utm_source=twitter`
+
+The canonical tag tells search engines: "This is the original, official version of this page. If you find similar content elsewhere, this is the one to index."
+
+This prevents search engines from thinking you're duplicating content, which can hurt your rankings.
+
+Learn more: [Google's guide to canonical URLs](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
+
+### Tell about other languages
+
+If your website has various languages, there is a way to tell search engines about them.
+
+Use `hreflang` tags to tell search engines which language versions of your pages exist. This helps them show the right version to users based on their language preferences.
+
+Learn more: [Google's guide to localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions)
+
+### HTML lang attribute
+
+Add the `lang` attribute to your `<html>` tag to tell browsers and screen readers what language your page is in.
+
+The `lang` attribute is like a label that says "This page is in English" or "This page is in Spanish." It helps:
+
+- **Screen readers** pronounce words correctly
+- **Browsers** offer translation features
+- **Search engines** understand your content better
+- **Spell checkers** use the right dictionary
+
+Add it to your opening `<html>` tag like this:
+
+```html
+<html lang="en"></html>
+```
+
+Use the appropriate language code:
+
+- `en` for English
+- `es` for Spanish
+- `ru` for Russian
+- `ka` for Georgian
+- And so on for other languages
+
+If your page has multiple languages, use the language of the main content. For pages with different language versions, you'll use this together with the `hreflang` tags mentioned in the multi-language section below.
+
+### Title and meta description
+
+Set up title tag and meta description tag for pages.
+
+- **Title tag**: This is what appears in search results and browser tabs. It should be descriptive and include your main keywords.
+- **Meta description**: This is the snippet that appears under your title in search results. It should summarize what the page is about and encourage clicks.
+
+Think of it like a book cover: the title tells you what it's about, and the description gives you a preview.
+
+### Open Graph tags for social media
+
+Add Open Graph meta tags so your pages look good when shared on social media and messaging platforms.
+
+When someone shares a link to your website on Facebook, Twitter, LinkedIn, WhatsApp, or Telegram, these platforms create a preview card with an image, title, and description. Open Graph tags tell these platforms exactly what to show.
+
+Without Open Graph tags, social media platforms might pick random images or text from your page, or show nothing at all. With them, you control exactly how your link appears.
+
+The most important Open Graph tags are:
+
+- **`og:title`**: The title that appears in the preview card
+- **`og:description`**: The description text shown below the title
+- **`og:image`**: The image that appears in the preview (should be at least 1200x630 pixels)
+- **`og:url`**: The canonical URL of the page
+- **`og:type`**: Usually `website` for most pages, or `article` for blog posts
+
+Here's an example of what these tags look like in your HTML `<head>`:
+
+```html
+<meta property="og:title" content="Your Page Title" />
+<meta property="og:description" content="A brief description of your page" />
+<meta property="og:image" content="https://yourdomain.com/image.jpg" />
+<meta property="og:url" content="https://yourdomain.com/page" />
+<meta property="og:type" content="website" />
+```
+
+Think of it like creating a business card for your webpage. When someone shares your link, instead of showing a boring URL, they see a beautiful preview card that makes people want to click.
+
+### Mobile-first
+
+Search engines love mobile! Design and develop your website with a mobile-first approach.
+
+Mobile-first means you design for phones first, then adapt for larger screens. This is important because most people browse the internet on their phones.
+
+Add this tag to your HTML `<head>`:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+```
+
+This tells mobile browsers: "This website is designed to work on your screen size. Don't zoom out to show the desktop version."
+
+## Tell search engines about your website
+
+Once your website is live, you need to tell search engines it exists and help them understand it.
+
+### Enable Google Search Console (GSC)
+
+Set up [Google Search Console](https://search.google.com/search-console/about).
+
+This free tool from Google lets you:
+
+- See which pages Google has indexed
+- Check for errors and issues
+- See what search terms bring people to your site
+- Submit your sitemap
+- Monitor your site's performance in search results
+
+### Enable Bing Webmaster Tools (BWT)
+
+Set up [Bing Webmaster Tools](https://www.bing.com/webmasters/).
+
+Even though Google is the biggest search engine, Bing still has a significant share of searches. Setting up Bing Webmaster Tools helps your site appear in Bing search results too.
+
+### Other search engines
+
+For Yandex (popular in Russia and Eastern Europe) and other specific search engines, set up their webmaster tools as well if your audience uses them.
+
+## Additional free monitoring
+
+Set up free [Ahrefs](https://ahrefs.com/) account.
+
+Ahrefs offers a free account that gives you limited access to their SEO tools. It's useful for:
+
+- Checking your website's backlinks (other sites linking to you)
+- Monitoring your keyword rankings
+- Analyzing your competitors
+
+## Avoid wrong indexing
+
+Make sure search engines only index the pages you want them to, and not test or staging versions of your site.
+
+### Protect staging domain
+
+Set up access policy or redirect or `x-robots-tag` for staging domains.
+
+A staging domain is a test version of your website where you try things before making them live. You don't want search engines to index this because:
+
+- It might have test content or broken pages
+- It could confuse search engines about which version is the real one
+- It might expose unfinished work
+
+You can protect it by:
+
+- Password-protecting the entire site
+- Adding `X-Robots-Tag: noindex` header to all pages
+- Redirecting it to your main domain
+
+### Add noindex to pages which shouldn't be indexed
+
+Some pages shouldn't appear in search results, like:
+
+- Thank you pages after form submissions
+- Admin or private pages
+- Test pages
+- Pages with duplicate content
+
+Add `<meta name="robots" content="noindex">` to the `<head>` of these pages to tell search engines not to index them.
+
+## Additional recommendations for blogs and news sites
+
+If your website has a blog or publishes news articles, here are some extra things to consider.
+
+### Show publication and modification dates
+
+For blog posts and articles, show two dates on the page: when the article was first published and the date of the last content modification.
+
+Put the last modification date first in your HTML. Google takes the first date it finds to use in search snippets. If you put the publication date first, Google might show an old date even if you've updated the article recently.
+
+This helps readers understand when content was created and when it was last updated. It also helps search engines understand the freshness of your content.
+
+### Google Discover requirements
+
+If you want your articles to appear in Google Discover, you need to meet specific image requirements.
+
+Google Discover is a personalized feed that shows people content related to their interests. To be eligible, your articles need:
+
+1. **At least one high-quality image** in the content with:
+   - Minimum width of 1200 pixels
+   - 16:9 aspect ratio (width to height)
+   - The image should be relevant to the article content
+
+2. **The required meta tag** in your HTML `<head>`:
+   ```html
+   <meta name="robots" content="max-image-preview:large" />
+   ```
+
+This tells Google that you have large, high-quality images available for preview. Without this tag, even if you have large images, Google might not use them in Discover.
+
+Learn more: [Google Discover documentation](https://developers.google.com/search/docs/appearance/google-discover)
+
+### Add RSS feed
+
+Add an RSS feed with the full content of your articles, or at least an introduction with a link to the full page.
+
+RSS (Really Simple Syndication) feeds let people subscribe to your content and get updates automatically. They're also used by:
+
+- RSS readers and news aggregators
+- Google Discover's "Follow" feature (in certain regions)
+- Other platforms that syndicate content
+
+Your RSS feed should include either:
+
+- The full article content, or
+- A meaningful introduction/excerpt with a clear link to read the full article
+
+This makes it easier for people to discover and follow your content, and it helps your articles appear in more places across the web.
+
+## The most important thing about SEO: E-E-A-T
+
+All the technical setup I've mentioned so far is important, but there's one thing that matters more than anything else for SEO: **E-E-A-T**.
+
+E-E-A-T stands for **Experience, Expertise, Authoritativeness, and Trustworthiness**. This is what Google's systems look for when deciding which content to show people in search results.
+
+Think of it this way: Google wants to show people content that actually helps them. To figure out what's helpful, Google looks for signals that show your content is:
+
+- **Experience**: You've actually done or experienced what you're writing about
+- **Expertise**: You know what you're talking about
+- **Authoritativeness**: Other people recognize you as a source on this topic
+- **Trustworthiness**: Your content is reliable and accurate
+
+Of these four, **trust is the most important**. The others contribute to trust, but content doesn't need to demonstrate all of them. For example, a personal blog post might show experience, while a technical guide might show expertise.
+
+### Why E-E-A-T matters
+
+E-E-A-T isn't a specific ranking factor that you can optimize for directly. Instead, it's a framework that Google uses to evaluate content quality. Google's automated systems look for many different signals that indicate good E-E-A-T.
+
+For certain topics that could impact people's health, finances, or safety (called "Your Money or Your Life" or YMYL topics), Google gives even more weight to content with strong E-E-A-T. This makes sense. You wouldn't want medical advice from someone who isn't qualified, right?
+
+### How to demonstrate E-E-A-T
+
+The best way to show E-E-A-T is to create **people-first content**. This means creating content primarily to help people, not to manipulate search rankings.
+
+Here are some practical ways to demonstrate E-E-A-T:
+
+1. **Show who created the content**: Add bylines, author pages, and information about the person or people behind the content. Make it clear who wrote it and why they're qualified.
+
+2. **Explain how content was created**: Share your process. For product reviews, explain what you tested and how. If you used AI or automation, be transparent about it.
+
+3. **Focus on why you're creating content**: The "why" should be to help people. If your primary reason is to get search traffic, that's not aligned with what Google rewards.
+
+4. **Create original, helpful content**: Write about things you actually know about. Don't just rewrite what others have said. Add your own insights, experience, and perspective.
+
+5. **Be transparent**: If you're using AI-generated content, disclose it. If you're reviewing products, show evidence of your testing. Transparency builds trust.
+
+The technical setup I've covered in this post helps search engines find and understand your content. But E-E-A-T is what makes your content worth finding in the first place.
+
+Learn more: [Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+
+## Why this matters
+
+After 20+ years of building websites, I've learned that these details make the difference between a website that works and one that truly performs. It's like the difference between a house and a home. Both have walls and a roof, but one is properly set up, secure, and welcoming.
+
+Taking the time to configure these settings properly from the start saves you headaches later. Your website will be more secure, easier for search engines to understand, and better for your visitors.
+
+And remember: you don't need to do everything at once. Start with the basics (domain, SSL, sitemap) and add the rest as you go. Your website is a living thing that grows and improves over time.
