@@ -9,29 +9,14 @@ interface Props {
 
 const { src, alt } = Astro.props;
 
-// 1. Get the image URL path
-// If 'src' is an imported object (from src/images), use .src
-// If 'src' is a string (from public/), use it directly
-const imageUrl = new URL((await getImage({ src, format: "jpg" })).src, Astro.url).href;
 const licenseUrl = new URL("/terms#1-content-images--text", Astro.url).href;
-
-// 3. Define the Structured Data
-const schema = {
-  "@context": "https://schema.org/",
-  "@type": "ImageObject",
-  contentUrl: imageUrl,
-  license: licenseUrl,
-  acquireLicensePage: licenseUrl,
-  creditText: "Zarema Khalilova / Zmoki",
-  creator: {
-    "@type": "Person",
-    name: "Zarema Khalilova",
-  },
-  copyrightNotice: "CC BY-NC 4.0",
-};
 ---
 
-<figure class="!my-0 flex w-full flex-col items-center">
+<figure
+  class="!my-0 flex w-full flex-col items-center"
+  itemscope
+  itemtype="https://schema.org/ImageObject"
+>
   <Image
     src={src}
     alt={alt}
@@ -39,11 +24,18 @@ const schema = {
     height={800}
     loading="lazy"
     class="rounded-lg shadow-lg"
+    itemprop="contentUrl"
   />
+
+  <meta itemprop="license" content={licenseUrl} />
+  <meta itemprop="acquireLicensePage" content={licenseUrl} />
+  <meta itemprop="creditText" content="Zmoki / Zarema Khalilova" />
+  <meta itemprop="copyrightNotice" content="CC BY-NC 4.0" />
+
+  <span itemprop="creator" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Zarema Khalilova" />
+  </span>
   <figcaption class="!mt-0 text-center text-sm text-gray-500">
     <slot />
   </figcaption>
-
-  {/* Inject the Structured Data */}
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </figure>
