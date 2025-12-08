@@ -123,7 +123,7 @@ async function generateOGImage(browser, url, filename) {
 
     // Create a new page for compositing the final image
     const compositePage = await browser.newPage();
-    await compositePage.setViewport({ width: 1200, height: 630 });
+    await compositePage.setViewport({ width: 1200, height: 675 });
 
     // Create HTML for the composite image
     const html = `
@@ -135,7 +135,7 @@ async function generateOGImage(browser, url, filename) {
               margin: 0;
               padding: 0;
               width: 1200px;
-              height: 630px;
+              height: 675px;
               background-color: #e2e8f0;
               display: flex;
               align-items: center;
@@ -183,7 +183,7 @@ async function generateOGImage(browser, url, filename) {
         x: 0,
         y: 0,
         width: 1200,
-        height: 630,
+        height: 675,
       },
     });
 
