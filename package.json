@@ -11,6 +11,7 @@
     "clean": "rm -rf dist node_modules",
     "og:generate": "node scripts/generate-og-images.mjs",
     "build:full": "npm run build && npm run og:generate",
+    "timeline:feed": "node scripts/generate-feed-timeline.mjs",
     "lhci:mobile": "lhci autorun --collect.settings.chromeFlags='--headless' --collect.settings.emulatedFormFactor=mobile",
     "lhci:desktop": "lhci autorun --collect.settings.chromeFlags='--headless' --collect.settings.emulatedFormFactor=desktop",
     "lhci:collect": "lhci collect",
