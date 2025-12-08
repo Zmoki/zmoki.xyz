@@ -6,13 +6,13 @@ contentModifiedDate: "2025-11-30"
 order: 12
 ---
 
-import { Image } from "astro:assets";
-import ResourceExhibitionMyInstallation from "../../images/resource-exhibition-zarema-installation-prints-limassol-cyprus.jpg";
-import AqiInTbilisiScreenshot from "../../images/screenshot-aqi-in-tbilisi-nov-30-2025.jpg";
+import PostImage from "@/components/PostImage.astro";
+import ResourceExhibitionMyInstallation from "@/images/resource-exhibition-zarema-installation-prints-limassol-cyprus.jpg";
+import AqiInTbilisiScreenshot from "@/images/screenshot-aqi-in-tbilisi-nov-30-2025.jpg";
 
 ## Current bad air quality in Tbilisi
 
-Today, November 30, 2025, the air quality in Tbilisi, the city in Georgia where I currently live, has an AQI of 142. Yesterday evening the AQI was 171.
+Today, November 30, 2025, the air quality in Tbilisi, the city in Georgia where I currently live, has an AQI of 105. Yesterday evening the AQI was 171.
 
 It's poor quality level. Good level is in the range between 0 and 50. So, the air in Tbilisi is bad. [Recent reports](https://dfwatch.net/georgia-records-high-air-pollution-levels-in-five-cities-65278/) show that Georgia has been experiencing unusually high air pollution levels, with elevated concentrations of fine dust particles (PM10 and PM2.5) affecting Tbilisi and other cities.
 
@@ -48,20 +48,13 @@ I was scared as fuck. And I'm from Norilsk, the most polluted northern city in t
 
 And I started to take photos of the Cypriot sky. Every day by paying attention to the sky, I began to discern with just one glance the level of air pollution. This practice formed the basis of my first art works, which were featured in [my exhibition "Do you love the color of the sky?" in Limassol](https://limassoltoday.com.cy/fakos/lemesos-do-you-love-the-color-of-the-sky-fotos-apo-ta-egkainia/) and my installation on the group exhibition "RE:SOURCE".
 
-<figure class="flex w-full flex-col items-center">
-  <Image
-    src={ResourceExhibitionMyInstallation}
-    alt="Installation view from RE:SOURCE group exhibition showing The Blue artwork of Zarema Khalilova on the left and small photo prints on the right, displayed on a stone wall in Limassol, Cyprus"
-    widths={[600, 900, 1200]}
-    sizes="(min-width: 1200px) 600px, 90vw"
-    loading="lazy"
-    class="max-w-[600px] rounded-lg text-center shadow-lg"
-  />
-  <figcaption class="!mt-0 text-center text-sm text-gray-500">
-    My installation from "RE:SOURCE" group exhibition, 17-21 May 2024, Limassol, Cyprus. "The Blue"
-    (left). I searched for months for a clear sky, but even this one contains dust particles.
-  </figcaption>
-</figure>
+<PostImage
+  src={ResourceExhibitionMyInstallation}
+  alt="Installation view from RE:SOURCE group exhibition showing The Blue artwork of Zarema Khalilova on the left and small photo prints on the right, displayed on a stone wall in Limassol, Cyprus"
+>
+  My installation from "RE:SOURCE" group exhibition, 17-21 May 2024, Limassol, Cyprus. "The Blue"
+  (left). I searched for months for a clear sky, but even this one contains dust particles.
+</PostImage>
 
 ### Meeting AQI and learning about air quality
 
@@ -122,20 +115,13 @@ I answered that, at first, I'm happy to know such things and be aware of them. I
 
 [aqi.in](https://www.aqi.in/) is the best choice. It provides real-time air quality data for cities worldwide, showing AQI values along with detailed breakdowns of all the key pollutants (PM2.5, PM10, CO, SO2, NO2, O3). The site offers historical data, forecasts, and health recommendations based on current air quality levels. It's become my go-to resource for checking air quality before making decisions about going outside or opening windows.
 
-<figure class="flex w-full flex-col items-center">
-  <Image
-    src={AqiInTbilisiScreenshot}
-    alt="Screenshot of aqi.in website showing real-time air quality data for Tbilisi, Georgia, displaying AQI of 145 (Poor), with PM10 and PM2.5 levels, weather information, and a map with air quality markers"
-    widths={[600, 900, 1200]}
-    sizes="(min-width: 1200px) 1200px, 90vw"
-    loading="lazy"
-    class="max-w-full rounded-lg border-2 border-solid border-slate-200 shadow-lg"
-  />
-  <figcaption class="!mt-0 text-center text-sm text-gray-500">
-    Air quality in Tbilisi on November 30th 2025 on aqi.in showing AQI 145 (Poor), with PM10 at 72
-    &micro;g/m<sup>3</sup> and PM2.5 at 56 &micro;g/m<sup>3</sup>
-  </figcaption>
-</figure>
+<PostImage
+  src={AqiInTbilisiScreenshot}
+  alt="Screenshot of aqi.in website showing real-time air quality data for Tbilisi, Georgia, displaying AQI 105 (Poor), with PM10 and PM2.5 levels, weather information, and a map with air quality markers"
+>
+  Air quality in Tbilisi on November 30th 2025 on aqi.in showing AQI 105 (Poor), with PM10 at 52
+  &micro;g/m<sup>3</sup> and PM2.5 at 37 &micro;g/m<sup>3</sup>
+</PostImage>
 
 I also use [AccuWeather](https://www.accuweather.com/) as a good replacement for other weather apps. It shows weather, AQI, and allergen pollen levels all in one place, which makes it convenient for checking both air quality and weather conditions together.
 
