@@ -128,7 +128,7 @@ export async function GET(context: { site: string | undefined }) {
       // Use the OG image for this post (already generated for each post)
       // This follows the pattern from https://webreaper.dev/posts/astro-rss-feed-blog-post-images/
       // Ensure no double slashes in URL
-      const ogImagePath = `og-images/feed/${post.slug}/wide.png`;
+      const ogImagePath = `og-images/feed/${post.slug}/wide.jpg`;
       const baseUrl = String(siteUrl).replace(/\/$/, "");
       const ogImageUrl = `${baseUrl}/${ogImagePath}`;
 
@@ -161,7 +161,7 @@ export async function GET(context: { site: string | undefined }) {
 
       // Build customData for media namespace (RSS image support)
       // Following the pattern from https://webreaper.dev/posts/astro-rss-feed-blog-post-images/
-      const imageType = ogImageUrl.endsWith(".png") ? "png" : "jpeg";
+      const imageType = ogImageUrl.endsWith(".jpg") ? "jpeg" : "png";
       const customData = `<media:content
         type="image/${imageType}"
         medium="image"

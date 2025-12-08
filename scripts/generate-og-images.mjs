@@ -6,6 +6,7 @@ import { join } from "path";
 const port = process.argv[2] || "4321";
 const SITE_URL = `http://localhost:${port}`;
 const OG_IMAGES_DIR = "public/og-images";
+const EXCLUDED_PATHS = ["/feed/6-tbilisi-swaps-guide/"];
 
 // Ensure og-images directory exists
 if (!existsSync(OG_IMAGES_DIR)) {
@@ -40,7 +41,7 @@ async function parseSitemap(sitemapUrl) {
 // Function to generate filename from URL path
 function getImageFilename(path) {
   if (path === "/") {
-    return "wide.png";
+    return "wide.jpg";
   }
 
   // Remove leading slash and trailing slash
@@ -50,7 +51,7 @@ function getImageFilename(path) {
   const segments = cleanPath.split("/");
   const directory = segments.join("/");
 
-  return `${directory}/wide.png`;
+  return `${directory}/wide.jpg`;
 }
 
 // Function to check if server is running
@@ -112,7 +113,8 @@ async function generateOGImage(browser, url, filename) {
 
     // Take screenshot of the main element, starting from the top
     const screenshotBuffer = await mainElement.screenshot({
-      type: "png",
+      type: "jpeg",
+      quality: 90,
       clip: {
         x: 0, // Start from the left edge of the main element
         y: 0, // Start from the top of the main element
@@ -165,7 +167,7 @@ async function generateOGImage(browser, url, filename) {
           </style>
         </head>
         <body>
-          <img class="screenshot" src="data:image/png;base64,${screenshotBuffer.toString("base64")}" />
+          <img class="screenshot" src="data:image/jpeg;base64,${screenshotBuffer.toString("base64")}" />
           <div class="gradient-overlay"></div>
         </body>
       </html>
@@ -178,7 +180,8 @@ async function generateOGImage(browser, url, filename) {
     // Take screenshot of the composite page
     await compositePage.screenshot({
       path: imagePath,
-      type: "png",
+      type: "jpeg",
+      quality: 90,
       clip: {
         x: 0,
         y: 0,
@@ -235,6 +238,11 @@ async function main() {
     let failCount = 0;
 
     for (const url of urls) {
+      if (EXCLUDED_PATHS.includes(url)) {
+        console.log(`Skipping ${url} as it is excluded`);
+        continue;
+      }
+
       const filename = getImageFilename(url);
       const success = await generateOGImage(browser, url, filename);
 
