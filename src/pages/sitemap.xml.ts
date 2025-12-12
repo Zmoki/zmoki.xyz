@@ -4,6 +4,9 @@ import {
   publishDate as indexPagePublishDate,
   contentModifiedDate as indexPageContentModifiedDate,
 } from "./index.astro";
+import { frontmatter as nowPageFrontmatter } from "./now.mdx";
+
+const { contentModifiedDate: nowPageContentModifiedDate } = nowPageFrontmatter;
 
 export const GET: APIRoute = async ({ site }) => {
   // Get all posts from the feed collection
@@ -43,6 +46,7 @@ export const GET: APIRoute = async ({ site }) => {
     <loc>${site}</loc>
     <lastmod>${indexPageLatestDate}</lastmod>
   </url>
+  ${sitemapUrl("now/", nowPageContentModifiedDate)}
   ${allFeedIems
     .map((post: CollectionEntry<"feed">) =>
       sitemapUrl(

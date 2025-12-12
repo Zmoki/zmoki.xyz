@@ -1,0 +1,40 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Time from "../components/Time.astro";
+
+const {
+  title,
+  description,
+  publishDate: rawPublishDate,
+  contentModifiedDate: rawcCntentModifiedDate,
+} = Astro.props.frontmatter;
+
+const publishDate = new Date(rawPublishDate);
+const contentModifiedDate = new Date(rawcCntentModifiedDate);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+>
+  <section class="space-y-4">
+    <header
+      class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 shadow-sm outline-dashed outline-8 -outline-offset-2 outline-[#f20098] md:items-center md:p-16 md:text-center xl:p-20"
+    >
+      <h1 class="text-5xl font-semibold xl:text-6xl" set:html={title} />
+      {description && <p class="text-2xl xl:text-3xl" set:html={description} />}
+      <p
+        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 xl:text-sm"
+      >
+        <span>Updated on <Time datetime={contentModifiedDate} /></span>
+      </p>
+    </header>
+    <section
+      class="prose prose-xl max-w-none rounded-xl bg-slate-50 px-4 py-8 shadow-sm xl:prose-2xl prose-headings:font-semibold md:p-16 xl:px-28 xl:py-16 [&_a]:text-myblue-500"
+    >
+      <slot />
+    </section>
+  </section>
+</BaseLayout>
