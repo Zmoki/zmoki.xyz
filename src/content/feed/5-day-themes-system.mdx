@@ -2,14 +2,14 @@
 title: "From to-do lists to Day Themes system"
 description: "My journey through failed to-do lists and bullet journals to a new, neurodivergent-friendly system for organizing my days with intention and energy."
 publishDate: "2025-09-21"
-contentModifiedDate: "2025-11-07"
+contentModifiedDate: "2025-12-14"
 order: 5
 ---
 
-import { Image } from "astro:assets";
-import StructuredAppScreenshot from "../../images/screenshot-structured-app.jpg";
-import NotionScreenshot from "../../images/screenshot-notion-day-themes.jpg";
-import ResourceLink from "../../components/ResourceLink.astro";
+import PostImage from "@/components/PostImage.astro";
+import StructuredAppScreenshot from "@/images/screenshot-structured-app.png";
+import NotionScreenshot from "@/images/screenshot-notion-day-themes.png";
+import ResourceLink from "@/components/ResourceLink.astro";
 
 ## The tyranny of the to-do list
 
@@ -27,18 +27,12 @@ My first real insight came when I realized the problem wasn't the tasks themselv
 
 So, I created a system I called "Time Bubbles." A time bubble is just a block of time dedicated to an activity: "take a shower," "work on client project," "write content." I used a notebook and later the 'Structured' app to plan my days this way. A typical day might look something like this:
 
-<figure>
-  <Image
-    src={StructuredAppScreenshot}
-    alt="A screenshot of a daily schedule in the Structured app."
-    widths={[900, 1400, 1920]}
-    sizes="(max-width: 56rem) 100vw, 56rem"
-    class="rounded-lg shadow-lg"
-  />
-  <figcaption class="text-center text-sm text-gray-500">
-    An example of my 'Time Bubbles' day, planned out in the Structured app.
-  </figcaption>
-</figure>
+<PostImage
+  src={StructuredAppScreenshot}
+  alt="A screenshot of a daily schedule in the Structured app."
+>
+  An example of my 'Time Bubbles' day, planned out in the Structured app.
+</PostImage>
 
 For a few months, it was amazing. But time still had a habit of running away from me, and eventually, the micro-management of blocking out every part of my day became its own chore, and I lost interest again.
 
@@ -50,18 +44,12 @@ This led me to my latest experiment: **Day Themes**. Instead of a detailed sched
 
 I built out this 'Personal OS' in Notion, where I can see all the themes in one place and link them to my daily log.
 
-<figure>
-  <Image
-    src={NotionScreenshot}
-    alt="A screenshot of a Notion database showing different Day Themes like Recharge, Founder, and Create."
-    widths={[900, 1400, 1920]}
-    sizes="(max-width: 56rem) 100vw, 56rem"
-    class="rounded-lg shadow-lg"
-  />
-  <figcaption class="text-center text-sm text-gray-500">
-    My new <ResourceLink slug="day-themes-menu" />
-  </figcaption>
-</figure>
+<PostImage
+  src={NotionScreenshot}
+  alt="A screenshot of a Notion database showing different Day Themes like Recharge, Founder, and Create."
+>
+  My new <ResourceLink slug="day-themes-menu" />
+</PostImage>
 
 The menu has themes for every area of my life:
 
