@@ -39,7 +39,7 @@ You are working on zmoki.xyz, a digital garden exploring the intersection of tec
 - **myblue**: 200-950 scale (primary brand color)
 - **myorange**: 500 (#ff8035) for contact/CTA
 - **mypink**: 200-700 scale for highlights
-- **Typography**: Inter Tight font family
+- **Typography**: Noto Sans + Noto Sans Mono font family
 
 ### Design Principles:
 
@@ -194,7 +194,7 @@ You are working on zmoki.xyz, a digital garden exploring the intersection of tec
 ### Brand Consistency Checks:
 
 - Verify color usage matches brand palette
-- Ensure typography follows Inter Tight system
+- Ensure typography follows NotoSans & NotoMono system
 - Check that content voice matches "Pragmatic Storyteller"
 - Validate that CTAs are clear and action-oriented
 - Confirm that technical content is accessible to target audience
