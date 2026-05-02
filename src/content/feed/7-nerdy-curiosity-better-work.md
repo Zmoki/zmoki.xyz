@@ -3,7 +3,7 @@ title: "How my nerdy curiosity makes my work better"
 description: "A story about my recent client work, where a deep dive into linguistics proved that fundamental curiosity is the best SEO tool."
 publishDate: "2025-10-17"
 contentModifiedDate: "2025-10-24"
-order: 7
+order: 13
 ---
 
 ## That uneasy feeling
