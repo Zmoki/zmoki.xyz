@@ -26,6 +26,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.16.4",
     "markdown-it": "^14.1.0",
+    "posthog-js": "^1.376.5",
     "puppeteer": "^24.32.1",
     "remark-definition-list": "^2.0.0",
     "sanitize-html": "^2.17.0",

@@ -83,6 +83,8 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         prevPost && (
           <a
             href={`/feed/${prevPost.slug}/`}
+            data-nav-direction="prev"
+            data-nav-slug={prevPost.slug}
             class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 shadow-md"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
@@ -101,6 +103,8 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         nextPost && (
           <a
             href={`/feed/${nextPost.slug}/`}
+            data-nav-direction="next"
+            data-nav-slug={nextPost.slug}
             class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
@@ -115,6 +119,27 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       }
     </nav>
   </article>
+
+  <script is:inline>
+    document.querySelectorAll("a[data-nav-direction]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("post_navigation_clicked", {
+          direction: this.dataset.navDirection,
+          destination_slug: this.dataset.navSlug,
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-copy-button="true"]').forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var wrapper = btn.closest(".relative");
+        var codeBlock = wrapper && wrapper.querySelector("pre code");
+        window.posthog?.capture("code_block_copied", {
+          snippet_length: codeBlock ? (codeBlock.textContent || "").length : 0,
+        });
+      });
+    });
+  </script>
 
   <script>
     // Handle copy button functionality for code blocks

@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import ResourceLink from "../components/ResourceLink.astro";
+import PostHog from "../components/posthog.astro";
 
 export interface Props {
   showRecentPosts?: boolean;
@@ -94,6 +95,8 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
       )
     }
     <meta property="twitter:card" content="summary_large_image" />
+
+    <PostHog />
 
     <!-- Plausible Analytics -->
     <script>
@@ -224,6 +227,14 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
           <div />
         )
       }
+
+      <script is:inline>
+        document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
+          window.posthog?.capture("contact_email_clicked", {
+            email: this.getAttribute("href").replace("mailto:", ""),
+          });
+        });
+      </script>
 
       <script>
         const goToTopButton = document.getElementById("go-to-top-button");

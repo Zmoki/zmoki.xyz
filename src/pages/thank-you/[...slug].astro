@@ -64,3 +64,10 @@ const randomFeedPosts = allFeedPosts.sort(() => Math.random() - 0.5).slice(0, 3)
     </section>
   </section>
 </BaseLayout>
+
+<script is:inline define:vars={{ resourceName: name, resourceUrl: url }}>
+  window.posthog?.capture("resource_download_confirmed", {
+    resource_name: resourceName,
+    resource_url: resourceUrl,
+  });
+</script>

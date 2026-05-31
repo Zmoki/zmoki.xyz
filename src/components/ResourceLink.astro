@@ -14,6 +14,23 @@ const resource: CollectionEntry<"resources"> = await getEntry("resources", slug)
 const href = resource.data.type === "link" ? resource.data.url : `/resources/${slug}/`;
 ---
 
-<a href={href} data-resource="true" class={className}>
+<a
+  href={href}
+  data-resource="true"
+  data-resource-slug={slug}
+  data-resource-external={resource.data.type === "link" ? "true" : "false"}
+  class={className}
+>
   <slot set:html={resource.data.name} />
 </a>
+
+<script is:inline>
+  document.querySelectorAll('a[data-resource="true"]').forEach(function (el) {
+    el.addEventListener("click", function () {
+      window.posthog?.capture("resource_link_clicked", {
+        resource_slug: this.dataset.resourceSlug,
+        is_external: this.dataset.resourceExternal === "true",
+      });
+    });
+  });
+</script>

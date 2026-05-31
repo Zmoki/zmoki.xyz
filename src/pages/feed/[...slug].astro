@@ -35,3 +35,10 @@ const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 >
   <Content />
 </PostLayout>
+
+<script is:inline define:vars={{ postSlug: post.slug, postTitle: post.data.title }}>
+  window.posthog?.capture("post_viewed", {
+    post_slug: postSlug,
+    post_title: postTitle,
+  });
+</script>
