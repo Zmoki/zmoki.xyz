@@ -4,7 +4,7 @@ import PostCard from "../components/PostCard.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 export const publishDate = new Date("2025-09-09");
-export const contentModifiedDate = new Date("2026-05-01");
+export const contentModifiedDate = new Date("2026-05-31");
 
 // Get all posts from the feed collection
 const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
