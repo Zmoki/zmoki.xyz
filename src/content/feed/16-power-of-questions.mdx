@@ -6,7 +6,20 @@ contentModifiedDate: "2026-06-19"
 order: 16
 ---
 
-This is the full research document behind [a client project that started with a simple question](/feed/7-nerdy-curiosity-better-work/). A deep understanding of how questions are formed is a critical component of modern content and SEO strategy. The difference between a "Yes/No" question and an "interrogative" question is the difference between content that is ignored and content that drives traffic, establishes authority, and thrives in the new era of AI search. This document outlines the theory, its application to SEO, and the data-driven proof of its importance.
+import PostImage from "@/components/PostImage.astro";
+import MilanoteBoard from "@/images/screenshot-milanote-questions-research-board.png";
+import GscFilter from "@/images/screenshot-gsc-regex-filter-interrogative-questions.png";
+import GscResults from "@/images/screenshot-gsc-performance-interrogative-queries.png";
+
+This is the full research document behind [a client project that started with a simple question](/feed/7-nerdy-curiosity-better-work/). A deep understanding of how questions are formed is a critical component of modern content and SEO strategy.
+
+The difference between a "Yes/No" question and an "interrogative" question is the difference between content that is ignored and content that drives traffic, establishes authority, and thrives in the new era of AI search.
+
+This document outlines the theory, its application to SEO, and the data-driven proof of its importance.
+
+<PostImage src={MilanoteBoard} alt="A Milanote research board titled 'questions', showing notes on what a question is, auxiliary verbs, modality, Yes/No questions, and interrogative questions.">
+  My Milanote research board from the rabbit hole. The starting point for everything in this post.
+</PostImage>
 
 ## The theory of questions, from grammar to intent
 
@@ -58,11 +71,11 @@ For SEO, the goal is to align content with user intent. Interrogative questions 
 
 We can strategically map interrogative words to the user's journey, allowing us to create content that meets their needs at every stage.
 
-| Funnel Stage | User's Goal | Key Interrogative Words |
-|---|---|---|
-| Top: Awareness | "What is this thing?" | What…? Who…? |
-| Middle: Consideration | "Why should I care? How does it work?" | Why…? How…? |
-| Bottom: Decision | "Which option is for me?" | Which…? Best…? Vs. |
+| Funnel Stage          | User's Goal                            | Key Interrogative Words |
+| --------------------- | -------------------------------------- | ----------------------- |
+| Top: Awareness        | "What is this thing?"                  | What…? Who…?            |
+| Middle: Consideration | "Why should I care? How does it work?" | Why…? How…?             |
+| Bottom: Decision      | "Which option is for me?"              | Which…? Best…? Vs.      |
 
 ## The impact of AI search (Google AI Overviews)
 
@@ -91,40 +104,55 @@ Each query category was isolated using regex filters applied in GSC and verified
 Apply these directly in GSC → Performance → Add filter → Query → Matches regex:
 
 **Interrogative questions:**
+
 ```
 ^(what|why|how|who|where|when|which|whose|whom)\b
 ```
 
 **Yes/No (closed) questions:**
+
 ```
 ^(is|are|do|does|did|can|will|would|should|could|has|have|was|were)\b
 ```
 
 **Comparative/Best questions:**
+
 ```
 ^(best|top|which)\b|\bvs\.?\b|\bversus\b|\bcompared (to|with)\b|\balternative(s)?\b
 ```
+
+<PostImage
+  src={GscFilter}
+  alt="Google Search Console query filter dialog with a custom regex for interrogative questions entered in the field."
+>
+  Applying the interrogative regex filter in GSC: Performance → Add filter → Query → Custom (regex)
+  → Matches regex.
+</PostImage>
 
 ### BigQuery SQL equivalents
 
 For deeper analysis with aggregated metrics, use `REGEXP_CONTAINS` in your GSC BigQuery export:
 
 **Interrogative:**
+
 ```sql
 WHERE REGEXP_CONTAINS(query, r'(?i)^(what|why|how|who|where|when|which|whose|whom)\b')
 ```
 
 **Yes/No:**
+
 ```sql
 WHERE REGEXP_CONTAINS(query, r'(?i)^(is|are|do|does|did|can|will|would|should|could|has|have|was|were)\b')
 ```
 
 **Comparative/Best:**
+
 ```sql
 WHERE REGEXP_CONTAINS(query, r'(?i)(^(best|top|which)\b|\bvs\.?\b|\bversus\b|\bcompared (to|with)\b|\balternative(s)?\b)')
 ```
 
 **Aggregate all categories in one query:**
+
 ```sql
 SELECT
   CASE
@@ -146,10 +174,18 @@ ORDER BY total_impressions DESC
 Data collected from GSC over a 3-month period across all query types.
 
 | Question Category | Impressions | Clicks | Avg. Position |
-|---|---|---|---|
-| Interrogative | 1,580,000 | 1,810 | 8.5 |
-| Comparative/Best | 1,370,000 | 855 | 7.0 |
-| Yes/No | 101,000 | 194 | 6.9 |
+| ----------------- | ----------- | ------ | ------------- |
+| Interrogative     | 1,580,000   | 1,810  | 8.5           |
+| Comparative/Best  | 1,370,000   | 855    | 7.0           |
+| Yes/No            | 101,000     | 194    | 6.9           |
+
+<PostImage
+  src={GscResults}
+  alt="Google Search Console performance view filtered to interrogative queries, showing 1.81K total clicks, 1.58M total impressions, and 8.5 average position over 3 months."
+>
+  GSC performance for interrogative queries over 3 months: 1.58M impressions, 1.81K clicks, average
+  position 8.5.
+</PostImage>
 
 Interrogative queries generated **15x more impressions** than Yes/No and delivered **9x more clicks**. Comparative queries performed similarly to interrogative in volume, confirming that intent-driven formats dominate.
 
@@ -160,10 +196,10 @@ One nuance worth noting: Yes/No queries showed a better average position (6.9) t
 To confirm this is not a one-site anomaly, the same methodology was applied to a second, independent site over the same 3-month window.
 
 | Question Category | Impressions | Clicks | Avg. Position |
-|---|---|---|---|
-| Interrogative | 7,510,000 | 93 | 6.3 |
-| Comparative/Best | 14,100 | 1 | 10.4 |
-| Yes/No | 2,000 | 1 | 12.9 |
+| ----------------- | ----------- | ------ | ------------- |
+| Interrogative     | 7,510,000   | 93     | 6.3           |
+| Comparative/Best  | 14,100      | 1      | 10.4          |
+| Yes/No            | 2,000       | 1      | 12.9          |
 
 The impression gap here is even more dramatic: interrogative queries outperformed Yes/No by **~3,755x**. The ranking pattern also holds: interrogative content ranked at position 6.3 vs. 12.9 for Yes/No, nearly 2x better. Comparative queries sat in between on position (10.4) but with negligible volume, suggesting this site has an untapped opportunity in comparison content.
 

@@ -34,7 +34,7 @@ And just like that, I was gone.
 
 I fell headfirst into a deep-dive rabbit hole on the Theory of Questions. I was like a school student again, watching YouTube lectures on English grammar, sketching out my findings on a Milanote board, and asking an AI to explain linguistic concepts. It was _so much fun_.
 
-I learned about **auxiliary** verbs, **interrogative** words, and the wonderfully nerdy concept of **modality** ("Epistemic" vs. "Deontic"). And through it all, a hypothesis started to form: for SEO and AI search, it seemed like **interrogative questions** (starting with _who, what, where, when, why, how_) would be far more powerful than simple **yes/no questions** (starting with _is, are, do, can_). I later wrote up the full theory, data, and SQL filters in [The Strategic Power of Questions](/feed/16-power-of-questions/).
+I learned about **auxiliary** verbs, **interrogative** words, and the wonderfully nerdy concept of **modality** ("Epistemic" vs. "Deontic"). And through it all, a hypothesis started to form: for SEO and AI search, it seemed like **interrogative questions** (starting with _who, what, where, when, why, how_) would be far more powerful than simple **yes/no questions** (starting with _is, are, do, can_). I later wrote up the full theory, data, and SQL filters in [The strategic power of questions](/feed/16-power-of-questions/).
 
 ## Proof in the data
 
