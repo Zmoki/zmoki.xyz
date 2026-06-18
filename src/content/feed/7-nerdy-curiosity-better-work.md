@@ -2,7 +2,7 @@
 title: "How my nerdy curiosity makes my work better"
 description: "A story about my recent client work, where a deep dive into linguistics proved that fundamental curiosity is the best SEO tool."
 publishDate: "2025-10-17"
-contentModifiedDate: "2025-10-24"
+contentModifiedDate: "2026-06-19"
 order: 13
 ---
 
@@ -22,7 +22,7 @@ The Head of Content had constantly been asking before,
 
 > How can we be sure our questions are good?
 
-and now, looking at this list, his question echoed in my mind. I had a feeling these questions were _not_ good. But a feeling isn't a good argument for a client. I needed proof.
+and now, looking at this list, his question echoed in my mind. I had a feeling these questions were _not_ good. I needed proof.
 
 ## Diving down the rabbit hole
 
@@ -34,7 +34,7 @@ And just like that, I was gone.
 
 I fell headfirst into a deep-dive rabbit hole on the Theory of Questions. I was like a school student again, watching YouTube lectures on English grammar, sketching out my findings on a Milanote board, and asking an AI to explain linguistic concepts. It was _so much fun_.
 
-I learned about **auxiliary** verbs, **interrogative** words, and the wonderfully nerdy concept of **modality** ("Epistemic" vs. "Deontic"). And through it all, a hypothesis started to form: for SEO and AI search, it seemed like **interrogative questions** (starting with _who, what, where, when, why, how_) would be far more powerful than simple **yes/no questions** (starting with _is, are, do, can_).
+I learned about **auxiliary** verbs, **interrogative** words, and the wonderfully nerdy concept of **modality** ("Epistemic" vs. "Deontic"). And through it all, a hypothesis started to form: for SEO and AI search, it seemed like **interrogative questions** (starting with _who, what, where, when, why, how_) would be far more powerful than simple **yes/no questions** (starting with _is, are, do, can_). I later wrote up the full theory, data, and SQL filters in [The Strategic Power of Questions](/feed/16-power-of-questions/).
 
 ## Proof in the data
 
@@ -50,8 +50,8 @@ I had found it. The real, data-backed proof.
 
 ## Realizing what was wrong
 
-Suddenly, I knew what was wrong with that list of 5,000 questions. I went back and checked. Just as I'd suspected, about half of them were the low-impact "yes/no" type. My feeling wasn't just a feeling; it was my brain recognizing a pattern I hadn't yet found the language for.
+Suddenly, I knew what was wrong with that list of 5,000 questions. I went back and checked. Just as I'd suspected, about half of them were the low-impact "yes/no" type. My brain had already recognized a pattern I hadn't yet found the language for.
 
 I presented my discovery to the client's team - the problem, the rabbit hole of linguistic research, and the undeniable proof from their own data. They loved it.
 
-We're now in the process of rewriting the questions, armed with this new understanding. It's a powerful reminder that the biggest breakthroughs often come not from the most complex code, but from the simplest questions. That deep, nerdy curiosity isn't a bug in my process; it's the **feature that makes my work better.**
+We're now in the process of rewriting the questions, armed with this new understanding. It's a powerful reminder that the biggest breakthroughs often come not from the most complex code, but from the simplest questions. That deep, nerdy curiosity **is the feature that makes my work better.**
