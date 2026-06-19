@@ -56,15 +56,16 @@ jobs:
             }
 
             const files = fs.readdirSync(resultsPath);
-            const jsonFiles = files.filter(file => file.endsWith('.json'));
+            // lhr-*.json are individual reports; manifest.json has no categories
+            const lhrFiles = files.filter(file => file.startsWith('lhr-') && file.endsWith('.json'));
 
-            if (jsonFiles.length === 0) {
-              console.log('No JSON results found');
+            if (lhrFiles.length === 0) {
+              console.log('No Lighthouse report files found');
               return;
             }
 
-            // Read the most recent result
-            const latestFile = jsonFiles.sort().pop();
+            // Read the most recent report
+            const latestFile = lhrFiles.sort().pop();
             const results = JSON.parse(fs.readFileSync(path.join(resultsPath, latestFile), 'utf8'));
 
             // Extract scores
