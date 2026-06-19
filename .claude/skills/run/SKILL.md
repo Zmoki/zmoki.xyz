@@ -26,7 +26,14 @@ Derive a stable port from the working directory so multiple worktrees can run si
 PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
 ```
 
-Start the dev server in the background:
+Start the dev server in the background (analytics disabled by default to avoid polluting production data):
+
+```bash
+PUBLIC_ANALYTICS_ENABLED=false npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
+ZMOKI_PID=$!
+```
+
+To run with analytics enabled (e.g. testing tracking):
 
 ```bash
 npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
