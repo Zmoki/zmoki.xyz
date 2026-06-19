@@ -8,14 +8,22 @@ Astro dev server. No build step needed for local verification.
 
 ## Prerequisites
 
-`.env` file must exist at the project root with the following keys (values can be dummy strings for local dev):
+`.env` file must exist at the project root. See `src/env.d.ts` for all variables; `.env.example` has the full list with empty values.
 
-| Variable | Required | Notes |
-|---|---|---|
-| `PUBLIC_POSTHOG_PROJECT_TOKEN` | No | PostHog token (safe to omit locally) |
-| `PUBLIC_POSTHOG_HOST` | No | PostHog host |
-| `PUBLIC_BREVO_ACCOUNT_ID` | No | Brevo email form |
-| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No | Turnstile (forms) |
+### Worktree setup
+
+If running inside a git worktree (i.e. `$PWD` is not the primary repo), two extra steps are needed before starting:
+
+1. **Copy `.env` from the primary repo** — worktrees don't share the root `.env`:
+   ```bash
+   PRIMARY=$(git rev-parse --path-format=absolute --git-common-dir | sed 's|/.git||')
+   cp "$PRIMARY/.env" .env
+   ```
+
+2. **Install dependencies** — `node_modules` is not shared across worktrees:
+   ```bash
+   npm install
+   ```
 
 ## Run
 
