@@ -256,6 +256,24 @@ Edit this file directly for redirect changes (not Terraform).
 
 ---
 
+## Environment variables
+
+**Source of truth: `src/env.d.ts`** — all `PUBLIC_*` env vars must be declared here first. `.env.example` must mirror it (same keys, no values).
+
+Current variables:
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `PUBLIC_POSTHOG_PROJECT_TOKEN` | No | PostHog analytics token |
+| `PUBLIC_POSTHOG_HOST` | No | PostHog host URL |
+| `PUBLIC_ANALYTICS_ENABLED` | No | Set to `"false"` to disable PostHog in dev |
+| `PUBLIC_BREVO_ACCOUNT_ID` | No | Brevo email form integration |
+| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No | Cloudflare Turnstile bot protection |
+
+When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment.
+
+---
+
 ## Content images
 
 Images for posts and pages live in `src/images/`.
