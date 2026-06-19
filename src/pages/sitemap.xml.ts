@@ -3,8 +3,8 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import {
   publishDate as indexPagePublishDate,
   contentModifiedDate as indexPageContentModifiedDate,
-} from "./index.astro";
-import { frontmatter as nowPageFrontmatter } from "./now.mdx";
+} from "@/pages/index.astro";
+import { frontmatter as nowPageFrontmatter } from "@/pages/now.mdx";
 
 const { contentModifiedDate: nowPageContentModifiedDate } = nowPageFrontmatter;
 
