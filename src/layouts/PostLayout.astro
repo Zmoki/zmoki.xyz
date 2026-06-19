@@ -26,7 +26,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   <article class="space-y-4">
     <!-- Post Header -->
     <header
-      class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-[#1a9eec] md:items-center md:p-16 md:text-center lg:p-20"
+      class="flex flex-col gap-6 rounded-xl bg-slate-50 px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-zmoki-azure-500 md:items-center md:p-16 md:text-center lg:p-20"
     >
       <h1 class="text-4xl font-semibold xl:text-6xl" set:html={title} />
       {description && <p class="text-2xl xl:text-3xl" set:html={description} />}
@@ -61,7 +61,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- About Author -->
     <aside
-      class="space-y-2 rounded-xl bg-slate-50 px-4 py-8 leading-normal text-myblue-900 shadow-md md:bg-[#f20098] md:p-16 md:text-slate-50 xl:p-20"
+      class="space-y-2 rounded-xl bg-slate-50 px-4 py-8 leading-normal text-zmoki-azure-900 shadow-md md:bg-zmoki-magenta-500 md:p-16 md:text-slate-50 xl:p-20"
     >
       <h2 class="pb-4 text-3xl font-medium xl:text-4xl">Written by Zarema Khalilova</h2>
       <p>
@@ -85,7 +85,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             href={`/feed/${prevPost.slug}/`}
             data-nav-direction="prev"
             data-nav-slug={prevPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 shadow-md"
+            class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-zmoki-azure-500 bg-white px-6 pb-10 pt-8 shadow-md"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
             <div class="text-2xl font-medium leading-normal">
@@ -105,7 +105,7 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             href={`/feed/${nextPost.slug}/`}
             data-nav-direction="next"
             data-nav-slug={nextPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-[#0098f2] bg-white px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
+            class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-zmoki-azure-500 bg-white px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
           >
             <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
             <div class="text-2xl font-medium leading-normal">

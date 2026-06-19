@@ -100,7 +100,7 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
     {analyticsEnabled && <PostHog />}
   </head>
   <body
-    class="hover:[&_a]:outline-solid min-h-full bg-slate-200 font-sans text-lg leading-tight tracking-tight text-myblue-900 xl:text-xl [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:bg-myblue-500 hover:[&_a]:text-white hover:[&_a]:outline hover:[&_a]:outline-myblue-500"
+    class="hover:[&_a]:outline-solid min-h-full bg-slate-200 font-sans text-lg leading-tight tracking-tight text-zmoki-azure-900 xl:text-xl [&_a]:no-underline [&_a]:transition-all [&_a]:duration-200 hover:[&_a]:bg-zmoki-azure-500 hover:[&_a]:text-white hover:[&_a]:outline hover:[&_a]:outline-zmoki-azure-500"
   >
     <div
       class="grid w-full grid-cols-1 gap-4 p-2 lg:grid-cols-[29%_71%] lg:grid-rows-[200px_160px_minmax(160px,max-content)_200px_minmax(0,max-content)_1fr_minmax(0,max-content)] lg:gap-x-8 lg:py-8 lg:pl-4 lg:pr-12"
@@ -110,7 +110,7 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
         class="min-h-24 rounded-xl bg-white bg-[url(/zmoki.jpg)] bg-cover bg-center tracking-tighter shadow-md"
       >
         <div class="h-full w-full bg-white/10 px-2 py-4 lg:px-4">
-          <a href="/" class="inline-block bg-[#0098f2] px-2 text-slate-50">zmoki.xyz</a>
+          <a href="/" class="inline-block bg-zmoki-azure-500 px-2 text-slate-50">zmoki.xyz</a>
         </div>
       </header>
 
@@ -119,7 +119,9 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
         <slot />
       </main>
 
-      <aside class="flex flex-col gap-2 rounded-xl bg-[#f20098] p-6 text-slate-50 shadow-md">
+      <aside
+        class="flex flex-col gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md"
+      >
         <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Author</h2>
         <p class="flex flex-col items-start gap-2 md:flex-row md:justify-between">
           <a href="/feed/1-about-me/" class="inline-block border-b-4 border-dotted border-current"
@@ -139,7 +141,7 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
               <li class="py-2">
                 <ResourceLink
                   slug={slug}
-                  class="border-b-4 border-dotted border-current text-[#07ff62]"
+                  class="border-b-4 border-dotted border-current text-zmoki-jade-500"
                 />
               </li>
             ))
@@ -148,7 +150,7 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
       </aside>
 
       <aside
-        class="flex flex-col gap-2 rounded-xl bg-[#f24500] p-6 tracking-tighter text-slate-50 shadow-md"
+        class="flex flex-col gap-2 rounded-xl bg-zmoki-flame-500 p-6 tracking-tighter text-slate-50 shadow-md"
       >
         <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Contact</h2>
         <p>
@@ -168,7 +170,7 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
                 <li class="py-4">
                   <a
                     href={`/feed/${post.slug}/`}
-                    class="border-b-4 border-dotted border-current text-[#55c0ff]"
+                    class="border-b-4 border-dotted border-current text-zmoki-azure-300"
                     set:html={post.data.title}
                   />
                 </li>
@@ -186,10 +188,10 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
             class:list={[
               "flex w-[calc(50%+8px)] items-end border-r-8 border-dashed max-lg:hidden",
               accentColor === "gray" && "border-slate-400",
-              accentColor === "blue" && "border-[#0098f2]",
-              accentColor === "green" && "border-[#00f25a]",
-              accentColor === "orange" && "border-[#f24500]",
-              accentColor === "pink" && "border-[#f20098]",
+              accentColor === "blue" && "border-zmoki-azure-500",
+              accentColor === "green" && "border-zmoki-jade-500",
+              accentColor === "orange" && "border-zmoki-flame-500",
+              accentColor === "pink" && "border-zmoki-magenta-500",
             ]}
           >
             <button
@@ -200,10 +202,10 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
                 class:list={[
                   "font-mono text-5xl uppercase transition-all duration-200",
                   accentColor === "gray" && "group-hover:text-slate-400",
-                  accentColor === "blue" && "group-hover:text-[#0098f2]",
-                  accentColor === "green" && "group-hover:text-[#00f25a]",
-                  accentColor === "orange" && "group-hover:text-[#f24500]",
-                  accentColor === "pink" && "group-hover:text-[#f20098]",
+                  accentColor === "blue" && "group-hover:text-zmoki-azure-500",
+                  accentColor === "green" && "group-hover:text-zmoki-jade-500",
+                  accentColor === "orange" && "group-hover:text-zmoki-flame-500",
+                  accentColor === "pink" && "group-hover:text-zmoki-magenta-500",
                 ]}
               >
                 &#8593;
