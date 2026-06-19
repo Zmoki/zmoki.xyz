@@ -15,12 +15,12 @@ export default {
     "uppercase",
     "tracking-normal",
     "rounded-sm",
-    "bg-[#00cb4b]",
+    "bg-zmoki-jade-500",
     "text-white",
-    "hover:bg-[#00cb4b]/80",
+    "hover:bg-zmoki-jade-500/80",
     "focus:outline-none",
     "focus:ring-2",
-    "focus:ring-myblue-500",
+    "focus:ring-zmoki-azure-500",
     "focus:ring-offset-2",
     "transition-colors",
     "duration-200",
@@ -33,7 +33,7 @@ export default {
             "--tw-prose-headings": "#001d2e",
             "--tw-prose-body": "#001d2e",
             "--tw-prose-bold": "#001d2e",
-            "--tw-prose-links": "#1a9eec",
+            "--tw-prose-links": "#0098f2",
             a: {
               "border-color": "currentColor",
               "border-bottom-width": "4px",
@@ -43,7 +43,7 @@ export default {
               color: "#f24500",
             },
             "[data-resource]": {
-              color: "#00cb4b",
+              color: "#00f25a",
             },
             "[data-anchor]": {
               color: "#001d2e",
@@ -58,26 +58,33 @@ export default {
         mono: ["Noto Sans Mono", "monospace"],
       },
       colors: {
-        myblue: {
+        // zmoki-azure: primary links, navigation, hero sections
+        "zmoki-azure": {
           200: "#b7e5ff",
           300: "#7ccfff",
           400: "#42b9ff",
-          500: "#07a3ff",
+          500: "#0098f2",
           600: "#0080cb",
           700: "#005b90",
           800: "#003655",
           900: "#001d2e",
           950: "#000407",
         },
-        myorange: {
-          500: "#ff8035",
+        // zmoki-flame: external links, Contact sidebar
+        "zmoki-flame": {
+          500: "#f24500",
         },
-        mypink: {
-          200: "#ffdefb",
-          400: "#ff68ed",
-          500: "#ff2de6",
-          600: "#f100d5",
-          700: "#ca00b2",
+        // zmoki-magenta: primary brand color (favicon, Author sidebar, highlights)
+        "zmoki-magenta": {
+          200: "#ffd6f3",
+          400: "#ff5cc0",
+          500: "#f20098",
+          600: "#c10079",
+          700: "#8f005a",
+        },
+        // zmoki-jade: resource links, action buttons
+        "zmoki-jade": {
+          500: "#00f25a",
         },
       },
     },
