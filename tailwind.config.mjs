@@ -1,3 +1,5 @@
+import { colors as brandColors } from "./src/design-tokens.mjs";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -57,36 +59,9 @@ export default {
         sans: ["Noto Sans", "system-ui", "sans-serif"],
         mono: ["Noto Sans Mono", "monospace"],
       },
-      colors: {
-        // zmoki-azure: primary links, navigation, hero sections
-        "zmoki-azure": {
-          200: "#b7e5ff",
-          300: "#7ccfff",
-          400: "#42b9ff",
-          500: "#0098f2",
-          600: "#0080cb",
-          700: "#005b90",
-          800: "#003655",
-          900: "#001d2e",
-          950: "#000407",
-        },
-        // zmoki-flame: external links, Contact sidebar
-        "zmoki-flame": {
-          500: "#f24500",
-        },
-        // zmoki-magenta: primary brand color (favicon, Author sidebar, highlights)
-        "zmoki-magenta": {
-          200: "#ffd6f3",
-          400: "#ff5cc0",
-          500: "#f20098",
-          600: "#c10079",
-          700: "#8f005a",
-        },
-        // zmoki-jade: resource links, action buttons
-        "zmoki-jade": {
-          500: "#00f25a",
-        },
-      },
+      // Brand color tokens live in src/design-tokens.mjs (single source
+      // of truth, also consumed by the /-/astro/brand/ reference page).
+      colors: brandColors,
     },
   },
   plugins: [require("@tailwindcss/typography")],
