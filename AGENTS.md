@@ -19,7 +19,7 @@ Personal digital garden at `https://zmoki.xyz` — a living collection of posts,
 | Styling | Tailwind CSS + @tailwindcss/typography | ^3 |
 | Content | MDX via @astrojs/mdx | — |
 | Fonts | Noto Sans, Noto Sans Mono | Google Fonts |
-| Analytics | PostHog + Plausible | posthog-js, @plausible-analytics/tracker |
+| Analytics | PostHog | posthog-js |
 | Email/Forms | Brevo | — |
 | OG images | Puppeteer (script) | — |
 | RSS | @astrojs/rss | — |
@@ -64,6 +64,8 @@ npm run lhci:desktop     # Lighthouse CI desktop
 ```
 
 Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
+
+> **Rule:** whenever you edit content in any collection file (`feed`, `resources`, `legal`), bump `contentModifiedDate` to today's date.
 
 ### `resources` — downloadable resources and external links
 
@@ -139,7 +141,7 @@ Props:
 
 Two-column desktop grid (`lg:grid-cols-[29%_71%]`), 7 rows. Left column: header → Author sidebar → Resources sidebar → Contact sidebar → Recent posts sidebar → accent bar → footer. Right column: `<main>` spans all 7 rows.
 
-Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, Plausible, canonical URL. OG images are served from `/og-images{pathname}wide.jpg` (or `/og-images/wide.jpg` for non-articles).
+Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images are served from `/og-images{pathname}wide.jpg` (or `/og-images/wide.jpg` for non-articles).
 
 ### `PostLayout.astro`
 
@@ -208,9 +210,7 @@ Also uses `remark-definition-list` for `<dl>`/`<dt>`/`<dd>` support in MDX.
 | `post_navigation_clicked` | PostLayout inline script | `direction`, `destination_slug` |
 | `code_block_copied` | PostLayout inline script | `snippet_length` |
 
-Plausible captures pageviews, outbound link clicks, and form submissions automatically.
-
-Env var required: `PUBLIC_PLAUSIBLE_DOMAIN`
+PostHog captures all listed events plus pageviews automatically.
 
 ---
 

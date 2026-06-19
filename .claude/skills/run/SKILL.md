@@ -12,7 +12,6 @@ Astro dev server. No build step needed for local verification.
 
 | Variable | Required | Notes |
 |---|---|---|
-| `PUBLIC_PLAUSIBLE_DOMAIN` | Yes | Plausible analytics domain |
 | `PUBLIC_POSTHOG_PROJECT_TOKEN` | No | PostHog token (safe to omit locally) |
 | `PUBLIC_POSTHOG_HOST` | No | PostHog host |
 | `PUBLIC_BREVO_ACCOUNT_ID` | No | Brevo email form |
@@ -20,9 +19,9 @@ Astro dev server. No build step needed for local verification.
 
 ## Run
 
-**Before starting, ask the user:** "Do you want analytics (PostHog + Plausible) enabled or disabled for this session?"
+**Before starting, ask the user:** "Do you want analytics (PostHog) enabled or disabled for this session?"
 
-- **Enabled** (default) — real events will be sent to PostHog and Plausible
+- **Enabled** (default) — real events will be sent to PostHog
 - **Disabled** — set `PUBLIC_ANALYTICS_ENABLED=false` to keep dev traffic out of production data
 
 Derive a stable port from the working directory so multiple worktrees can run simultaneously without conflict:

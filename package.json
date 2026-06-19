@@ -22,7 +22,6 @@
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/tailwind": "^6.0.2",
-    "@plausible-analytics/tracker": "^0.4.4",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.16.4",
     "markdown-it": "^14.1.0",
