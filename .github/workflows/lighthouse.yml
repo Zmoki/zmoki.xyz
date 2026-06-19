@@ -25,13 +25,6 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Start preview server
-        run: |
-          npm run preview &
-          sleep 10
-        env:
-          PORT: 4321
-
       - name: Run Lighthouse CI
         run: |
           npx lhci autorun --collect.settings.chromeFlags="--headless" --collect.settings.emulatedFormFactor=mobile

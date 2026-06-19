@@ -5,7 +5,7 @@ module.exports = {
       url: [
         "http://localhost:4321/",
         "http://localhost:4321/feed/5-day-themes-system/",
-        "http://localhost:4321/resources/day-themes-menu/",
+        "http://localhost:4321/now/",
       ],
       numberOfRuns: 3,
     },
