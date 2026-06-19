@@ -15,6 +15,7 @@ Astro dev server. No build step needed for local verification.
 If running inside a git worktree (i.e. `$PWD` is not the primary repo), two extra steps are needed before starting:
 
 1. **Copy `.env` from the primary repo** — worktrees don't share the root `.env`:
+
    ```bash
    PRIMARY=$(git rev-parse --path-format=absolute --git-common-dir | sed 's|/.git||')
    cp "$PRIMARY/.env" .env
@@ -85,11 +86,11 @@ lsof -ti :$PORT | xargs kill
 
 ## Key routes to check
 
-| Route | What it tests |
-|---|---|
+| Route                                   | What it tests                             |
+| --------------------------------------- | ----------------------------------------- |
 | `http://localhost:$PORT/-/astro/health` | Health check — returns "ok" + commit hash |
-| `http://localhost:$PORT/` | Homepage — post list |
-| `http://localhost:$PORT/feed/<slug>/` | Individual post (PostLayout) |
-| `http://localhost:$PORT/resources/` | Resources index |
-| `http://localhost:$PORT/now/` | Now page |
-| `http://localhost:$PORT/rss.xml` | RSS feed |
+| `http://localhost:$PORT/`               | Homepage — post list                      |
+| `http://localhost:$PORT/feed/<slug>/`   | Individual post (PostLayout)              |
+| `http://localhost:$PORT/resources/`     | Resources index                           |
+| `http://localhost:$PORT/now/`           | Now page                                  |
+| `http://localhost:$PORT/rss.xml`        | RSS feed                                  |

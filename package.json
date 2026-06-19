@@ -12,6 +12,7 @@
     "check": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "clean": "rm -rf dist node_modules",
     "og:generate": "node scripts/generate-og-images.mjs",
     "build:full": "npm run build && npm run og:generate",

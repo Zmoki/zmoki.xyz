@@ -10,7 +10,7 @@ const OUTPUT_FILE = "feed-timeline.csv";
 function parseFrontmatter(content) {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/;
   const match = content.match(frontmatterRegex);
-  
+
   if (!match) {
     return null;
   }
@@ -26,13 +26,15 @@ function parseFrontmatter(content) {
       if (colonIndex > 0) {
         const key = trimmed.substring(0, colonIndex).trim();
         let value = trimmed.substring(colonIndex + 1).trim();
-        
+
         // Remove quotes if present
-        if ((value.startsWith('"') && value.endsWith('"')) || 
-            (value.startsWith("'") && value.endsWith("'"))) {
+        if (
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))
+        ) {
           value = value.slice(1, -1);
         }
-        
+
         frontmatter[key] = value;
       }
     }
@@ -45,11 +47,11 @@ function parseFrontmatter(content) {
 function getGitCommitDates(filePath) {
   try {
     // Get all commit dates for this file
-    const gitLog = execSync(
-      `git log --format="%ai" -- "${filePath}"`,
-      { encoding: "utf-8", cwd: process.cwd() }
-    );
-    
+    const gitLog = execSync(`git log --format="%ai" -- "${filePath}"`, {
+      encoding: "utf-8",
+      cwd: process.cwd(),
+    });
+
     return gitLog
       .trim()
       .split("\n")
@@ -112,7 +114,7 @@ function main() {
     // Add contentModifiedDate entry if different from publishDate
     if (frontmatter.contentModifiedDate) {
       const modifiedDate = new Date(frontmatter.contentModifiedDate).toISOString().split("T")[0];
-      const publishDate = frontmatter.publishDate 
+      const publishDate = frontmatter.publishDate
         ? new Date(frontmatter.publishDate).toISOString().split("T")[0]
         : null;
 
@@ -129,9 +131,11 @@ function main() {
     const gitDates = getGitCommitDates(filePath);
     for (const gitDate of gitDates) {
       // Only add git dates that aren't already covered by frontmatter dates
-      const isPublishDate = frontmatter.publishDate && 
+      const isPublishDate =
+        frontmatter.publishDate &&
         new Date(frontmatter.publishDate).toISOString().split("T")[0] === gitDate;
-      const isModifiedDate = frontmatter.contentModifiedDate && 
+      const isModifiedDate =
+        frontmatter.contentModifiedDate &&
         new Date(frontmatter.contentModifiedDate).toISOString().split("T")[0] === gitDate;
 
       if (!isPublishDate && !isModifiedDate) {
@@ -153,9 +157,9 @@ function main() {
 
   // Generate CSV
   const csvHeader = "date,full url,changes\n";
-  const csvRows = timelineEntries.map((entry) => 
-    `${csvEscape(entry.date)},${csvEscape(entry.url)},${csvEscape(entry.change)}`
-  ).join("\n");
+  const csvRows = timelineEntries
+    .map((entry) => `${csvEscape(entry.date)},${csvEscape(entry.url)},${csvEscape(entry.change)}`)
+    .join("\n");
 
   const csvContent = csvHeader + csvRows;
 
@@ -164,8 +168,9 @@ function main() {
 
   console.log(`✅ Timeline generated: ${OUTPUT_FILE}`);
   console.log(`📊 Total entries: ${timelineEntries.length}`);
-  console.log(`📅 Date range: ${timelineEntries[0]?.date} to ${timelineEntries[timelineEntries.length - 1]?.date}`);
+  console.log(
+    `📅 Date range: ${timelineEntries[0]?.date} to ${timelineEntries[timelineEntries.length - 1]?.date}`,
+  );
 }
 
 main();
-

@@ -12,25 +12,27 @@ Personal digital garden at `https://zmoki.xyz` — a living collection of posts,
 
 ## Tech stack
 
-| Layer | Tool | Version |
-|-------|------|---------|
-| Framework | Astro | ^5.16 |
-| Language | TypeScript | via Astro |
-| Styling | Tailwind CSS + @tailwindcss/typography | ^3 |
-| Content | MDX via @astrojs/mdx | — |
-| Fonts | Noto Sans, Noto Sans Mono | Google Fonts |
-| Analytics | PostHog | posthog-js |
-| Email/Forms | Brevo | — |
-| OG images | Puppeteer (script) | — |
-| RSS | @astrojs/rss | — |
-| Syntax highlighting | Shiki, theme: `catppuccin-latte` | — |
-| Performance | Lighthouse CI (@lhci/cli) | — |
-| Formatting | Prettier + prettier-plugin-astro + prettier-plugin-tailwindcss | — |
+| Layer               | Tool                                                           | Version      |
+| ------------------- | -------------------------------------------------------------- | ------------ |
+| Framework           | Astro                                                          | ^5.16        |
+| Language            | TypeScript                                                     | via Astro    |
+| Styling             | Tailwind CSS + @tailwindcss/typography                         | ^3           |
+| Content             | MDX via @astrojs/mdx                                           | —            |
+| Fonts               | Noto Sans, Noto Sans Mono                                      | Google Fonts |
+| Analytics           | PostHog                                                        | posthog-js   |
+| Email/Forms         | Brevo                                                          | —            |
+| OG images           | Puppeteer (script)                                             | —            |
+| RSS                 | @astrojs/rss                                                   | —            |
+| Syntax highlighting | Shiki, theme: `catppuccin-latte`                               | —            |
+| Performance         | Lighthouse CI (@lhci/cli)                                      | —            |
+| Formatting          | Prettier + prettier-plugin-astro + prettier-plugin-tailwindcss | —            |
 
 Dev server default port is **4321**. When running multiple worktrees simultaneously, derive a stable per-worktree port with:
+
 ```bash
 PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
 ```
+
 A project run skill is at `.claude/skills/run/SKILL.md` — use `/run` to launch the app.
 
 ---
@@ -46,21 +48,39 @@ npm run timeline:feed    # generate feed-timeline.csv
 npm run lhci:mobile      # Lighthouse CI mobile
 npm run lhci:desktop     # Lighthouse CI desktop
 npm run format           # Prettier format all files
+npm run format:check     # Prettier check (used in CI)
 npm run check            # TypeScript type check (astro check)
 npm run lint             # ESLint
 ```
+
+## CI
+
+GitHub Actions workflow at `.github/workflows/ci.yml` runs on every push and PR to `main`:
+
+1. **Format check** — `npm run format:check`
+2. **Type check** — `npm run check`
+3. **Lint** — `npm run lint`
+4. **Build** — `npm run build`
+
+Required GitHub secrets for the build step: `PUBLIC_POSTHOG_PROJECT_TOKEN`, `PUBLIC_POSTHOG_HOST`, `PUBLIC_BREVO_ACCOUNT_ID`, `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY`.
+
+A separate `lighthouse.yml` workflow runs Lighthouse CI after every push to `main`.
+
+---
 
 ## Type checking & linting
 
 **Type check** — `npm run check` runs `astro check`, which wraps the TypeScript language server and handles `.astro` files correctly (plain `tsc` does not).
 
 **Linting** — `npm run lint` runs ESLint with:
+
 - `eslint-plugin-astro` — Astro-specific rules
 - `@typescript-eslint` — TypeScript rules
 
 Config: `eslint.config.mjs`. Ignores: `dist/`, `.astro/`, `node_modules/`, `.claude/`.
 
 Conventions:
+
 - Prefix intentionally unused function params/vars with `_` to satisfy `no-unused-vars`
 - Vendor scripts (e.g. `posthog.astro`) use `/* eslint-disable */` inline
 
@@ -69,14 +89,17 @@ Conventions:
 ## Formatting
 
 Prettier is configured in `.prettierrc` with two plugins:
+
 - **`prettier-plugin-astro`** — parses `.astro` files
 - **`prettier-plugin-tailwindcss`** — sorts Tailwind classes automatically
 
 Key rules:
+
 - `.md` / `.mdx` files: `proseWrap: preserve` (don't reflow markdown prose)
 - `.astro` files: use the `astro` parser
 
 Run formatter:
+
 ```bash
 npm run format
 ```
@@ -91,11 +114,11 @@ npm run format
 
 ```ts
 {
-  order: number           // sort order (higher = newer), used for prev/next nav
-  title: string
-  description: string
-  publishDate: Date
-  contentModifiedDate: Date
+  order: number; // sort order (higher = newer), used for prev/next nav
+  title: string;
+  description: string;
+  publishDate: Date;
+  contentModifiedDate: Date;
 }
 ```
 
@@ -133,10 +156,10 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 
 ```ts
 {
-  title: string
-  description: string
-  publishDate: Date
-  contentModifiedDate: Date
+  title: string;
+  description: string;
+  publishDate: Date;
+  contentModifiedDate: Date;
 }
 ```
 
@@ -164,6 +187,7 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 ### `BaseLayout.astro`
 
 Props:
+
 ```ts
 {
   title: string
@@ -193,18 +217,18 @@ Exist but follow the same `BaseLayout` wrapper pattern.
 
 These are the real colors used in the codebase — not the brand blueprint colors:
 
-| Name | Hex | Used for |
-|------|-----|----------|
-| myblue-900 | #001d2e | primary text, prose headings/body |
-| brand blue | #0098f2 | header bg, hero bg, accent borders |
-| hot pink | #f20098 | Author sidebar, post author bio (md+) |
-| orange | #f24500 | Contact sidebar, external link text color |
-| green | #00cb4b | Copy button, resource link text color |
-| green alt | #00f25a | Resource link color in sidebar |
-| prose link | #1a9eec | in-content link color |
-| slate-200 | — | body background |
-| slate-700 | — | Resources / Recent posts sidebars |
-| slate-50 | — | post content bg, article header bg |
+| Name       | Hex     | Used for                                  |
+| ---------- | ------- | ----------------------------------------- |
+| myblue-900 | #001d2e | primary text, prose headings/body         |
+| brand blue | #0098f2 | header bg, hero bg, accent borders        |
+| hot pink   | #f20098 | Author sidebar, post author bio (md+)     |
+| orange     | #f24500 | Contact sidebar, external link text color |
+| green      | #00cb4b | Copy button, resource link text color     |
+| green alt  | #00f25a | Resource link color in sidebar            |
+| prose link | #1a9eec | in-content link color                     |
+| slate-200  | —       | body background                           |
+| slate-700  | —       | Resources / Recent posts sidebars         |
+| slate-50   | —       | post content bg, article header bg        |
 
 ### Tailwind custom colors
 
@@ -240,11 +264,11 @@ Also uses `remark-definition-list` for `<dl>`/`<dt>`/`<dd>` support in MDX.
 
 ## Analytics events (PostHog)
 
-| Event | Where fired | Properties |
-|-------|-------------|------------|
-| `contact_email_clicked` | BaseLayout inline script | `email` |
+| Event                     | Where fired              | Properties                      |
+| ------------------------- | ------------------------ | ------------------------------- |
+| `contact_email_clicked`   | BaseLayout inline script | `email`                         |
 | `post_navigation_clicked` | PostLayout inline script | `direction`, `destination_slug` |
-| `code_block_copied` | PostLayout inline script | `snippet_length` |
+| `code_block_copied`       | PostLayout inline script | `snippet_length`                |
 
 PostHog captures all listed events plus pageviews automatically.
 
@@ -252,19 +276,19 @@ PostHog captures all listed events plus pageviews automatically.
 
 ## Components
 
-| Component | Purpose |
-|-----------|---------|
-| `BaseLayout.astro` | Shell: grid, meta, sidebars, analytics |
-| `PostLayout.astro` | Blog post wrapper |
-| `PostCard.astro` | Post list item on index page |
-| `PostImage.astro` | Image with caption in posts |
-| `RawVideo.astro` | Video embed |
-| `Video.astro` | Video with controls |
-| `BrevoForm.astro` | Email signup form (Brevo) |
+| Component            | Purpose                                           |
+| -------------------- | ------------------------------------------------- |
+| `BaseLayout.astro`   | Shell: grid, meta, sidebars, analytics            |
+| `PostLayout.astro`   | Blog post wrapper                                 |
+| `PostCard.astro`     | Post list item on index page                      |
+| `PostImage.astro`    | Image with caption in posts                       |
+| `RawVideo.astro`     | Video embed                                       |
+| `Video.astro`        | Video with controls                               |
+| `BrevoForm.astro`    | Email signup form (Brevo)                         |
 | `ResourceLink.astro` | Renders a resource link in sidebar/resource pages |
-| `ThemeToggle.astro` | (present but may be unused/wip) |
-| `Time.astro` | Renders `<time>` element with formatted date |
-| `posthog.astro` | PostHog init script (injected in `<head>`) |
+| `ThemeToggle.astro`  | (present but may be unused/wip)                   |
+| `Time.astro`         | Renders `<time>` element with formatted date      |
+| `posthog.astro`      | PostHog init script (injected in `<head>`)        |
 
 ---
 
@@ -275,12 +299,14 @@ PostHog captures all listed events plus pageviews automatically.
 **Production branch:** `main` — every push to `main` triggers a Cloudflare Pages deploy. No preview branches.
 
 **Infrastructure as code:** Cloudflare account, DNS zones (including `zmoki.xyz`), and Pages config are managed via Terraform in a separate repo:
+
 - GitHub: `https://github.com/Zmoki/my-infrastructure`
 - Local path: `~/Projects/Zmoki/my-infrastructure/`
 
 If DNS, zone settings, or Cloudflare Pages project config need changing, edit the Terraform config in that repo — not the Cloudflare dashboard directly.
 
 **`public/_headers`** — HTTP response headers applied by Cloudflare Pages per URL pattern. Current rules:
+
 - `/-/astro/*` and `/thank-you/*` — `X-Robots-Tag: noindex`
 - `/*` — `Content-Security-Policy` and `Permissions-Policy`
 
@@ -298,13 +324,13 @@ Edit this file directly for redirect changes (not Terraform).
 
 Current variables:
 
-| Variable | Required | Purpose |
-|---|---|---|
-| `PUBLIC_POSTHOG_PROJECT_TOKEN` | No | PostHog analytics token |
-| `PUBLIC_POSTHOG_HOST` | No | PostHog host URL |
-| `PUBLIC_ANALYTICS_ENABLED` | No | Set to `"false"` to disable PostHog in dev |
-| `PUBLIC_BREVO_ACCOUNT_ID` | No | Brevo email form integration |
-| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No | Cloudflare Turnstile bot protection |
+| Variable                               | Required | Purpose                                    |
+| -------------------------------------- | -------- | ------------------------------------------ |
+| `PUBLIC_POSTHOG_PROJECT_TOKEN`         | No       | PostHog analytics token                    |
+| `PUBLIC_POSTHOG_HOST`                  | No       | PostHog host URL                           |
+| `PUBLIC_ANALYTICS_ENABLED`             | No       | Set to `"false"` to disable PostHog in dev |
+| `PUBLIC_BREVO_ACCOUNT_ID`              | No       | Brevo email form integration               |
+| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No       | Cloudflare Turnstile bot protection        |
 
 When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment.
 

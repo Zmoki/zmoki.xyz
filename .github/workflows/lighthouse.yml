@@ -16,8 +16,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -54,50 +54,49 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            
+
             // Read the latest lighthouse results
             const resultsPath = '.lighthouseci';
             if (!fs.existsSync(resultsPath)) {
               console.log('No lighthouse results found');
               return;
             }
-            
+
             const files = fs.readdirSync(resultsPath);
             const jsonFiles = files.filter(file => file.endsWith('.json'));
-            
+
             if (jsonFiles.length === 0) {
               console.log('No JSON results found');
               return;
             }
-            
+
             // Read the most recent result
             const latestFile = jsonFiles.sort().pop();
             const results = JSON.parse(fs.readFileSync(path.join(resultsPath, latestFile), 'utf8'));
-            
+
             // Extract scores
             const scores = results.categories;
             const performance = Math.round(scores.performance.score * 100);
             const accessibility = Math.round(scores.accessibility.score * 100);
             const bestPractices = Math.round(scores['best-practices'].score * 100);
             const seo = Math.round(scores.seo.score * 100);
-            
+
             // Create comment
             const comment = `## 🚀 Lighthouse CI Results
-            
+
             | Category | Score |
             |----------|-------|
             | Performance | ${performance}/100 |
             | Accessibility | ${accessibility}/100 |
             | Best Practices | ${bestPractices}/100 |
             | SEO | ${seo}/100 |
-            
+
             📊 [View detailed reports](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
             `;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: comment
             });
-
