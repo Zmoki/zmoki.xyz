@@ -20,23 +20,26 @@ Astro dev server. No build step needed for local verification.
 
 ## Run
 
+**Before starting, ask the user:** "Do you want analytics (PostHog + Plausible) enabled or disabled for this session?"
+
+- **Enabled** (default) — real events will be sent to PostHog and Plausible
+- **Disabled** — set `PUBLIC_ANALYTICS_ENABLED=false` to keep dev traffic out of production data
+
 Derive a stable port from the working directory so multiple worktrees can run simultaneously without conflict:
 
 ```bash
 PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
 ```
 
-Start the dev server in the background (analytics disabled by default to avoid polluting production data):
+Start the dev server in the background:
 
 ```bash
-PUBLIC_ANALYTICS_ENABLED=false npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
-ZMOKI_PID=$!
-```
-
-To run with analytics enabled (e.g. testing tracking):
-
-```bash
+# analytics enabled (default):
 npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
+ZMOKI_PID=$!
+
+# analytics disabled:
+PUBLIC_ANALYTICS_ENABLED=false npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
 ZMOKI_PID=$!
 ```
 
