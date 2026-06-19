@@ -1,10 +1,11 @@
 ---
 import BrandLayout from "@/layouts/BrandLayout.astro";
-import { colors as colorTokens } from "@/design-tokens.mjs";
+import { accents, neutrals } from "@/design-tokens.mjs";
 
 // Pull the real tokens straight from the shared design-tokens module so
 // this page can never drift from what Tailwind actually generates.
-const colors = colorTokens as Record<string, Record<string, string>>;
+const accentScales = accents as Record<string, Record<string, string>>;
+const neutralTokens = neutrals as Record<string, string>;
 
 // Human-readable metadata layered on top of the raw token values.
 const families = [
@@ -32,16 +33,31 @@ const families = [
     role: "External — outbound links, Contact panel",
     base: 500,
   },
+  {
+    key: "zmoki-lemon",
+    label: "Lemon",
+    role: "Highlight — marker behind headings (404, callouts)",
+    base: 500,
+  },
 ] as const;
 
+const neutralRoles = [
+  { key: "zmoki-bg", label: "Background", role: "Page background" },
+  { key: "zmoki-surface", label: "Surface", role: "Cards & panels" },
+  { key: "zmoki-ink", label: "Ink", role: "Primary text" },
+  { key: "zmoki-muted", label: "Muted", role: "Meta & secondary text" },
+];
+
 const swatchesFor = (key: string) =>
-  Object.entries(colors[key] ?? {})
+  Object.entries(accentScales[key] ?? {})
     .map(([shade, hex]) => ({ shade: Number(shade), hex }))
     .sort((a, b) => a.shade - b.shade);
 ---
 
 <BrandLayout title="Brand — Color" description="zmoki.xyz brand color palette and tokens">
-  <header class="mb-8 rounded-xl bg-zmoki-magenta-500 px-6 py-10 text-slate-50 shadow-md md:px-10">
+  <header
+    class="mb-8 rounded-xl bg-zmoki-magenta-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
+  >
     <a
       href="/-/astro/brand/"
       class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
@@ -49,17 +65,19 @@ const swatchesFor = (key: string) =>
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Color</h1>
     <p class="mt-4 max-w-2xl text-xl md:text-2xl">
-      Four semantic token families. Every color on the site comes from one of these — no inline hex.
+      Five accent families and four structural neutrals. Every color on the site comes from a token
+      — no inline hex.
     </p>
   </header>
 
+  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Accents</h2>
   <div class="space-y-6">
     {
       families.map((family) => {
         const swatches = swatchesFor(family.key);
-        const base = colors[family.key]?.[String(family.base)];
+        const base = accentScales[family.key]?.[String(family.base)];
         return (
-          <section class="rounded-xl bg-white p-6 shadow-md md:p-8">
+          <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
             <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div class="flex items-center gap-4">
                 <span
@@ -67,7 +85,7 @@ const swatchesFor = (key: string) =>
                   style={`background-color: ${base}`}
                 />
                 <div>
-                  <h2 class="text-2xl font-semibold md:text-3xl">{family.label}</h2>
+                  <h3 class="text-2xl font-semibold md:text-3xl">{family.label}</h3>
                   <p class="font-mono text-xs uppercase tracking-normal opacity-60">{family.key}</p>
                 </div>
               </div>
@@ -99,8 +117,35 @@ const swatchesFor = (key: string) =>
     }
   </div>
 
+  <!-- Neutrals -->
+  <h2 class="mb-4 mt-10 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Neutrals</h2>
+  <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {
+        neutralRoles.map(({ key, label, role }) => (
+          <div class="overflow-hidden rounded-lg border border-slate-200">
+            <div class="h-20" style={`background-color: ${neutralTokens[key]}`} />
+            <div class="space-y-0.5 px-3 py-2">
+              <p class="text-sm font-semibold">{label}</p>
+              <p class="font-mono text-xs lowercase opacity-60">{key}</p>
+              <p class="font-mono text-xs uppercase tracking-normal opacity-60">
+                {neutralTokens[key]}
+              </p>
+              <p class="pt-1 text-xs opacity-70">{role}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-4 text-sm opacity-60">
+      Supporting greys (borders, dark panels, code blocks) use Tailwind <code class="font-mono"
+        >slate-*</code
+      > directly.
+    </p>
+  </section>
+
   <!-- Usage in code -->
-  <section class="mt-6 rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md md:p-8">
+  <section class="mt-6 rounded-xl bg-slate-700 p-6 text-zmoki-surface shadow-md md:p-8">
     <h2 class="mb-4 text-2xl font-semibold md:text-3xl">Usage</h2>
     <p class="mb-4 opacity-90">
       Reference tokens as Tailwind utilities. Reach for the <code
@@ -123,6 +168,14 @@ const swatchesFor = (key: string) =>
       <li>
         <span class="text-zmoki-azure-300">bg-zmoki-flame-500</span>
         <span class="opacity-60">— Contact panel, external links</span>
+      </li>
+      <li>
+        <span class="text-zmoki-azure-300">bg-zmoki-lemon-500</span>
+        <span class="opacity-60">— heading highlight / marker</span>
+      </li>
+      <li>
+        <span class="text-zmoki-azure-300">bg-zmoki-surface</span>
+        <span class="opacity-60">— cards & panels (text-zmoki-ink / -muted)</span>
       </li>
     </ul>
   </section>
