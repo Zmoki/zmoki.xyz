@@ -46,7 +46,25 @@ npm run timeline:feed    # generate feed-timeline.csv
 npm run lhci:mobile      # Lighthouse CI mobile
 npm run lhci:desktop     # Lighthouse CI desktop
 npm run format           # Prettier format all files
+npm run check            # TypeScript type check (astro check)
+npm run lint             # ESLint
 ```
+
+## Type checking & linting
+
+**Type check** — `npm run check` runs `astro check`, which wraps the TypeScript language server and handles `.astro` files correctly (plain `tsc` does not).
+
+**Linting** — `npm run lint` runs ESLint with:
+- `eslint-plugin-astro` — Astro-specific rules
+- `@typescript-eslint` — TypeScript rules
+
+Config: `eslint.config.mjs`. Ignores: `dist/`, `.astro/`, `node_modules/`, `.claude/`.
+
+Conventions:
+- Prefix intentionally unused function params/vars with `_` to satisfy `no-unused-vars`
+- Vendor scripts (e.g. `posthog.astro`) use `/* eslint-disable */` inline
+
+---
 
 ## Formatting
 

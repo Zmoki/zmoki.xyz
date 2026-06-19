@@ -9,7 +9,8 @@ export interface Props {
 
 const { slug, class: className } = Astro.props;
 
-const resource: CollectionEntry<"resources"> = await getEntry("resources", slug);
+const resource = await getEntry("resources", slug);
+if (!resource) throw new Error(`Resource not found: ${slug}`);
 
 const href = resource.data.type === "link" ? resource.data.url : `/resources/${slug}/`;
 ---

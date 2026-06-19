@@ -44,7 +44,7 @@ function convertRelativeUrlsToAbsolute(html: string, siteUrl: string): string {
  * Converts MDX components to HTML for RSS feed
  * Handles <Image> and <Video> components using regex parsing
  */
-function convertMdxComponentsToHtml(content: string, siteUrl: string, postSlug: string): string {
+function convertMdxComponentsToHtml(content: string, _siteUrl: string, _postSlug: string): string {
   let processed = content;
 
   // First, handle <figure> tags with Image components - process them as a unit

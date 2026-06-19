@@ -9,6 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "clean": "rm -rf dist node_modules",
     "og:generate": "node scripts/generate-og-images.mjs",
@@ -35,10 +37,15 @@
     "unist-util-visit-parents": "^6.0.2"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@lhci/cli": "^0.15.1",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^24.10.1",
     "@types/sanitize-html": "^2.16.0",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
+    "eslint": "^10.5.0",
+    "eslint-plugin-astro": "^1.7.0",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2"
