@@ -242,7 +242,17 @@ Env var required: `PUBLIC_PLAUSIBLE_DOMAIN`
 - GitHub: `https://github.com/Zmoki/my-infrastructure`
 - Local path: `~/Projects/Zmoki/my-infrastructure/`
 
-If DNS, redirect rules, headers, zone settings, or Cloudflare Pages config need changing, edit the Terraform config in that repo — not the Cloudflare dashboard directly.
+If DNS, zone settings, or Cloudflare Pages project config need changing, edit the Terraform config in that repo — not the Cloudflare dashboard directly.
+
+**`public/_headers`** — HTTP response headers applied by Cloudflare Pages per URL pattern. Current rules:
+- `/-/astro/*` and `/thank-you/*` — `X-Robots-Tag: noindex`
+- `/*` — `Content-Security-Policy` and `Permissions-Policy`
+
+Edit this file directly for header changes (not Terraform).
+
+**`public/_redirects`** — URL redirects handled by Cloudflare Pages. Format: `<from> <to> <status>`. Current entries are legacy slug redirects (301) and one external resource redirect (302).
+
+Edit this file directly for redirect changes (not Terraform).
 
 ---
 
