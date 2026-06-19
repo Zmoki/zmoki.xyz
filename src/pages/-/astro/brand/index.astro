@@ -1,14 +1,14 @@
 ---
 import BrandLayout from "@/layouts/BrandLayout.astro";
-import { colors as colorTokens } from "@/design-tokens.mjs";
+import { accents } from "@/design-tokens.mjs";
 
-const colors = colorTokens as Record<string, Record<string, string>>;
+const accentScales = accents as Record<string, Record<string, string>>;
 
 // Base swatch for each family, in display order — used for the palette
 // preview strip in the hero.
 const palettePreview = ["zmoki-azure", "zmoki-magenta", "zmoki-jade", "zmoki-flame"].map((key) => ({
   key,
-  hex: colors[key]?.["500"],
+  hex: accentScales[key]?.["500"],
 }));
 
 // Sections of the design system. `href` null = not built yet.
