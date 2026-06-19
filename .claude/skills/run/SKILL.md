@@ -20,21 +20,27 @@ Astro dev server. No build step needed for local verification.
 
 ## Run
 
+Derive a stable port from the working directory so multiple worktrees can run simultaneously without conflict:
+
+```bash
+PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
+```
+
 Start the dev server in the background:
 
 ```bash
-npm run dev &> /tmp/zmoki-dev.log &
+npm run dev -- --port $PORT &> /tmp/zmoki-dev.log &
 ZMOKI_PID=$!
 ```
 
-The server listens on port **4321**. Wait for it to be ready and verify via the health endpoint:
+Wait for it to be ready and verify via the health endpoint:
 
 ```bash
 for i in {1..20}; do
-  curl -sf http://localhost:4321/-/astro/health > /dev/null && break
+  curl -sf http://localhost:$PORT/-/astro/health > /dev/null && break
   sleep 1
 done
-curl -s http://localhost:4321/-/astro/health
+curl -s http://localhost:$PORT/-/astro/health
 # → ok
 # → <short commit hash>
 ```
@@ -42,24 +48,24 @@ curl -s http://localhost:4321/-/astro/health
 Open in browser:
 
 ```bash
-open http://localhost:4321/
+open http://localhost:$PORT/
 ```
 
 Logs are at `/tmp/zmoki-dev.log`. Stop with:
 
 ```bash
 kill $ZMOKI_PID
-# or, if the PID is lost:
-pkill -f "astro dev"
+# or, if the PID is lost — kills only what's on this port:
+lsof -ti :$PORT | xargs kill
 ```
 
 ## Key routes to check
 
 | Route | What it tests |
 |---|---|
-| `http://localhost:4321/-/astro/health` | Health check — returns "ok" + commit hash |
-| `http://localhost:4321/` | Homepage — post list |
-| `http://localhost:4321/feed/<slug>/` | Individual post (PostLayout) |
-| `http://localhost:4321/resources/` | Resources index |
-| `http://localhost:4321/now/` | Now page |
-| `http://localhost:4321/rss.xml` | RSS feed |
+| `http://localhost:$PORT/-/astro/health` | Health check — returns "ok" + commit hash |
+| `http://localhost:$PORT/` | Homepage — post list |
+| `http://localhost:$PORT/feed/<slug>/` | Individual post (PostLayout) |
+| `http://localhost:$PORT/resources/` | Resources index |
+| `http://localhost:$PORT/now/` | Now page |
+| `http://localhost:$PORT/rss.xml` | RSS feed |
