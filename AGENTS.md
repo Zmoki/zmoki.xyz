@@ -178,6 +178,8 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /sitemap.xml             # sitemap
 /og-images/              # generated OG images (public/)
 /-/astro/health          # health check — returns "ok" + short commit hash
+/-/astro/brand/          # brand design system home (internal, noindex)
+/-/astro/brand/color/    # color palette reference (BrandLayout)
 ```
 
 ---
@@ -211,40 +213,50 @@ Wraps `BaseLayout` with `accentColor="blue"`. Props: `title`, `description`, `pu
 
 Exist but follow the same `BaseLayout` wrapper pattern.
 
+### `BrandLayout.astro`
+
+Standalone layout for the internal brand pages under `/-/astro/brand/`. Like `BaseLayout` but **without** the sidebars/header/footer chrome — a single-column canvas. Sets `noindex`, loads the same fonts, uses `bg-zmoki-bg` / `text-zmoki-ink`. Props: `title`, `description?`.
+
 ---
 
-## Color system (actual values)
+## Color system
 
-These are the real colors used in the codebase — not the brand blueprint colors:
+All colors are tokens defined in **`src/design-tokens.mjs`** — the single source of truth, imported by both `tailwind.config.mjs` (to generate utilities) and the brand reference page. Templates use `zmoki-*` utility classes only; **no inline hex**. Live reference: `/-/astro/brand/color/`.
 
-| Name       | Hex     | Used for                                  |
-| ---------- | ------- | ----------------------------------------- |
-| myblue-900 | #001d2e | primary text, prose headings/body         |
-| brand blue | #0098f2 | header bg, hero bg, accent borders        |
-| hot pink   | #f20098 | Author sidebar, post author bio (md+)     |
-| orange     | #f24500 | Contact sidebar, external link text color |
-| green      | #00cb4b | Copy button, resource link text color     |
-| green alt  | #00f25a | Resource link color in sidebar            |
-| prose link | #1a9eec | in-content link color                     |
-| slate-200  | —       | body background                           |
-| slate-700  | —       | Resources / Recent posts sidebars         |
-| slate-50   | —       | post content bg, article header bg        |
+### Accent families (`zmoki-*`)
 
-### Tailwind custom colors
+| Token           | Base    | Role                                                                |
+| --------------- | ------- | ------------------------------------------------------------------- |
+| `zmoki-azure`   | #0098f2 | Primary — links, nav, hero. Full 200–950 scale; 900 (#001d2e) = ink |
+| `zmoki-magenta` | #f20098 | Brand signature — favicon, Author panel, highlights (200/400–700)   |
+| `zmoki-jade`    | #00f25a | Resources & actions — resource links, form/copy buttons             |
+| `zmoki-flame`   | #f24500 | External — outbound links, Contact panel                            |
+| `zmoki-lemon`   | #fde047 | Highlight — marker behind headings (404, callouts)                  |
 
-```js
-myblue: { 200, 300, 400, 500 (#07a3ff), 600, 700, 800, 900 (#001d2e), 950 }
-myorange: { 500: "#ff8035" }
-mypink: { 200, 400, 500, 600, 700 }
-```
+### Neutrals (single-value tokens)
+
+| Token           | Hex     | Role                                   |
+| --------------- | ------- | -------------------------------------- |
+| `zmoki-bg`      | #e2e8f0 | Page background                        |
+| `zmoki-surface` | #f8fafc | Cards & panels (the one surface color) |
+| `zmoki-ink`     | #001d2e | Primary text (mirrors zmoki-azure-900) |
+| `zmoki-muted`   | #475569 | Meta / secondary text                  |
+
+Supporting greys use Tailwind `slate-*` directly: borders, dark panels (`slate-700`), code-block bg (`slate-900`), and inverse light text (`slate-50` on colored panels). The header logo scrim keeps `bg-white/10`.
+
+### `accentColor` prop
+
+`BaseLayout` accepts `accentColor: "gray" | "blue" | "green" | "orange" | "pink"`, mapping to `slate` / `zmoki-azure` / `zmoki-jade` / `zmoki-flame` / `zmoki-magenta` for the article accent bar and go-to-top hover.
 
 ### Prose typography overrides
 
-- Headings/body/bold: #001d2e
-- Links: #1a9eec, dotted bottom border 4px
-- `[data-external]` links: #f24500
-- `[data-resource]` links: #00cb4b
-- `[data-anchor]` links: #001d2e, dashed bottom border 2px
+Set in `tailwind.config.mjs`, referencing the design tokens:
+
+- Headings/body/bold: `zmoki-ink`
+- Links: `zmoki-azure-500`, dotted bottom border 4px
+- `[data-external]` links: `zmoki-flame-500`
+- `[data-resource]` links: `zmoki-jade-500`
+- `[data-anchor]` links: `zmoki-ink`, dashed bottom border 2px
 
 ---
 
@@ -286,7 +298,6 @@ PostHog captures all listed events plus pageviews automatically.
 | `Video.astro`        | Video with controls                               |
 | `BrevoForm.astro`    | Email signup form (Brevo)                         |
 | `ResourceLink.astro` | Renders a resource link in sidebar/resource pages |
-| `ThemeToggle.astro`  | (present but may be unused/wip)                   |
 | `Time.astro`         | Renders `<time>` element with formatted date      |
 | `posthog.astro`      | PostHog init script (injected in `<head>`)        |
 
