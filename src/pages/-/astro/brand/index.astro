@@ -1,0 +1,89 @@
+---
+import BrandLayout from "@/layouts/BrandLayout.astro";
+import { colors as colorTokens } from "@/design-tokens.mjs";
+
+const colors = colorTokens as Record<string, Record<string, string>>;
+
+// Base swatch for each family, in display order — used for the palette
+// preview strip in the hero.
+const palettePreview = ["zmoki-azure", "zmoki-magenta", "zmoki-jade", "zmoki-flame"].map((key) => ({
+  key,
+  hex: colors[key]?.["500"],
+}));
+
+// Sections of the design system. `href` null = not built yet.
+const sections = [
+  {
+    title: "Color",
+    summary: "Four semantic token families and the full shade scale.",
+    href: "/-/astro/brand/color/",
+    accent: "bg-zmoki-magenta-500",
+  },
+  {
+    title: "Typography",
+    summary: "Type scale, weights, and the Noto Sans / Noto Sans Mono pairing.",
+    href: null,
+    accent: "bg-zmoki-azure-500",
+  },
+  {
+    title: "Components",
+    summary: "Cards, panels, links, and buttons as reusable building blocks.",
+    href: null,
+    accent: "bg-zmoki-jade-500",
+  },
+  {
+    title: "Voice & tone",
+    summary: "How the digital garden sounds — curious, plain, personal.",
+    href: null,
+    accent: "bg-zmoki-flame-500",
+  },
+];
+---
+
+<BrandLayout
+  title="Brand — zmoki.xyz design system"
+  description="The brand and design system guideline for zmoki.xyz"
+>
+  <header class="mb-8 overflow-hidden rounded-xl bg-zmoki-azure-900 text-slate-50 shadow-md">
+    <div class="px-6 py-10 md:px-10 md:py-14">
+      <p class="font-mono text-xs uppercase tracking-normal opacity-70">zmoki.xyz</p>
+      <h1 class="mt-2 text-4xl font-semibold md:text-6xl">Design system</h1>
+      <p class="mt-4 max-w-2xl text-xl md:text-2xl">
+        The living guideline for how the digital garden looks and feels. One source of truth for
+        color, type, and components.
+      </p>
+    </div>
+    <div class="flex h-3">
+      {palettePreview.map(({ hex }) => <span class="flex-1" style={`background-color: ${hex}`} />)}
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    {
+      sections.map((section) =>
+        section.href ? (
+          <a
+            href={section.href}
+            class="group flex flex-col gap-3 rounded-xl bg-white p-6 shadow-md transition-transform hover:-translate-y-1 md:p-8"
+          >
+            <span class={`h-2 w-12 rounded-full ${section.accent}`} />
+            <h2 class="text-2xl font-semibold md:text-3xl">
+              <span class="border-b-4 border-dotted border-current">{section.title}</span>
+            </h2>
+            <p class="opacity-80">{section.summary}</p>
+            <span class="mt-2 font-mono text-xs uppercase tracking-normal opacity-60">View →</span>
+          </a>
+        ) : (
+          <div class="flex flex-col gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-white/50 p-6 md:p-8">
+            <span class={`h-2 w-12 rounded-full opacity-30 ${section.accent}`} />
+            <h2 class="text-2xl font-semibold opacity-50 md:text-3xl">{section.title}</h2>
+            <p class="opacity-50">{section.summary}</p>
+            <span class="mt-2 font-mono text-xs uppercase tracking-normal opacity-40">
+              Coming soon
+            </span>
+          </div>
+        ),
+      )
+    }
+  </div>
+</BrandLayout>
