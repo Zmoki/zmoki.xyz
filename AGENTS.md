@@ -27,7 +27,11 @@ Personal digital garden at `https://zmoki.xyz` — a living collection of posts,
 | Performance | Lighthouse CI (@lhci/cli) | — |
 | Formatting | Prettier + prettier-plugin-astro + prettier-plugin-tailwindcss | — |
 
-Dev server runs on port **4321**.
+Dev server default port is **4321**. When running multiple worktrees simultaneously, derive a stable per-worktree port with:
+```bash
+PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
+```
+A project run skill is at `.claude/skills/run/SKILL.md` — use `/run` to launch the app.
 
 ---
 
@@ -112,6 +116,7 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /rss.xml                 # RSS feed
 /sitemap.xml             # sitemap
 /og-images/              # generated OG images (public/)
+/-/astro/health          # health check — returns "ok" + short commit hash
 ```
 
 ---
