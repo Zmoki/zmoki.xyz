@@ -19,10 +19,19 @@ Astro dev server. No build step needed for local verification.
 
 ## Run
 
-**Before starting, ask the user:** "Do you want analytics (PostHog) enabled or disabled for this session?"
+**Before starting, use the `AskUserQuestion` tool to ask:**
 
-- **Enabled** (default) — real events will be sent to PostHog
-- **Disabled** — set `PUBLIC_ANALYTICS_ENABLED=false` to keep dev traffic out of production data
+```
+question: "Do you want analytics enabled for this session?"
+header: "Analytics"
+options:
+  - label: "Disabled"
+    description: "Set PUBLIC_ANALYTICS_ENABLED=false — keeps dev traffic out of PostHog"
+  - label: "Enabled"
+    description: "Real events will be sent to PostHog"
+```
+
+Use the answer to pick the correct start command below.
 
 Derive a stable port from the working directory so multiple worktrees can run simultaneously without conflict:
 
@@ -52,12 +61,6 @@ done
 curl -s http://localhost:$PORT/-/astro/health
 # → ok
 # → <short commit hash>
-```
-
-Open in browser:
-
-```bash
-open http://localhost:$PORT/
 ```
 
 Logs are at `/tmp/zmoki-dev.log`. Stop with:
