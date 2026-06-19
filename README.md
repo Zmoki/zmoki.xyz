@@ -87,8 +87,16 @@ Content is written in MDX and Markdown files in the `src/content/` directory. Th
 - `RawVideo` - Video player with autoplay and responsive design
 - `Video` - Enhanced video component
 - `PostCard` - Card component for displaying posts
-- `ThemeToggle` - Dark/light theme toggle
 - `BrevoForm` - Newsletter signup form
+
+## Design System
+
+Brand colors are defined as tokens in `src/design-tokens.mjs` — the single source of truth, consumed by both `tailwind.config.mjs` and the brand reference pages. Templates use `zmoki-*` utility classes only; no inline hex.
+
+Browse the living guideline at `/-/astro/brand/` (internal, `noindex`):
+
+- `/-/astro/brand/` - design system overview
+- `/-/astro/brand/color/` - full color palette (accents + neutrals)
 
 ## Performance Monitoring
 
