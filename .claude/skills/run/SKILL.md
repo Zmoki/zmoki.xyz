@@ -71,6 +71,10 @@ curl -s http://localhost:$PORT/-/astro/health
 # → <short commit hash>
 ```
 
+**Do not open a browser or take a screenshot.**
+
+Once healthy, report to the user in plain text: `Server running at http://localhost:$PORT`
+
 Logs are at `/tmp/zmoki-dev.log`. Stop with:
 
 ```bash
