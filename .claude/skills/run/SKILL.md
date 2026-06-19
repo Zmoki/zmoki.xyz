@@ -27,20 +27,16 @@ npm run dev &> /tmp/zmoki-dev.log &
 ZMOKI_PID=$!
 ```
 
-The server listens on port **4321**. Wait for it to be ready:
+The server listens on port **4321**. Wait for it to be ready and verify via the health endpoint:
 
 ```bash
 for i in {1..20}; do
-  curl -sf http://localhost:4321/ > /dev/null && break
+  curl -sf http://localhost:4321/-/astro/health > /dev/null && break
   sleep 1
 done
-```
-
-Verify it is up:
-
-```bash
-curl -s -o /dev/null -w "%{http_code}" http://localhost:4321/
-# → 200
+curl -s http://localhost:4321/-/astro/health
+# → ok
+# → <short commit hash>
 ```
 
 Open in browser:
@@ -61,6 +57,7 @@ pkill -f "astro dev"
 
 | Route | What it tests |
 |---|---|
+| `http://localhost:4321/-/astro/health` | Health check — returns "ok" + commit hash |
 | `http://localhost:4321/` | Homepage — post list |
 | `http://localhost:4321/feed/<slug>/` | Individual post (PostLayout) |
 | `http://localhost:4321/resources/` | Resources index |
