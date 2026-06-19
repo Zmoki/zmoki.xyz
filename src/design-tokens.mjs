@@ -1,9 +1,10 @@
 // Single source of truth for zmoki.xyz brand color tokens.
 // Imported by tailwind.config.mjs (to generate utilities) and by the
-// brand reference page at /-/brand/ (to document them). Keep this file
+// brand reference page at /-/astro/brand/ (to document them). Keep this file
 // free of Node-only APIs (no require) so it is safe to import anywhere.
 
-export const colors = {
+// Accent families — the expressive brand colors. Each has a -500 base.
+export const accents = {
   // zmoki-azure: primary links, navigation, hero sections, ink (900)
   "zmoki-azure": {
     200: "#b7e5ff",
@@ -32,4 +33,22 @@ export const colors = {
   "zmoki-flame": {
     500: "#f24500",
   },
+  // zmoki-lemon: highlight / marker behind headings (404, callouts)
+  "zmoki-lemon": {
+    500: "#fde047",
+  },
+};
+
+// Neutrals — the structural palette. Flat single values, one per role.
+export const neutrals = {
+  "zmoki-bg": "#e2e8f0", // page background
+  "zmoki-surface": "#f8fafc", // cards & panels
+  "zmoki-ink": "#001d2e", // primary text (mirrors zmoki-azure-900)
+  "zmoki-muted": "#475569", // muted / meta text
+};
+
+// Merged map consumed by Tailwind.
+export const colors = {
+  ...accents,
+  ...neutrals,
 };

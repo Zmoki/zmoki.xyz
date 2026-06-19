@@ -32,23 +32,23 @@ export default {
       typography: () => ({
         DEFAULT: {
           css: {
-            "--tw-prose-headings": "#001d2e",
-            "--tw-prose-body": "#001d2e",
-            "--tw-prose-bold": "#001d2e",
-            "--tw-prose-links": "#0098f2",
+            "--tw-prose-headings": brandColors["zmoki-ink"],
+            "--tw-prose-body": brandColors["zmoki-ink"],
+            "--tw-prose-bold": brandColors["zmoki-ink"],
+            "--tw-prose-links": brandColors["zmoki-azure"][500],
             a: {
               "border-color": "currentColor",
               "border-bottom-width": "4px",
               "border-style": "dotted",
             },
             "[data-external]": {
-              color: "#f24500",
+              color: brandColors["zmoki-flame"][500],
             },
             "[data-resource]": {
-              color: "#00f25a",
+              color: brandColors["zmoki-jade"][500],
             },
             "[data-anchor]": {
-              color: "#001d2e",
+              color: brandColors["zmoki-ink"],
               "border-style": "dashed",
               "border-bottom-width": "2px",
             },

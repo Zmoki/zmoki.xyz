@@ -64,7 +64,7 @@ const sections = [
         section.href ? (
           <a
             href={section.href}
-            class="group flex flex-col gap-3 rounded-xl bg-white p-6 shadow-md transition-transform hover:-translate-y-1 md:p-8"
+            class="group flex flex-col gap-3 rounded-xl bg-zmoki-surface p-6 shadow-md transition-transform hover:-translate-y-1 md:p-8"
           >
             <span class={`h-2 w-12 rounded-full ${section.accent}`} />
             <h2 class="text-2xl font-semibold md:text-3xl">
@@ -74,7 +74,7 @@ const sections = [
             <span class="mt-2 font-mono text-xs uppercase tracking-normal opacity-60">View →</span>
           </a>
         ) : (
-          <div class="flex flex-col gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-white/50 p-6 md:p-8">
+          <div class="flex flex-col gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-zmoki-surface/50 p-6 md:p-8">
             <span class={`h-2 w-12 rounded-full opacity-30 ${section.accent}`} />
             <h2 class="text-2xl font-semibold opacity-50 md:text-3xl">{section.title}</h2>
             <p class="opacity-50">{section.summary}</p>

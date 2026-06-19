@@ -5,7 +5,7 @@ const { data, slug } = Astro.props as CollectionEntry<"feed">;
 const { title, description, contentModifiedDate } = data;
 ---
 
-<article class="overflow-hidden rounded-lg bg-slate-50 shadow-md">
+<article class="overflow-hidden rounded-lg bg-zmoki-surface shadow-md">
   <a href={`/feed/${slug}/`} class="flex h-full w-full flex-col gap-2 p-6 text-xl md:p-8">
     <h3 class="pb-2 text-2xl font-semibold leading-normal xl:text-3xl">
       <span set:html={title} class="border-b-4 border-dotted border-current" />
