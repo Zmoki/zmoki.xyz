@@ -45,7 +45,25 @@ npm run build:full       # build + og:generate
 npm run timeline:feed    # generate feed-timeline.csv
 npm run lhci:mobile      # Lighthouse CI mobile
 npm run lhci:desktop     # Lighthouse CI desktop
+npm run format           # Prettier format all files
 ```
+
+## Formatting
+
+Prettier is configured in `.prettierrc` with two plugins:
+- **`prettier-plugin-astro`** — parses `.astro` files
+- **`prettier-plugin-tailwindcss`** — sorts Tailwind classes automatically
+
+Key rules:
+- `.md` / `.mdx` files: `proseWrap: preserve` (don't reflow markdown prose)
+- `.astro` files: use the `astro` parser
+
+Run formatter:
+```bash
+npm run format
+```
+
+**Always format before committing.** Tailwind class order is enforced by the plugin — do not reorder classes manually.
 
 ---
 
