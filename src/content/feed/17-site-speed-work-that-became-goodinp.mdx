@@ -1,0 +1,61 @@
+---
+title: "The site speed work I avoided, and how it's becoming GoodINP"
+description: "When I started with my tech SEO client, site speed wasn't part of the deal. Then their INP kept breaking, and fixing it for good became my new project."
+publishDate: "2026-06-20"
+contentModifiedDate: "2026-06-20"
+order: 17
+---
+
+## The work I kept trying not to do
+
+In a past life I was a frontend lead, and one of the things I got genuinely good at was site speed. Squeezing down LCP, chasing layout shifts, making slow pages fast. I can do it well. I just don't enjoy it. Debugging why LCP or CLS is poor is some of the most boring work I know, and it gets worse when the site is legacy code I didn't write, where every fix is an archaeology dig through someone else's decisions.
+
+So when I started working with a client as a tech SEO consultant, we agreed up front that Core Web Vitals were outside our scope. I'd handle the SEO and relevance engineering.
+
+## The boundary I couldn't fully hold
+
+Their site, built on Webflow, was slow. The main culprit was a poor TTFB, the server taking too long to send the first byte. That one I couldn't leave alone, because it sits underneath everything else. But I still didn't want to do the grind myself, so I designed a caching system for their AWS infrastructure and handed their in-house engineers a diagram and a tech spec. They did a great job implementing it (and, I'll say it, the diagram was beautiful). TTFB went green.
+
+And then I forgot about site speed. I didn't even open the Core Web Vitals section of their Search Console. I had plenty of other tech SEO and relevance engineering work to do, and for a long stretch the speed nightmare was simply off my desk.
+
+## The day something broke
+
+Then the content marketing team asked me to look at their CWV report. INP specifically. It had been fine for months, and then on one particular day it just went bad.
+
+Regular readers know [the pattern by now](/feed/7-nerdy-curiosity-better-work/). I get an uneasy feeling, and I fall down a rabbit hole until the data tells me whether the feeling was right. This time I turned into a detective. What exactly happened on this day? I interviewed teammates. I went through the history of Webflow changes. I asked the analytics people who own the Google Tag Manager container whether they'd touched anything around that date. Nobody confessed.
+
+So I had no choice but to open DevTools and do some field analysis myself. And on every hurt page, the single biggest factor behind the bad INP was GTM.
+
+## Opening the container
+
+I requested access, found the changes made around the day INP dropped, and that settled it. The whole problem lived in Google Tag Manager.
+
+So I looked closer. And oh my. The container was huge. Dozens of tags and triggers, most of them firing on every page load, all stacked into one giant mess. Every campaign, every channel, every experiment had added one more tag, and nobody had ever taken one away.
+
+All those tags initializing at once become a single long task on the browser's main thread. The browser can only do one thing at a time there, so while it's busy spinning up tracking pixels, it can't respond to the person who just tapped a button. That delay is exactly what INP measures.
+
+## The fix, and the one rule
+
+Here's the constraint that makes this interesting. I know how much the analytics matter. You cannot just rip tags out. Conversion tracking, form listeners, the analytics config, break those and you've taken away the business's ability to measure itself, which is unforgivable.
+
+So I came up with my own framework for working with triggers and tags without hurting Core Web Vitals, INP in particular. What has to fire immediately stays. Everything else gets staggered, deferred, or merged. I wrote the whole thing up for the analytics team, and we fixed it together. INP went green.
+
+## And then it came back
+
+A few months later, bad INP again. Same cause, GTM. So I fixed it again, and added more instructions for everyone on how to work with the container properly.
+
+A few months after that, yes. Again.
+
+That's when it stopped feeling like a client task and started feeling like a pattern. The marketing team is doing exactly what they're supposed to, adding tags as the business grows. The container grows, the INP slides, someone notices weeks later, and a tech SEO like me gets handed the cleanup. Then it happens again. It's structural, and it's a loop.
+
+## Selling before building
+
+My first instinct was to build a tool that monitors GTM and fixes this on its own. But I've been here before, and building a product before you've validated demand is a good way to waste a year. So before writing any code, I went looking for evidence that the problem is bigger than one client.
+
+I went to my favorite place for this, the public Chrome UX Report, and pulled the origins with poor INP. Now I have a concrete list of exact domains that have the problem I know how to fix. Real domains, sitting in a spreadsheet, ready to call.
+
+So I'm starting with sales. I'm taking my early steps toward finding clients for the manual version of this work, where I fix your INP by hand, the same way I fixed my client's, without ever touching your analytics. If I'm any good at finding those clients and I collect enough cases, that's when I'll build the real product.
+
+In [the Freedom Manifesto](/feed/14-freedom-manifesto/) I wrote about wanting leveraged income, using twenty years of engineering to build systems instead of trading hours for dollars. **[GoodINP](https://goodinp.com/)** is the name I'm giving that ambition. Right now it's me, a list of domains, and a method that works. Later, if the demand is real, it becomes a tool.
+
+It started, like a lot of my best work, with a boring task I didn't want to do and a problem that refused to stay fixed. If your site stutters when people tap to buy and you suspect your tag manager, that's the exact thing I fix, by hand, today. And if you just want to watch a tech SEO try to turn a recurring headache into a product in public, stick around the garden.
