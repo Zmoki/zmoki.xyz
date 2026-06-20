@@ -1,4 +1,5 @@
 import { colors as brandColors } from "./src/design-tokens.mjs";
+import plugin from "tailwindcss/plugin";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -37,6 +38,7 @@ export default {
             "--tw-prose-bold": brandColors["zmoki-ink"],
             "--tw-prose-links": brandColors["zmoki-azure"][500],
             a: {
+              "text-decoration": "none",
               "border-color": "currentColor",
               "border-bottom-width": "4px",
               "border-style": "dotted",
@@ -64,5 +66,25 @@ export default {
       colors: brandColors,
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    // Global link interaction, driven by the brand tokens. Lives in the base
+    // layer so every page inherits identical behavior — no per-layout class
+    // strings to copy or forget (this used to be a `[&_a]` body class on
+    // BaseLayout only, which is why brand pages had dead links).
+    plugin(({ addBase }) => {
+      addBase({
+        a: {
+          "text-decoration": "none",
+          transition: "all 200ms",
+        },
+        "a:hover": {
+          backgroundColor: brandColors["zmoki-azure"][500],
+          color: "#fff",
+          outlineStyle: "solid",
+          outlineColor: brandColors["zmoki-azure"][500],
+        },
+      });
+    }),
+  ],
 };

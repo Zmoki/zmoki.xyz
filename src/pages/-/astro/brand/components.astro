@@ -1,0 +1,198 @@
+---
+import BrandLayout from "@/layouts/BrandLayout.astro";
+
+// Each entry documents one reusable building block with a live example and
+// the canonical Tailwind recipe. The page mirrors the real markup used in
+// BaseLayout / PostLayout / BrevoForm so it can never drift from production.
+const sectionLabel = "mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60";
+---
+
+<BrandLayout
+  title="Brand — Components"
+  description="zmoki.xyz reusable components: cards, links, buttons, panels, and meta labels"
+>
+  <header class="mb-8 rounded-xl bg-zmoki-jade-500 px-6 py-10 text-zmoki-ink shadow-md md:px-10">
+    <a href="/-/astro/brand/" class="font-mono text-xs uppercase tracking-normal opacity-70"
+      >← zmoki.xyz brand</a
+    >
+    <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Components</h1>
+    <p class="mt-4 max-w-2xl text-xl md:text-2xl">
+      The reusable building blocks and their conventions — cards, links, buttons, colored panels,
+      and meta labels. Every example below is the real markup, not a mockup.
+    </p>
+  </header>
+
+  <!-- Cards / panels -->
+  <h2 class={sectionLabel}>Cards &amp; panels</h2>
+  <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <p class="mb-6 max-w-2xl opacity-80">
+      The base surface for everything: <code class="font-mono text-base">rounded-xl</code> +
+      <code class="font-mono text-base">shadow-md</code> +
+      <code class="font-mono text-base">bg-zmoki-surface</code>. Compose them into a bento grid with
+      <code class="font-mono text-base">grid</code> + <code class="font-mono text-base">gap-4</code
+      >.
+    </p>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div class="rounded-xl bg-zmoki-surface p-6 shadow-md ring-1 ring-slate-200">
+        <h3 class="text-xl font-semibold">Card</h3>
+        <p class="mt-2 text-base opacity-80">Single panel of content on the page background.</p>
+      </div>
+      <div class="rounded-xl bg-zmoki-surface p-6 shadow-md ring-1 ring-slate-200 sm:col-span-2">
+        <h3 class="text-xl font-semibold">Wide card</h3>
+        <p class="mt-2 text-base opacity-80">
+          Spans two columns — the bento pattern is just cards of different
+          <code class="font-mono">col-span</code> widths in one grid.
+        </p>
+      </div>
+    </div>
+    <pre
+      class="mt-6 overflow-x-auto rounded-sm bg-slate-900 p-4 font-mono text-xs text-slate-50"><code>&lt;div class="rounded-xl bg-zmoki-surface p-6 shadow-md"&gt;…&lt;/div&gt;</code></pre>
+  </section>
+
+  <!-- Links -->
+  <h2 class={sectionLabel}>Links</h2>
+  <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <p class="mb-6 max-w-2xl opacity-80">
+      Links carry a 4px dotted bottom border and a color that signals their destination. In prose,
+      the <code class="font-mono text-base">data-*</code> attributes are added automatically by the rehype
+      pipeline.
+    </p>
+    <ul class="space-y-4 text-xl">
+      <li>
+        <a href="#" class="border-b-4 border-dotted border-current text-zmoki-azure-500"
+          >Internal link</a
+        >
+        <span class="ml-3 font-mono text-sm uppercase tracking-normal opacity-60"
+          >azure · default</span
+        >
+      </li>
+      <li>
+        <a href="#" class="border-b-4 border-dotted border-current text-zmoki-flame-500"
+          >External link</a
+        >
+        <span class="ml-3 font-mono text-sm uppercase tracking-normal opacity-60"
+          >flame · [data-external]</span
+        >
+      </li>
+      <li>
+        <a href="#" class="border-b-4 border-dotted border-current text-zmoki-jade-500"
+          >Resource link</a
+        >
+        <span class="ml-3 font-mono text-sm uppercase tracking-normal opacity-60"
+          >jade · [data-resource]</span
+        >
+      </li>
+      <li>
+        <a href="#" class="border-b-2 border-dashed border-current text-zmoki-ink">Anchor link</a>
+        <span class="ml-3 font-mono text-sm uppercase tracking-normal opacity-60"
+          >ink · [data-anchor] · dashed 2px</span
+        >
+      </li>
+    </ul>
+  </section>
+
+  <!-- Buttons -->
+  <h2 class={sectionLabel}>Buttons</h2>
+  <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <p class="mb-6 max-w-2xl opacity-80">
+      The single action button: jade fill, white mono uppercase label, subtle hover fade. Used for
+      form submits (BrevoForm) and the code-block copy button.
+    </p>
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        type="button"
+        class="rounded-sm bg-zmoki-jade-500 px-4 py-2 font-mono font-medium uppercase tracking-normal text-white hover:bg-zmoki-jade-500/80"
+        >Subscribe</button
+      >
+      <button
+        type="button"
+        class="rounded-sm bg-zmoki-jade-500 px-3 py-1.5 font-mono text-xs font-medium uppercase tracking-normal text-white transition-colors duration-200 hover:bg-zmoki-jade-500/80"
+        >Copy</button
+      >
+    </div>
+    <pre
+      class="mt-6 overflow-x-auto rounded-sm bg-slate-900 p-4 font-mono text-xs text-slate-50"><code>class="rounded-sm bg-zmoki-jade-500 px-4 py-2 font-mono font-medium uppercase tracking-normal text-white hover:bg-zmoki-jade-500/80"</code></pre>
+  </section>
+
+  <!-- Colored sidebar panels -->
+  <h2 class={sectionLabel}>Colored sidebar panels</h2>
+  <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <p class="mb-6 max-w-2xl opacity-80">
+      The left-column sidebars. Each role owns a background color; text is
+      <code class="font-mono text-base">slate-50</code>, headings are
+      <code class="font-mono text-base">text-3xl font-medium</code>, and inner links keep the dotted
+      border in <code class="font-mono text-base">currentColor</code>.
+    </p>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <aside
+        class="flex flex-col gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md"
+      >
+        <h3 class="flex-1 pb-2 text-2xl font-medium">Author</h3>
+        <a href="#" class="inline-block border-b-4 border-dotted border-current">Zarema Khalilova</a
+        >
+        <span class="font-mono text-xs uppercase tracking-normal opacity-70">magenta</span>
+      </aside>
+      <aside class="flex flex-col gap-2 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 shadow-md">
+        <h3 class="flex-1 pb-2 text-2xl font-medium">Contact</h3>
+        <a href="#" class="inline-block border-b-4 border-dotted border-current">hey@zmoki.xyz</a>
+        <span class="font-mono text-xs uppercase tracking-normal opacity-70">flame</span>
+      </aside>
+      <aside class="flex flex-col gap-2 rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md">
+        <h3 class="flex-1 pb-2 text-2xl font-medium">Resources</h3>
+        <a href="#" class="inline-block border-b-4 border-dotted border-current text-zmoki-jade-500"
+          >A resource</a
+        >
+        <span class="font-mono text-xs uppercase tracking-normal opacity-70">slate-700</span>
+      </aside>
+      <aside class="flex flex-col gap-2 rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md">
+        <h3 class="flex-1 pb-2 text-2xl font-medium">Recent posts</h3>
+        <a
+          href="#"
+          class="inline-block border-b-4 border-dotted border-current text-zmoki-azure-300"
+          >A recent post</a
+        >
+        <span class="font-mono text-xs uppercase tracking-normal opacity-70">slate-700</span>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Meta labels -->
+  <h2 class={sectionLabel}>Meta labels</h2>
+  <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
+    <p class="mb-6 max-w-2xl opacity-80">
+      Mono, uppercase, <code class="font-mono text-base">tracking-normal</code> — used for dates, Previous
+      / Next nav, section eyebrows, and the footer. Usually dimmed with
+      <code class="font-mono text-base">opacity-60</code>–<code class="font-mono text-base">70</code
+      >.
+    </p>
+    <div class="space-y-4">
+      <p class="font-mono text-xs uppercase tracking-normal opacity-70">Published on 20 Jun 2026</p>
+      <p class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</p>
+      <p class="font-mono text-sm uppercase tracking-normal opacity-60">Section eyebrow</p>
+      <p class="font-mono text-xs uppercase tracking-normal opacity-60">View →</p>
+    </div>
+  </section>
+
+  <!-- Usage -->
+  <section class="rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md md:p-8">
+    <h2 class="mb-4 text-2xl font-semibold md:text-3xl">Conventions</h2>
+    <ul class="space-y-2 font-mono text-sm">
+      <li>
+        <span class="text-zmoki-azure-300">rounded-xl + shadow-md + bg-zmoki-surface</span>
+        <span class="opacity-60">— every card and panel</span>
+      </li>
+      <li>
+        <span class="text-zmoki-azure-300">border-b-4 border-dotted border-current</span>
+        <span class="opacity-60">— links (anchors use dashed b-2)</span>
+      </li>
+      <li>
+        <span class="text-zmoki-azure-300">bg-zmoki-jade-500 … uppercase text-white</span>
+        <span class="opacity-60">— action buttons</span>
+      </li>
+      <li>
+        <span class="text-zmoki-azure-300">font-mono uppercase tracking-normal</span>
+        <span class="opacity-60">— all meta labels</span>
+      </li>
+    </ul>
+  </section>
+</BrandLayout>
