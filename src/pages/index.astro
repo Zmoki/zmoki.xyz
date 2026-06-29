@@ -92,7 +92,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <p class="text-base md:text-lg">
           As a Marketing Technologist I help marketers with engineering stuff.
         </p>
-        <span class="font-mono text-sm text-zmoki-azure-500">tech</span>
+        <span
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >tech</span
+        >
       </a>
 
       <!-- Card 4 — 1x1 — Based in -->
@@ -116,7 +119,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Activity class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
         <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
-        <span class="font-mono text-sm text-zmoki-magenta-500">now</span>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >now</span
+        >
       </a>
 
       <!-- Card 7 — 2x1 — The digital garden -->
@@ -127,7 +133,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
         <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
-        <span class="font-mono text-sm text-zmoki-magenta-500">garden</span>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >garden</span
+        >
       </a>
 
       <!-- Card 12 — 1x1 — Instagram -->
@@ -140,7 +149,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Camera class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
         <p class="text-sm md:text-base">the visual side</p>
-        <span class="font-mono text-sm text-zmoki-magenta-500">@zmoki</span>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >@zmoki</span
+        >
       </a>
 
       <!-- Card 10 — 1x2 — Day Themes Notion template resource -->
@@ -174,7 +186,9 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
                 class="text-sm opacity-90 md:text-base"
                 set:html={dayThemes.data.description.split(". ")[0] + "."}
               />
-              <span class="font-mono text-sm text-zmoki-jade-600">notion.com</span>
+              <span class="font-mono text-sm text-zmoki-jade-600 underline decoration-dotted decoration-2 underline-offset-4">
+                notion.com
+              </span>
             </div>
           </a>
         )
@@ -217,7 +231,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Briefcase class="h-6 w-6 text-zmoki-azure-500" />
         <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
         <p class="text-sm md:text-base">the work side</p>
-        <span class="font-mono text-sm text-zmoki-azure-500">@zaremakhalilova</span>
+        <span
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >@zaremakhalilova</span
+        >
       </a>
 
       <!-- Card 14 — 2x1 — Say hi -->
@@ -227,7 +244,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       >
         <Mail class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
-        <span class="font-mono text-2xl text-zmoki-flame-500 md:text-3xl">hey@zmoki.xyz</span>
+        <span
+          class="font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 md:text-3xl"
+          >hey@zmoki.xyz</span
+        >
       </a>
 
       <!-- Card 13 — 1x1 — Source code -->
@@ -240,7 +260,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
         <p class="text-sm md:text-base">this site on GitHub</p>
-        <span class="font-mono text-sm text-zmoki-flame-500">github.com</span>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >github.com</span
+        >
       </a>
 
       <!-- Card 16 — 2x1 — Design system -->
@@ -251,7 +274,10 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Palette class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
         <p class="text-sm md:text-base">colors, type, components</p>
-        <span class="font-mono text-sm text-zmoki-magenta-500">brand</span>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          >brand</span
+        >
       </a>
 
       <!-- Card 15 — 1x1 — Legal -->
@@ -261,8 +287,16 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <Scale class="h-6 w-6 text-zmoki-muted" />
         <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
         <p class="flex flex-col gap-1">
-          <a href="/legal/privacy/" class="w-fit font-mono text-sm text-zmoki-muted">policy</a>
-          <a href="/legal/terms/" class="w-fit font-mono text-sm text-zmoki-muted">terms</a>
+          <a
+            href="/legal/privacy/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4"
+            >policy</a
+          >
+          <a
+            href="/legal/terms/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4"
+            >terms</a
+          >
         </p>
       </article>
     </div>
