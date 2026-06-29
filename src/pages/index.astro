@@ -85,7 +85,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="https://tech.zarema.me/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+        class="group flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40 lg:row-span-2"
       >
         <Code class="h-6 w-6 text-zmoki-azure-500" />
         <h2 class="text-xl font-semibold md:text-2xl">The technical half</h2>
@@ -93,7 +93,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
           As a Marketing Technologist I help marketers with engineering stuff.
         </p>
         <span
-          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >tech</span
         >
       </a>
@@ -114,13 +114,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <!-- Card 3 — 1x1 — Right now -->
       <a
         href="/now/"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
       >
         <Activity class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
         <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
         <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >now</span
         >
       </a>
@@ -128,13 +128,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <!-- Card 7 — 2x1 — The digital garden -->
       <a
         href="/garden/"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2"
       >
         <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
         <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
         <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >garden</span
         >
       </a>
@@ -144,13 +144,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="https://www.instagram.com/zmoki/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
       >
         <Camera class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
         <p class="text-sm md:text-base">the visual side</p>
         <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >@zmoki</span
         >
       </a>
@@ -165,7 +165,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
             data-resource="true"
             data-resource-slug={dayThemes.slug}
             data-resource-external="true"
-            class="relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+            class="group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-jade-500/40 lg:row-span-2"
           >
             {dayThemesImage && (
               <img
@@ -186,7 +186,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
                 class="text-sm opacity-90 md:text-base"
                 set:html={dayThemes.data.description.split(". ")[0] + "."}
               />
-              <span class="font-mono text-sm text-zmoki-jade-600 underline decoration-dotted decoration-2 underline-offset-4">
+              <span class="font-mono text-sm text-zmoki-jade-600 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline">
                 notion.com
               </span>
             </div>
@@ -200,7 +200,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
           <a
             href={`/feed/${post1.slug}/`}
             style={post1Image ? `background-image:url(${post1Image})` : undefined}
-            class="relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface bg-cover bg-center p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2 lg:row-span-2"
+            class="group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface bg-cover bg-center p-6 text-slate-50 shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40 sm:col-span-2 lg:row-span-2"
           >
             <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
             <div class="relative flex flex-col gap-2">
@@ -226,13 +226,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="https://www.linkedin.com/in/zaremakhalilova/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40"
       >
         <Briefcase class="h-6 w-6 text-zmoki-azure-500" />
         <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
         <p class="text-sm md:text-base">the work side</p>
         <span
-          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >@zaremakhalilova</span
         >
       </a>
@@ -240,12 +240,12 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <!-- Card 14 — 2x1 — Say hi -->
       <a
         href="mailto:hey@zmoki.xyz"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40 sm:col-span-2"
       >
         <Mail class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
         <span
-          class="font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 md:text-3xl"
+          class="font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-3xl"
           >hey@zmoki.xyz</span
         >
       </a>
@@ -255,13 +255,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="https://github.com/Zmoki/zmoki.xyz"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
       >
         <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
         <p class="text-sm md:text-base">this site on GitHub</p>
         <span
-          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >github.com</span
         >
       </a>
@@ -269,13 +269,13 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <!-- Card 16 — 2x1 — Design system -->
       <a
         href="/-/astro/brand/"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2"
       >
         <Palette class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
         <p class="text-sm md:text-base">colors, type, components</p>
         <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4"
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >brand</span
         >
       </a>
@@ -289,12 +289,12 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         <p class="flex flex-col gap-1">
           <a
             href="/legal/privacy/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
             >policy</a
           >
           <a
             href="/legal/terms/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
             >terms</a
           >
         </p>
