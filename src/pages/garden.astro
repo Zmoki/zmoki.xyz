@@ -2,7 +2,20 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { firstPostImage } from "@/utils/post-image";
-import { Activity, Home, Mail, Sprout } from "@lucide/astro";
+import {
+  Activity,
+  BookOpen,
+  CalendarDays,
+  GitBranch,
+  Home,
+  Link,
+  ListChecks,
+  Mail,
+  MapPin,
+  Palette,
+  Scale,
+  Sprout,
+} from "@lucide/astro";
 
 const posts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
   (a, b) => b.data.order - a.data.order,
@@ -16,6 +29,19 @@ const featuredImage = featured ? firstPostImage(featured.slug) : undefined;
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+// Per-resource icon and a friendly domain label for each platform.
+const resourceIcons: Record<string, typeof Sprout> = {
+  "day-themes-menu": CalendarDays,
+  "google-books-list-multi-passionate": BookOpen,
+  "google-maps-list-tbilisi-art-spaces": MapPin,
+  "quick-tech-seo-checklist-new-websites": ListChecks,
+};
+const platformDomains: Record<string, string> = {
+  Notion: "notion.com",
+  "Google Books": "books.google.com",
+  "Google Maps": "maps.google.com",
+};
 ---
 
 <BaseLayout
@@ -45,7 +71,7 @@ const formatDate = (date: Date) =>
         <h2 class="text-xl font-semibold md:text-2xl">Home</h2>
         <span
           class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >back home</span
+          >zmoki.xyz</span
         >
       </a>
 
@@ -76,111 +102,180 @@ const formatDate = (date: Date) =>
       </a>
     </div>
 
-    <!-- Posts -->
-    <section class="space-y-4">
-      <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">Posts</h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          featured && (
-            <a
-              href={`/feed/${featured.slug}/`}
-              style={featuredImage ? `background-image:url(${featuredImage})` : undefined}
-              class:list={[
-                "group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2",
-                featuredImage ? "bg-cover bg-center text-slate-50" : "text-zmoki-ink",
-              ]}
-            >
-              {featuredImage && (
-                <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
-              )}
-              <div class="relative flex flex-col gap-2">
-                <p
-                  class:list={[
-                    "font-mono text-xs uppercase tracking-wider",
-                    featuredImage ? "text-zmoki-magenta-400" : "text-zmoki-magenta-500",
-                  ]}
-                >
-                  latest
-                </p>
-                <h3
-                  class="text-xl font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-2xl"
-                  set:html={featured.data.title}
-                />
-                <p class="text-sm opacity-90" set:html={featured.data.description} />
-                <p class="font-mono text-xs uppercase tracking-normal opacity-80">
-                  <time datetime={featured.data.contentModifiedDate.toISOString()}>
-                    {formatDate(featured.data.contentModifiedDate)}
-                  </time>
-                </p>
-              </div>
-            </a>
-          )
-        }
-        {
-          rest.map((post) => (
-            <a
-              href={`/feed/${post.slug}/`}
-              class="group flex flex-col gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-            >
-              <h3
-                class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-                set:html={post.data.title}
-              />
-              <p class="text-sm opacity-80" set:html={post.data.description} />
-              <p class="mt-auto font-mono text-xs uppercase tracking-normal text-zmoki-muted">
-                <time datetime={post.data.contentModifiedDate.toISOString()}>
-                  {formatDate(post.data.contentModifiedDate)}
-                </time>
-              </p>
-            </a>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Resources -->
-    <section class="space-y-4">
-      <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">
-        Resources
-      </h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          resources.map((resource) => {
-            const isLink = resource.data.type === "link";
-            const href = isLink ? resource.data.url : `/resources/${resource.slug}/`;
-            return (
+    <!-- Posts (3/4) + Resources (1/4) -->
+    <div class="grid gap-8 lg:grid-cols-4">
+      <!-- Posts -->
+      <section class="space-y-4 lg:col-span-3">
+        <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">Posts</h2>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-3">
+          {
+            featured && (
               <a
-                href={href}
-                {...(isLink
-                  ? {
-                      target: "_blank",
-                      rel: "noopener noreferrer",
-                      "data-resource": "true",
-                      "data-resource-slug": resource.slug,
-                      "data-resource-external": "true",
-                    }
-                  : { "data-resource": "true", "data-resource-slug": resource.slug })}
-                class="group flex flex-col gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-jade-500/40"
+                href={`/feed/${featured.slug}/`}
+                style={featuredImage ? `background-image:url(${featuredImage})` : undefined}
+                class:list={[
+                  "group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2 lg:row-span-2",
+                  featuredImage ? "bg-cover bg-center text-slate-50" : "text-zmoki-ink",
+                ]}
               >
-                <p class="font-mono text-xs uppercase tracking-wider text-zmoki-jade-600">
-                  resource
-                </p>
+                {featuredImage && (
+                  <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
+                )}
+                <div class="relative flex flex-col gap-2">
+                  <p
+                    class:list={[
+                      "font-mono text-xs uppercase tracking-wider",
+                      featuredImage ? "text-zmoki-magenta-400" : "text-zmoki-magenta-500",
+                    ]}
+                  >
+                    latest
+                  </p>
+                  <h3
+                    class="text-xl font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-2xl"
+                    set:html={featured.data.title}
+                  />
+                  <p class="text-sm opacity-90" set:html={featured.data.description} />
+                  <p class="font-mono text-xs uppercase tracking-normal opacity-80">
+                    <time datetime={featured.data.contentModifiedDate.toISOString()}>
+                      {formatDate(featured.data.contentModifiedDate)}
+                    </time>
+                  </p>
+                </div>
+              </a>
+            )
+          }
+          {
+            rest.map((post) => (
+              <a
+                href={`/feed/${post.slug}/`}
+                class="group flex flex-col gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 lg:row-span-2"
+              >
                 <h3
                   class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-                  set:html={resource.data.title}
+                  set:html={post.data.title}
                 />
-                <p class="text-sm opacity-80" set:html={resource.data.description} />
-                {resource.data.platform && (
-                  <p class="mt-auto font-mono text-sm text-zmoki-jade-600">
-                    {resource.data.platform.name}
-                  </p>
-                )}
+                <p class="line-clamp-3 text-sm opacity-80" set:html={post.data.description} />
+                <p class="mt-auto font-mono text-xs uppercase tracking-normal text-zmoki-muted">
+                  <time datetime={post.data.contentModifiedDate.toISOString()}>
+                    {formatDate(post.data.contentModifiedDate)}
+                  </time>
+                </p>
               </a>
-            );
-          })
-        }
-      </div>
-    </section>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section class="space-y-4">
+        <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">
+          Resources
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:auto-rows-[200px]">
+          {
+            resources.map((resource) => {
+              const isLink = resource.data.type === "link";
+              const href = isLink ? resource.data.url : `/resources/${resource.slug}/`;
+              const Icon = resourceIcons[resource.slug] ?? Link;
+              const domain = resource.data.platform
+                ? (platformDomains[resource.data.platform.name] ?? resource.data.platform.name)
+                : undefined;
+              return (
+                <a
+                  href={href}
+                  {...(isLink
+                    ? {
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        "data-resource": "true",
+                        "data-resource-slug": resource.slug,
+                        "data-resource-external": "true",
+                      }
+                    : { "data-resource": "true", "data-resource-slug": resource.slug })}
+                  class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-jade-500/40 lg:row-span-2"
+                >
+                  <Icon class="h-6 w-6 text-zmoki-jade-600" />
+                  <h3
+                    class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+                    set:html={resource.data.title}
+                  />
+                  <p class="text-sm opacity-80" set:html={resource.data.description} />
+                  {domain && (
+                    <span class="font-mono text-sm text-zmoki-jade-600 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline">
+                      {domain}
+                    </span>
+                  )}
+                </a>
+              );
+            })
+          }
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-4">
+      <!-- Source code -->
+      <a
+        href="https://github.com/Zmoki/zmoki.xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >github.com</span
+        >
+      </a>
+
+      <!-- Design system -->
+      <a
+        href="/-/astro/brand/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >brand</span
+        >
+      </a>
+
+      <!-- Legal -->
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <Scale class="h-6 w-6 text-zmoki-muted" />
+        <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
+        <p class="flex flex-wrap gap-4">
+          <a
+            href="/legal/privacy/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >policy</a
+          >
+          <a
+            href="/legal/terms/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >terms</a
+          >
+        </p>
+      </article>
+
+      <!-- Home -->
+      <a
+        href="/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Home class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Home</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >zmoki.xyz</span
+        >
+      </a>
+    </div>
   </main>
 
   <script is:inline>
