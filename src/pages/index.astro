@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import type { ImageMetadata } from "astro";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-06-20");
@@ -9,9 +10,36 @@ const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
 // Match by the leading number in the filename/slug (e.g. "6-tbilisi-swaps-guide")
 const postByNumber = (n: number) => allPosts.find((post) => post.slug.startsWith(`${n}-`));
 const post1 = postByNumber(1);
-const post6 = postByNumber(6);
 
 const dayThemes = await getEntry("resources", "day-themes-menu");
+
+// Resolve the first <PostImage> used in a post and return its optimized URL,
+// so a post card can use the post's own photo as a background.
+const postSources = import.meta.glob("/src/content/feed/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
+const imageAssets = import.meta.glob("/src/images/*.{jpg,jpeg,png,webp,avif}", {
+  eager: true,
+}) as Record<string, { default: ImageMetadata }>;
+
+function firstPostImage(slug: string): string | undefined {
+  const sourceKey = Object.keys(postSources).find(
+    (key) => key.endsWith(`/${slug}.mdx`) || key.endsWith(`/${slug}.md`),
+  );
+  if (!sourceKey) return undefined;
+  const source = postSources[sourceKey];
+  const usage = source.match(/<PostImage[^>]*\bsrc=\{(\w+)\}/);
+  if (!usage) return undefined;
+  const importMatch = source.match(new RegExp(`import\\s+${usage[1]}\\s+from\\s+["']([^"']+)["']`));
+  if (!importMatch) return undefined;
+  const assetKey = importMatch[1].replace("@/images/", "/src/images/");
+  return imageAssets[assetKey]?.default.src;
+}
+
+const post1Image = post1 ? firstPostImage(post1.slug) : undefined;
+const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png"]?.default.src;
 ---
 
 <BaseLayout
@@ -43,92 +71,59 @@ const dayThemes = await getEntry("resources", "day-themes-menu");
         href="https://tech.zarema.me/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-azure-500 p-8 text-slate-50 shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+        class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
       >
         <h2 class="text-xl font-semibold md:text-2xl">The technical half</h2>
         <p class="text-base md:text-lg">
           As a Marketing Technologist I help marketers with engineering stuff.
         </p>
-        <span class="font-mono text-sm">tech.zarema.me</span>
+        <span class="font-mono text-sm text-zmoki-azure-500">tech</span>
       </a>
 
-      <!-- Card 4 — 1x1 -->
+      <!-- Card 4 — 1x1 — Based in -->
       <article
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
       >
         <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
-        <p class="text-sm md:text-base">Tbilisi, Georgia</p>
+        <p class="text-sm md:text-base">
+          <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
+            >Tbilisi, Georgia</mark
+          >
+        </p>
       </article>
 
-      <!-- Card 3 — 1x1 -->
+      <!-- Card 3 — 1x1 — Right now -->
       <a
         href="/now/"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
         <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
-        <span class="font-mono text-sm">now</span>
+        <span class="font-mono text-sm text-zmoki-magenta-500">now</span>
       </a>
 
-      <!-- Card 5 — 1x1 -->
-      <article
-        class="flex flex-col items-center justify-center gap-1 rounded-xl bg-zmoki-surface p-6 text-center text-zmoki-ink shadow-md"
-      >
-        <span class="text-5xl font-semibold text-zmoki-azure-500 md:text-6xl">2004</span>
-        <p class="text-sm md:text-base">my first website</p>
-      </article>
-
-      <!-- Card 6 — 1x1 -->
-      <article
-        class="flex flex-col items-center justify-center gap-1 rounded-xl bg-zmoki-surface p-6 text-center text-zmoki-ink shadow-md"
-      >
-        <span class="text-5xl font-semibold text-zmoki-flame-500 md:text-6xl">2023</span>
-        <p class="text-sm md:text-base">my first art exhibition</p>
-      </article>
-
-      <!-- Card 7 — 2x1 -->
+      <!-- Card 7 — 2x1 — The digital garden -->
       <a
         href="/garden/"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
         <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
         <p class="text-sm md:text-base">
           Essays and deep dives where my interests connect. Read everything here.
         </p>
-        <span class="font-mono text-sm">garden</span>
+        <span class="font-mono text-sm text-zmoki-magenta-500">garden</span>
       </a>
 
-      <!-- Card 8 — 2x1 — preview of post #1 -->
-      {
-        post1 && (
-          <a
-            href={`/feed/${post1.slug}/`}
-            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
-          >
-            <p class="font-mono text-xs uppercase tracking-normal opacity-70">
-              <time datetime={post1.data.contentModifiedDate.toISOString()}>
-                {post1.data.contentModifiedDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </p>
-            <h2 class="text-xl font-semibold md:text-2xl" set:html={post1.data.title} />
-            <p class="text-sm opacity-80 md:text-base" set:html={post1.data.description} />
-          </a>
-        )
-      }
-
-      <!-- Card 9 — 1x1 -->
+      <!-- Card 12 — 1x1 — Instagram -->
       <a
-        href="https://www.linkedin.com/in/zaremakhalilova/"
+        href="https://www.instagram.com/zmoki/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-azure-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
-        <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
-        <p class="text-sm md:text-base">the work side</p>
+        <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
+        <p class="text-sm md:text-base">the visual side</p>
+        <span class="font-mono text-sm text-zmoki-magenta-500">@zmoki</span>
       </a>
 
       <!-- Card 10 — 1x2 — Day Themes Notion template resource -->
@@ -141,81 +136,103 @@ const dayThemes = await getEntry("resources", "day-themes-menu");
             data-resource="true"
             data-resource-slug={dayThemes.slug}
             data-resource-external="true"
-            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-jade-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+            class="relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
           >
-            <h2 class="text-xl font-semibold md:text-2xl" set:html={dayThemes.data.title} />
-            <p class="text-sm opacity-90 md:text-base" set:html={dayThemes.data.description} />
-            <span class="font-mono text-sm">notion.com</span>
+            {dayThemesImage && (
+              <img
+                src={dayThemesImage}
+                alt=""
+                aria-hidden="true"
+                class="absolute inset-0 h-full w-full -translate-x-6 -rotate-6 scale-125 object-cover"
+              />
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-zmoki-surface/95 via-zmoki-surface/60 to-zmoki-surface/10" />
+            <div class="relative flex flex-col gap-2">
+              <h2 class="text-xl font-semibold md:text-2xl" set:html={dayThemes.data.title} />
+              <p class="text-sm opacity-90 md:text-base" set:html={dayThemes.data.description} />
+              <span class="font-mono text-sm text-zmoki-jade-600">notion.com</span>
+            </div>
           </a>
         )
       }
 
-      <!-- Card 11 — 2x1 — preview of post #6 -->
+      <!-- Card 8 — 2x2 — preview of post #1 -->
       {
-        post6 && (
+        post1 && (
           <a
-            href={`/feed/${post6.slug}/`}
-            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+            href={`/feed/${post1.slug}/`}
+            style={post1Image ? `background-image:url(${post1Image})` : undefined}
+            class="relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface bg-cover bg-center p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2 lg:row-span-2"
           >
-            <p class="font-mono text-xs uppercase tracking-normal opacity-70">
-              <time datetime={post6.data.contentModifiedDate.toISOString()}>
-                {post6.data.contentModifiedDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </p>
-            <h2 class="text-xl font-semibold md:text-2xl" set:html={post6.data.title} />
-            <p class="text-sm opacity-80 md:text-base" set:html={post6.data.description} />
+            <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
+            <div class="relative flex flex-col gap-2">
+              <p class="font-mono text-xs uppercase tracking-normal opacity-80">
+                <time datetime={post1.data.contentModifiedDate.toISOString()}>
+                  {post1.data.contentModifiedDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </p>
+              <h2 class="text-xl font-semibold md:text-2xl" set:html={post1.data.title} />
+              <p class="text-sm opacity-90 md:text-base" set:html={post1.data.description} />
+            </div>
           </a>
         )
       }
 
-      <!-- Card 12 — 1x1 -->
+      <!-- Card 9 — 1x1 — LinkedIn -->
       <a
-        href="https://www.instagram.com/zmoki/"
+        href="https://www.linkedin.com/in/zaremakhalilova/"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
-        <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
-        <p class="text-sm md:text-base">the visual side</p>
+        <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
+        <p class="text-sm md:text-base">the work side</p>
+        <span class="font-mono text-sm text-zmoki-azure-500">@zaremakhalilova</span>
       </a>
 
-      <!-- Card 13 — 1x1 -->
+      <!-- Card 14 — 2x1 — Say hi -->
+      <a
+        href="mailto:hey@zmoki.xyz"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
+        <span class="font-mono text-2xl text-zmoki-flame-500 md:text-3xl">hey@zmoki.xyz</span>
+      </a>
+
+      <!-- Card 13 — 1x1 — Source code -->
       <a
         href="https://github.com/Zmoki/zmoki.xyz"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
         <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
         <p class="text-sm md:text-base">this site on GitHub</p>
-        <span class="font-mono text-sm">github.com</span>
+        <span class="font-mono text-sm text-zmoki-flame-500">github.com</span>
       </a>
 
-      <!-- Card 14 — 2x1 -->
+      <!-- Card 16 — 2x1 — Design system -->
       <a
-        href="mailto:hey@zmoki.xyz"
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+        href="/-/astro/brand/"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
-        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
-        <p class="text-sm md:text-base">hey@zmoki.xyz</p>
+        <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
+        <p class="text-sm md:text-base">colors, type, components</p>
+        <span class="font-mono text-sm text-zmoki-magenta-500">brand</span>
       </a>
 
-      <!-- Card 15 — 1x1 -->
+      <!-- Card 15 — 1x1 — Legal -->
       <article
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
       >
         <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
-        <p class="flex flex-col gap-1 text-sm md:text-base">
-          <a href="/legal/privacy/" class="w-fit border-b-2 border-dotted border-current"
-            >Privacy Policy</a
-          >
-          <a href="/legal/terms/" class="w-fit border-b-2 border-dotted border-current"
-            >Terms of Service</a
-          >
+        <p class="flex flex-col gap-1">
+          <a href="/legal/privacy/" class="w-fit font-mono text-sm text-zmoki-muted">policy</a>
+          <a href="/legal/terms/" class="w-fit font-mono text-sm text-zmoki-muted">terms</a>
         </p>
       </article>
     </div>
