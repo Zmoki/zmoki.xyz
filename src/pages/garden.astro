@@ -1,0 +1,201 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { firstPostImage } from "@/utils/post-image";
+import { Activity, Home, Mail, Sprout } from "@lucide/astro";
+
+const posts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
+  (a, b) => b.data.order - a.data.order,
+);
+const resources: CollectionEntry<"resources">[] = (await getCollection("resources")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const [featured, ...rest] = posts;
+const featuredImage = featured ? firstPostImage(featured.slug) : undefined;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<BaseLayout
+  title="The digital garden — Zarema Khalilova"
+  description="Essays, deep dives, and resources where my interests connect — software, art, and neurodivergent research."
+>
+  <main class="space-y-8 p-2 lg:p-4">
+    <!-- Header bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-4">
+      <!-- The digital garden — 2x2 -->
+      <article
+        class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2 lg:row-span-2"
+      >
+        <Sprout class="h-10 w-10 text-zmoki-magenta-500" />
+        <h1 class="text-4xl font-semibold text-zmoki-magenta-500 md:text-5xl">Digital Garden</h1>
+        <p class="text-lg md:text-xl">
+          A living collection of creative projects and deep dives where all my interests connect.
+        </p>
+      </article>
+
+      <!-- Back to home — 1x1 -->
+      <a
+        href="/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Home class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Home</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >back home</span
+        >
+      </a>
+
+      <!-- Right now — 1x1 -->
+      <a
+        href="/now/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Activity class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >now</span
+        >
+      </a>
+
+      <!-- Say hi — 2x1 -->
+      <a
+        href="mailto:hey@zmoki.xyz"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40 sm:col-span-2"
+      >
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
+        <span
+          class="font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-3xl"
+          >hey@zmoki.xyz</span
+        >
+      </a>
+    </div>
+
+    <!-- Posts -->
+    <section class="space-y-4">
+      <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">Posts</h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          featured && (
+            <a
+              href={`/feed/${featured.slug}/`}
+              style={featuredImage ? `background-image:url(${featuredImage})` : undefined}
+              class:list={[
+                "group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2",
+                featuredImage ? "bg-cover bg-center text-slate-50" : "text-zmoki-ink",
+              ]}
+            >
+              {featuredImage && (
+                <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
+              )}
+              <div class="relative flex flex-col gap-2">
+                <p
+                  class:list={[
+                    "font-mono text-xs uppercase tracking-wider",
+                    featuredImage ? "text-zmoki-magenta-400" : "text-zmoki-magenta-500",
+                  ]}
+                >
+                  latest
+                </p>
+                <h3
+                  class="text-xl font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-2xl"
+                  set:html={featured.data.title}
+                />
+                <p class="text-sm opacity-90" set:html={featured.data.description} />
+                <p class="font-mono text-xs uppercase tracking-normal opacity-80">
+                  <time datetime={featured.data.contentModifiedDate.toISOString()}>
+                    {formatDate(featured.data.contentModifiedDate)}
+                  </time>
+                </p>
+              </div>
+            </a>
+          )
+        }
+        {
+          rest.map((post) => (
+            <a
+              href={`/feed/${post.slug}/`}
+              class="group flex flex-col gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+            >
+              <h3
+                class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+                set:html={post.data.title}
+              />
+              <p class="text-sm opacity-80" set:html={post.data.description} />
+              <p class="mt-auto font-mono text-xs uppercase tracking-normal text-zmoki-muted">
+                <time datetime={post.data.contentModifiedDate.toISOString()}>
+                  {formatDate(post.data.contentModifiedDate)}
+                </time>
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="space-y-4">
+      <h2 class="text-center font-mono text-3xl uppercase tracking-normal md:text-4xl">
+        Resources
+      </h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          resources.map((resource) => {
+            const isLink = resource.data.type === "link";
+            const href = isLink ? resource.data.url : `/resources/${resource.slug}/`;
+            return (
+              <a
+                href={href}
+                {...(isLink
+                  ? {
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      "data-resource": "true",
+                      "data-resource-slug": resource.slug,
+                      "data-resource-external": "true",
+                    }
+                  : { "data-resource": "true", "data-resource-slug": resource.slug })}
+                class="group flex flex-col gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-jade-500/40"
+              >
+                <p class="font-mono text-xs uppercase tracking-wider text-zmoki-jade-600">
+                  resource
+                </p>
+                <h3
+                  class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+                  set:html={resource.data.title}
+                />
+                <p class="text-sm opacity-80" set:html={resource.data.description} />
+                {resource.data.platform && (
+                  <p class="mt-auto font-mono text-sm text-zmoki-jade-600">
+                    {resource.data.platform.name}
+                  </p>
+                )}
+              </a>
+            );
+          })
+        }
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
+      window.posthog?.capture("contact_email_clicked", {
+        email: this.getAttribute("href").replace("mailto:", ""),
+      });
+    });
+    document.querySelectorAll('a[data-resource="true"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("resource_link_clicked", {
+          resource_slug: this.dataset.resourceSlug,
+          is_external: this.dataset.resourceExternal === "true",
+        });
+      });
+    });
+  </script>
+</BaseLayout>

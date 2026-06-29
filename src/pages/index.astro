@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import type { ImageMetadata } from "astro";
+import { firstPostImage, imageUrl } from "@/utils/post-image";
 import {
   Activity,
   Briefcase,
@@ -26,33 +26,8 @@ const post1 = postByNumber(1);
 
 const dayThemes = await getEntry("resources", "day-themes-menu");
 
-// Resolve the first <PostImage> used in a post and return its optimized URL,
-// so a post card can use the post's own photo as a background.
-const postSources = import.meta.glob("/src/content/feed/*.{md,mdx}", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-}) as Record<string, string>;
-const imageAssets = import.meta.glob("/src/images/*.{jpg,jpeg,png,webp,avif}", {
-  eager: true,
-}) as Record<string, { default: ImageMetadata }>;
-
-function firstPostImage(slug: string): string | undefined {
-  const sourceKey = Object.keys(postSources).find(
-    (key) => key.endsWith(`/${slug}.mdx`) || key.endsWith(`/${slug}.md`),
-  );
-  if (!sourceKey) return undefined;
-  const source = postSources[sourceKey];
-  const usage = source.match(/<PostImage[^>]*\bsrc=\{(\w+)\}/);
-  if (!usage) return undefined;
-  const importMatch = source.match(new RegExp(`import\\s+${usage[1]}\\s+from\\s+["']([^"']+)["']`));
-  if (!importMatch) return undefined;
-  const assetKey = importMatch[1].replace("@/images/", "/src/images/");
-  return imageAssets[assetKey]?.default.src;
-}
-
 const post1Image = post1 ? firstPostImage(post1.slug) : undefined;
-const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png"]?.default.src;
+const dayThemesImage = imageUrl("/src/images/screenshot-notion-day-themes.png");
 ---
 
 <BaseLayout
@@ -130,7 +105,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2"
       >
         <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
+        <h2 class="text-xl font-semibold md:text-2xl">Digital Garden</h2>
         <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
         <span
           class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
