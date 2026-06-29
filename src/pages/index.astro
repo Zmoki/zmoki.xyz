@@ -108,9 +108,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
         <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
-        <p class="text-sm md:text-base">
-          Essays and deep dives where my interests connect. Read everything here.
-        </p>
+        <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
         <span class="font-mono text-sm text-zmoki-magenta-500">garden</span>
       </a>
 
@@ -148,8 +146,14 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
             )}
             <div class="absolute inset-0 bg-gradient-to-t from-zmoki-surface/95 via-zmoki-surface/60 to-zmoki-surface/10" />
             <div class="relative flex flex-col gap-2">
-              <h2 class="text-xl font-semibold md:text-2xl" set:html={dayThemes.data.title} />
-              <p class="text-sm opacity-90 md:text-base" set:html={dayThemes.data.description} />
+              <h2
+                class="text-xl font-semibold md:text-2xl"
+                set:html={dayThemes.data.title.replace(" Notion template", "")}
+              />
+              <p
+                class="text-sm opacity-90 md:text-base"
+                set:html={dayThemes.data.description.split(". ")[0] + "."}
+              />
               <span class="font-mono text-sm text-zmoki-jade-600">notion.com</span>
             </div>
           </a>
