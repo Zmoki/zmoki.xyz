@@ -2,6 +2,20 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import type { ImageMetadata } from "astro";
+import {
+  Activity,
+  BookOpen,
+  Briefcase,
+  CalendarDays,
+  Camera,
+  Code,
+  GitBranch,
+  Mail,
+  MapPin,
+  Palette,
+  Scale,
+  Sprout,
+} from "@lucide/astro";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-06-20");
@@ -73,6 +87,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         rel="noopener noreferrer"
         class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
       >
+        <Code class="h-6 w-6 text-zmoki-azure-500" />
         <h2 class="text-xl font-semibold md:text-2xl">The technical half</h2>
         <p class="text-base md:text-lg">
           As a Marketing Technologist I help marketers with engineering stuff.
@@ -84,6 +99,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <article
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
       >
+        <MapPin class="h-6 w-6 text-zmoki-ink" />
         <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
         <p class="text-sm md:text-base">
           <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
@@ -97,6 +113,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="/now/"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
+        <Activity class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
         <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
         <span class="font-mono text-sm text-zmoki-magenta-500">now</span>
@@ -107,6 +124,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="/garden/"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
+        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
         <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
         <span class="font-mono text-sm text-zmoki-magenta-500">garden</span>
@@ -119,6 +137,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         rel="noopener noreferrer"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
+        <Camera class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
         <p class="text-sm md:text-base">the visual side</p>
         <span class="font-mono text-sm text-zmoki-magenta-500">@zmoki</span>
@@ -146,6 +165,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
             )}
             <div class="absolute inset-0 bg-gradient-to-t from-zmoki-surface/95 via-zmoki-surface/60 to-zmoki-surface/10" />
             <div class="relative flex flex-col gap-2">
+              <CalendarDays class="h-6 w-6 text-zmoki-jade-600" />
               <h2
                 class="text-xl font-semibold md:text-2xl"
                 set:html={dayThemes.data.title.replace(" Notion template", "")}
@@ -170,6 +190,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
           >
             <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
             <div class="relative flex flex-col gap-2">
+              <BookOpen class="h-6 w-6 text-slate-50" />
               <p class="font-mono text-xs uppercase tracking-normal opacity-80">
                 <time datetime={post1.data.contentModifiedDate.toISOString()}>
                   {post1.data.contentModifiedDate.toLocaleDateString("en-US", {
@@ -193,6 +214,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         rel="noopener noreferrer"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
+        <Briefcase class="h-6 w-6 text-zmoki-azure-500" />
         <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
         <p class="text-sm md:text-base">the work side</p>
         <span class="font-mono text-sm text-zmoki-azure-500">@zaremakhalilova</span>
@@ -203,6 +225,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="mailto:hey@zmoki.xyz"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
         <span class="font-mono text-2xl text-zmoki-flame-500 md:text-3xl">hey@zmoki.xyz</span>
       </a>
@@ -214,6 +237,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         rel="noopener noreferrer"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1"
       >
+        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
         <p class="text-sm md:text-base">this site on GitHub</p>
         <span class="font-mono text-sm text-zmoki-flame-500">github.com</span>
@@ -224,6 +248,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
         href="/-/astro/brand/"
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
       >
+        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
         <p class="text-sm md:text-base">colors, type, components</p>
         <span class="font-mono text-sm text-zmoki-magenta-500">brand</span>
@@ -233,6 +258,7 @@ const dayThemesImage = imageAssets["/src/images/screenshot-notion-day-themes.png
       <article
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
       >
+        <Scale class="h-6 w-6 text-zmoki-muted" />
         <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
         <p class="flex flex-col gap-1">
           <a href="/legal/privacy/" class="w-fit font-mono text-sm text-zmoki-muted">policy</a>
