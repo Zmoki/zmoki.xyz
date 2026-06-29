@@ -26,8 +26,8 @@ const post1 = postByNumber(1);
 
 const dayThemes = await getEntry("resources", "day-themes-menu");
 
-const post1Image = post1 ? firstPostImage(post1.slug) : undefined;
-const dayThemesImage = imageUrl("/src/images/screenshot-notion-day-themes.png");
+const post1Image = post1 ? await firstPostImage(post1.slug) : undefined;
+const dayThemesImage = await imageUrl("/src/images/screenshot-notion-day-themes.png");
 ---
 
 <BaseLayout

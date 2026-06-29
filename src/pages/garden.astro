@@ -28,7 +28,7 @@ const resources: CollectionEntry<"resources">[] = (await getCollection("resource
 );
 
 const [featured, ...rest] = posts;
-const featuredImage = featured ? firstPostImage(featured.slug) : undefined;
+const featuredImage = featured ? await firstPostImage(featured.slug) : undefined;
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
