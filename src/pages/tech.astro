@@ -1,0 +1,380 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export const publishDate = new Date("2026-06-29");
+export const contentModifiedDate = new Date("2026-06-29");
+
+const marketerCards = [
+  {
+    title: "Your goals",
+    text: "Pipeline, signups, organic growth, the numbers you report on every month.",
+  },
+  {
+    title: "Your tools",
+    text: "The CRM, GA4, GTM, your email platform. I know them and how they break.",
+  },
+  {
+    title: "Your data",
+    text: "Attribution, funnels, search performance. I read it the way you do.",
+  },
+  {
+    title: "Your words",
+    text: "You explain it in marketing. I turn it into working code.",
+  },
+];
+
+const layers = [
+  {
+    label: "Layer one",
+    title: "Build the site",
+    text: "Bespoke marketing websites. Fast, custom, and built to be found.",
+  },
+  {
+    label: "Layer two",
+    title: "Wire the data",
+    text: "CRM and analytics connected, tracking that works, everything talking to everything.",
+  },
+  {
+    label: "Layer three",
+    title: "Set up the tools",
+    text: "The email and automation stack, stood up and running on top of it all.",
+  },
+];
+
+const aiCards = [
+  {
+    title: "Get found by AI search",
+    text: "I make sites that AI assistants quote and cite, so you show up where buyers now look.",
+  },
+  {
+    title: "Relevance engineering",
+    text: "I match your content to what people actually search and ask, using embeddings and vectors.",
+  },
+  {
+    title: "Build the AI itself",
+    text: "Embeddings analysis, question matching, retrieval. I build these systems myself.",
+  },
+  {
+    title: "Wire AI into the work",
+    text: "I plug AI tools into your marketing stack so the team ships faster than before.",
+  },
+];
+
+const projects = [
+  {
+    name: "Improvado",
+    tags: "Tech SEO → Relevance → AI rebuild",
+    text: "A large marketing analytics site. I started with technical SEO, then relevance engineering, matching their content to what people actually search and ask. Then I moved the site off Webflow onto a modern frontend stack, section by section, so their marketers could finally run the AI driven workflows the old setup blocked. Search traffic grew through the move and held steady through every Google core update since.",
+    stat: "Grew through the migration, held through core updates",
+  },
+  {
+    name: "vibepanic",
+    tags: "Built from scratch",
+    text: "A booking platform I am building from nothing. The whole thing, the booking flow, the CRM, and the analytics, wired together from scratch.",
+    stat: "From zero to a working platform",
+  },
+  {
+    name: "RealAdvisor",
+    tags: "Technical SEO",
+    text: "A Swiss property platform with thousands of listing pages. I rebuilt the technical SEO from the frontend up, added structured data, automated the meta generation, and made the pages load three times faster.",
+    stat: "247K → 546K clicks over two years",
+  },
+  {
+    name: "3commas",
+    tags: "Migrated",
+    text: "A crypto trading platform. I migrated the marketing site to a new stack without losing the organic traffic it ran on. One of a line of migrations I have done since 2018, Uploadcare among them.",
+    stat: "Since 2018 migrations, no traffic lost",
+  },
+];
+
+const articles = [
+  {
+    title: "The strategic power of questions, from theory to SEO and AI search",
+    category: "AI search & relevance",
+    text: "How the shape of a question decides what content wins in search and in AI answers. With real Search Console and BigQuery data across two sites.",
+    url: "/feed/16-power-of-questions/",
+  },
+  {
+    title: "My tech SEO recommendations for new websites",
+    category: "Technical SEO",
+    text: "A practical checklist for launching a new site the right way. Domains, security headers, sitemaps, canonicals, and the content that earns trust.",
+    url: "/feed/13-new-website-seo-checklist/",
+  },
+];
+
+const stack = [
+  { group: "Build & host", tools: ["Astro", "Webflow", "Cloudflare", "AWS", "Google Cloud"] },
+  {
+    group: "Search & analytics",
+    tools: [
+      "Search Console",
+      "Bing Webmaster Tools",
+      "GA4",
+      "PostHog",
+      "Mixpanel",
+      "Looker Studio",
+    ],
+  },
+  { group: "Tracking & data", tools: ["Google Tag Manager", "BigQuery"] },
+  { group: "Email & automation", tools: ["Brevo", "lemlist"] },
+  { group: "AI", tools: ["Claude Code", "Embeddings & vector search", "OpenRouter"] },
+];
+
+const eyebrow = "font-mono text-sm uppercase tracking-wider text-zmoki-azure-500";
+const headline = "text-3xl font-semibold leading-tight md:text-4xl";
+const section = "space-y-8 border-t border-zmoki-azure-200 pt-12";
+const externalLink =
+  "font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline";
+---
+
+<BaseLayout
+  title="The Technical Half — Zarema Khalilova"
+  description="Marketing Technologist. I build the websites, wire up the data behind them, set up the tools on top, and bring the AI that ties it all together."
+>
+  <main class="p-2 lg:p-4">
+    <div
+      class="mx-auto max-w-3xl space-y-16 rounded-xl bg-zmoki-surface p-6 leading-relaxed text-zmoki-ink shadow-md md:p-16"
+    >
+      <!-- Nav -->
+      <nav class="flex flex-wrap items-center justify-between gap-4 font-mono text-sm">
+        <span class="font-semibold"
+          ><span class="text-zmoki-azure-500">½</span> The Technical Half</span
+        >
+        <span class="flex flex-wrap gap-4">
+          <a href="/" class="text-zmoki-magenta-500">home</a>
+          <a href="/garden/" class="text-zmoki-magenta-500">garden</a>
+          <a href="#contact" class="text-zmoki-flame-500">get in touch</a>
+        </span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="space-y-6">
+        <p class={eyebrow}>½ Marketing Technologist</p>
+        <h1 class="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
+          I'm the technical <em class="italic text-zmoki-azure-500">half</em> of your marketing team.
+        </h1>
+        <p class="text-lg opacity-80 md:text-xl">
+          I build the websites, wire up the data behind them, set up the tools on top, and bring the
+          AI that ties it all together. The part your marketers can't build, made by someone on
+          their side of the table.
+        </p>
+        <p class="text-2xl font-semibold text-zmoki-azure-500 md:text-3xl">
+          You bring the plan. I build the machine.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a
+            href="mailto:hey@zmoki.xyz"
+            class="inline-flex rounded-lg bg-zmoki-azure-500 px-5 py-3 font-medium text-slate-50 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-azure-500/40"
+            >Email me</a
+          >
+          <a
+            href="https://www.linkedin.com/company/thetechnicalhalf/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex rounded-lg border-2 border-zmoki-azure-500 px-5 py-3 font-medium text-zmoki-azure-500 transition hover:-translate-y-0.5"
+            >The Technical Half on LinkedIn</a
+          >
+        </div>
+      </header>
+
+      <!-- Engineer buddy for marketers -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ Engineer buddy for marketers</p>
+          <h2 class={headline}>I get how marketers work.</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {
+            marketerCards.map((item) => (
+              <div class="space-y-1">
+                <h3 class="text-xl font-semibold text-zmoki-azure-500">{item.title}</h3>
+                <p class="opacity-80">{item.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- What I do -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ What I do</p>
+          <h2 class={headline}>I build the whole technical half.</h2>
+          <p class="text-lg opacity-80">
+            Three layers, one person. The site people see, the data underneath it, and the tools
+            sitting on top.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+          {
+            layers.map((layer) => (
+              <div class="space-y-1">
+                <p class="font-mono text-xs uppercase tracking-wider opacity-60">{layer.label}</p>
+                <h3 class="text-xl font-semibold text-zmoki-azure-500">{layer.title}</h3>
+                <p class="opacity-80">{layer.text}</p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="text-lg opacity-80">
+          Some of it I build from scratch. Some of it I fix or rebuild. Some of it is just the right
+          tool, plugged in well. <span class="font-semibold opacity-100"
+            >I know which you need, and I do all of it.</span
+          >
+        </p>
+      </section>
+
+      <!-- Where I go deep -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ Where I go deep</p>
+          <h2 class={headline}>The AI part is where I'm strongest.</h2>
+          <p class="text-lg opacity-80">
+            Real AI work, from getting found by AI search to building the systems underneath it.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {
+            aiCards.map((item) => (
+              <div class="space-y-1">
+                <h3 class="text-xl font-semibold text-zmoki-azure-500">{item.title}</h3>
+                <p class="opacity-80">{item.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Some of what I built -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ Some of what I built</p>
+          <h2 class={headline}>Proof you can check.</h2>
+          <p class="text-lg opacity-80">
+            A few of the jobs I have taken on, each a different kind of technical work.
+          </p>
+        </div>
+        <div class="divide-y divide-zmoki-azure-200">
+          {
+            projects.map((project) => (
+              <div class="space-y-2 py-6 first:pt-0 last:pb-0">
+                <p class="font-mono text-xs uppercase tracking-wider text-zmoki-azure-500">
+                  {project.tags}
+                </p>
+                <h3 class="text-2xl font-semibold">{project.name}</h3>
+                <p class="opacity-80">{project.text}</p>
+                <p class="font-semibold text-zmoki-azure-500">{project.stat}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Thinking in public -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ Thinking in public</p>
+          <h2 class={headline}>I write about the work.</h2>
+          <p class="text-lg opacity-80">
+            Long pieces on how this actually works, with real data. The kind of thing you can read
+            before you decide to talk to me.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {
+            articles.map((article) => (
+              <a href={article.url} class="group block space-y-2">
+                <p class="font-mono text-xs uppercase tracking-wider text-zmoki-magenta-500">
+                  {article.category}
+                </p>
+                <h3 class="text-xl font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline">
+                  {article.title}
+                </h3>
+                <p class="opacity-80">{article.text}</p>
+                <span class="font-mono text-sm text-zmoki-magenta-500">read in the garden →</span>
+              </a>
+            ))
+          }
+        </div>
+        <p class="opacity-80">
+          I write everything in my <a
+            href="/garden/"
+            class="text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >digital garden</a
+          > first. This is a slice of it.
+        </p>
+      </section>
+
+      <!-- What I work with -->
+      <section class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ What I work with</p>
+          <h2 class={headline}>The stack, grouped by job.</h2>
+          <p class="text-lg opacity-80">
+            The tools I reach for across the layers I build. The build, the search and data, the
+            email, and the AI on top.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {
+            stack.map((group) => (
+              <div class="space-y-1">
+                <h3 class="text-lg font-semibold text-zmoki-azure-500">{group.group}</h3>
+                <p class="opacity-80">{group.tools.join(" · ")}</p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="opacity-80">
+          And this is a slice of it. <span class="font-semibold opacity-100"
+            >I pick up whatever a project needs</span
+          >, and the list keeps growing.
+        </p>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class={section}>
+        <div class="space-y-3">
+          <p class={eyebrow}>½ Get in touch</p>
+          <h2 class={headline}>Need the other half of your team?</h2>
+          <p class="text-lg opacity-80">
+            Tell me what your marketing is trying to do. I'll tell you what it takes to build it.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-x-6 gap-y-2">
+          <a href="mailto:hey@zmoki.xyz" class={externalLink}>hey@zmoki.xyz</a>
+          <a
+            href="https://www.linkedin.com/company/thetechnicalhalf/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={externalLink}>The Technical Half on LinkedIn</a
+          >
+          <a
+            href="https://www.linkedin.com/in/zaremakhalilova/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={externalLink}>Zarema on LinkedIn</a
+          >
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer
+        class="flex flex-col gap-1 border-t border-zmoki-azure-200 pt-8 font-mono text-sm opacity-60"
+      >
+        <span
+          ><span class="text-zmoki-azure-500">½</span> The Technical Half is one facet of zmoki.xyz</span
+        >
+        <span>Zarema Khalilova · Tbilisi · Remote</span>
+      </footer>
+    </div>
+  </main>
+
+  <script is:inline>
+    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
+      window.posthog?.capture("contact_email_clicked", {
+        email: this.getAttribute("href").replace("mailto:", ""),
+      });
+    });
+  </script>
+</BaseLayout>
