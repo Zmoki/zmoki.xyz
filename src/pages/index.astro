@@ -1,48 +1,231 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/PostCard.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-06-20");
 
-// Get all posts from the feed collection
 const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
+// Match by the leading number in the filename/slug (e.g. "6-tbilisi-swaps-guide")
+const postByNumber = (n: number) => allPosts.find((post) => post.slug.startsWith(`${n}-`));
+const post1 = postByNumber(1);
+const post6 = postByNumber(6);
 
-// Sort posts by publish date (newest first)
-const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
+const dayThemes = await getEntry("resources", "day-themes-menu");
 ---
 
 <BaseLayout
   title="Digital Garden of Zarema Khalilova"
   description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
-  showRecentPosts={false}
-  accentColor="blue"
 >
-  <!-- Hero Section -->
-  <section
-    class="mb-4 space-y-4 rounded-xl bg-zmoki-azure-500 px-4 py-8 text-slate-50 shadow-md md:px-8 md:py-16 lg:py-20"
-  >
-    <h1 class="mb-6 text-6xl font-semibold md:text-7xl">Digital Garden</h1>
-    <p class="text-2xl md:text-3xl">
-      A living collection of creative projects and deep dives where all my interests connect.
-    </p>
-  </section>
+  <main class="p-2 lg:p-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-4">
+      <!-- Card 1 — 2x2 -->
+      <article
+        class="flex flex-col justify-center gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2 lg:row-span-2"
+      >
+        <img
+          src="/zmoki.jpg"
+          alt="Zarema Khalilova"
+          width="112"
+          height="112"
+          class="h-28 w-28 rounded-full object-cover"
+        />
+        <h1 class="text-4xl font-semibold text-zmoki-magenta-500 md:text-5xl">Zarema Khalilova</h1>
+        <p class="text-xl md:text-2xl">
+          I build things, I make art, and I think out loud. Engineer, contemporary artist, data
+          person, all the same person. This is where every side lives.
+        </p>
+      </article>
 
-  <!-- Posts List -->
-  <section class="pt-2 md:pt-4">
-    <h2 class="px-4 pb-8 text-5xl font-semibold md:px-8 md:text-6xl">Posts</h2>
+      <!-- Card 2 — 1x2 -->
+      <a
+        href="https://tech.zarema.me/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-azure-500 p-8 text-slate-50 shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">The technical half</h2>
+        <p class="text-base md:text-lg">
+          As a Marketing Technologist I help marketers with engineering stuff.
+        </p>
+        <span class="font-mono text-sm">tech.zarema.me</span>
+      </a>
 
-    {
-      sortedPosts.length === 0 ? (
-        <p>No posts yet. Check back soon!</p>
-      ) : (
-        <div class="grid grid-flow-dense grid-cols-1 gap-6">
-          {sortedPosts.map((post: CollectionEntry<"feed">) => (
-            <PostCard {...post} />
-          ))}
-        </div>
-      )
-    }
-  </section>
+      <!-- Card 4 — 1x1 -->
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
+        <p class="text-sm md:text-base">Tbilisi, Georgia</p>
+      </article>
+
+      <!-- Card 3 — 1x1 -->
+      <a
+        href="/now/"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
+        <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
+        <span class="font-mono text-sm">now</span>
+      </a>
+
+      <!-- Card 5 — 1x1 -->
+      <article
+        class="flex flex-col items-center justify-center gap-1 rounded-xl bg-zmoki-surface p-6 text-center text-zmoki-ink shadow-md"
+      >
+        <span class="text-5xl font-semibold text-zmoki-azure-500 md:text-6xl">2004</span>
+        <p class="text-sm md:text-base">my first website</p>
+      </article>
+
+      <!-- Card 6 — 1x1 -->
+      <article
+        class="flex flex-col items-center justify-center gap-1 rounded-xl bg-zmoki-surface p-6 text-center text-zmoki-ink shadow-md"
+      >
+        <span class="text-5xl font-semibold text-zmoki-flame-500 md:text-6xl">2023</span>
+        <p class="text-sm md:text-base">my first art exhibition</p>
+      </article>
+
+      <!-- Card 7 — 2x1 -->
+      <a
+        href="/garden/"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">The digital garden</h2>
+        <p class="text-sm md:text-base">
+          Essays and deep dives where my interests connect. Read everything here.
+        </p>
+        <span class="font-mono text-sm">garden</span>
+      </a>
+
+      <!-- Card 8 — 2x1 — preview of post #1 -->
+      {
+        post1 && (
+          <a
+            href={`/feed/${post1.slug}/`}
+            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+          >
+            <p class="font-mono text-xs uppercase tracking-normal opacity-70">
+              <time datetime={post1.data.contentModifiedDate.toISOString()}>
+                {post1.data.contentModifiedDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </p>
+            <h2 class="text-xl font-semibold md:text-2xl" set:html={post1.data.title} />
+            <p class="text-sm opacity-80 md:text-base" set:html={post1.data.description} />
+          </a>
+        )
+      }
+
+      <!-- Card 9 — 1x1 -->
+      <a
+        href="https://www.linkedin.com/in/zaremakhalilova/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-azure-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
+        <p class="text-sm md:text-base">the work side</p>
+      </a>
+
+      <!-- Card 10 — 1x2 — Day Themes Notion template resource -->
+      {
+        dayThemes && dayThemes.data.type === "link" && (
+          <a
+            href={dayThemes.data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-resource="true"
+            data-resource-slug={dayThemes.slug}
+            data-resource-external="true"
+            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-jade-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 lg:row-span-2"
+          >
+            <h2 class="text-xl font-semibold md:text-2xl" set:html={dayThemes.data.title} />
+            <p class="text-sm opacity-90 md:text-base" set:html={dayThemes.data.description} />
+            <span class="font-mono text-sm">notion.com</span>
+          </a>
+        )
+      }
+
+      <!-- Card 11 — 2x1 — preview of post #6 -->
+      {
+        post6 && (
+          <a
+            href={`/feed/${post6.slug}/`}
+            class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+          >
+            <p class="font-mono text-xs uppercase tracking-normal opacity-70">
+              <time datetime={post6.data.contentModifiedDate.toISOString()}>
+                {post6.data.contentModifiedDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </p>
+            <h2 class="text-xl font-semibold md:text-2xl" set:html={post6.data.title} />
+            <p class="text-sm opacity-80 md:text-base" set:html={post6.data.description} />
+          </a>
+        )
+      }
+
+      <!-- Card 12 — 1x1 -->
+      <a
+        href="https://www.instagram.com/zmoki/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
+        <p class="text-sm md:text-base">the visual side</p>
+      </a>
+
+      <!-- Card 13 — 1x1 -->
+      <a
+        href="https://github.com/Zmoki/zmoki.xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-slate-700 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
+        <p class="text-sm md:text-base">this site on GitHub</p>
+        <span class="font-mono text-sm">github.com</span>
+      </a>
+
+      <!-- Card 14 — 2x1 -->
+      <a
+        href="mailto:hey@zmoki.xyz"
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 shadow-md transition-transform hover:-translate-y-1 sm:col-span-2"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
+        <p class="text-sm md:text-base">hey@zmoki.xyz</p>
+      </a>
+
+      <!-- Card 15 — 1x1 -->
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
+        <p class="flex flex-col gap-1 text-sm md:text-base">
+          <a href="/legal/privacy/" class="w-fit border-b-2 border-dotted border-current"
+            >Privacy Policy</a
+          >
+          <a href="/legal/terms/" class="w-fit border-b-2 border-dotted border-current"
+            >Terms of Service</a
+          >
+        </p>
+      </article>
+    </div>
+  </main>
+
+  <script is:inline>
+    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
+      window.posthog?.capture("contact_email_clicked", {
+        email: this.getAttribute("href").replace("mailto:", ""),
+      });
+    });
+  </script>
 </BaseLayout>
