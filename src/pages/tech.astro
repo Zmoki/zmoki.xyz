@@ -371,9 +371,11 @@ const externalLink =
   </main>
 
   <script is:inline>
-    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
-      window.posthog?.capture("contact_email_clicked", {
-        email: this.getAttribute("href").replace("mailto:", ""),
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
       });
     });
   </script>

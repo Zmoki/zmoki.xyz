@@ -17,7 +17,7 @@ import {
 } from "@lucide/astro";
 
 export const publishDate = new Date("2025-09-09");
-export const contentModifiedDate = new Date("2026-06-20");
+export const contentModifiedDate = new Date("2026-06-29");
 
 const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
 // Match by the leading number in the filename/slug (e.g. "6-tbilisi-swaps-guide")
@@ -280,9 +280,19 @@ const dayThemesImage = imageUrl("/src/images/screenshot-notion-day-themes.png");
   </main>
 
   <script is:inline>
-    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
-      window.posthog?.capture("contact_email_clicked", {
-        email: this.getAttribute("href").replace("mailto:", ""),
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
+      });
+    });
+    document.querySelectorAll('a[data-resource="true"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("resource_link_clicked", {
+          resource_slug: this.dataset.resourceSlug,
+          is_external: this.dataset.resourceExternal === "true",
+        });
       });
     });
   </script>

@@ -17,6 +17,9 @@ import {
   Sprout,
 } from "@lucide/astro";
 
+export const publishDate = new Date("2026-06-29");
+export const contentModifiedDate = new Date("2026-06-29");
+
 const posts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
   (a, b) => b.data.order - a.data.order,
 );
@@ -279,9 +282,11 @@ const platformDomains: Record<string, string> = {
   </main>
 
   <script is:inline>
-    document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
-      window.posthog?.capture("contact_email_clicked", {
-        email: this.getAttribute("href").replace("mailto:", ""),
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
       });
     });
     document.querySelectorAll('a[data-resource="true"]').forEach(function (el) {
