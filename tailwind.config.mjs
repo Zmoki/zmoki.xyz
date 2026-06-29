@@ -68,21 +68,12 @@ export default {
   },
   plugins: [
     require("@tailwindcss/typography"),
-    // Global link interaction, driven by the brand tokens. Lives in the base
-    // layer so every page inherits identical behavior — no per-layout class
-    // strings to copy or forget (this used to be a `[&_a]` body class on
-    // BaseLayout only, which is why brand pages had dead links).
+    // Strip the default underline from links site-wide; per-context link
+    // styling (prose colors, bento cards) is handled where it's used.
     plugin(({ addBase }) => {
       addBase({
         a: {
           "text-decoration": "none",
-          transition: "all 200ms",
-        },
-        "a:hover": {
-          backgroundColor: brandColors["zmoki-azure"][500],
-          color: "#fff",
-          outlineStyle: "solid",
-          outlineColor: brandColors["zmoki-azure"][500],
         },
       });
     }),

@@ -1,24 +1,18 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import ResourceLink from "@/components/ResourceLink.astro";
 import PostHog from "@/components/posthog.astro";
 
 export interface Props {
-  showRecentPosts?: boolean;
   title: string;
   description?: string;
   publishDate?: Date;
   contentModifiedDate?: Date;
-  accentColor?: "gray" | "blue" | "green" | "orange" | "pink";
 }
 
 const {
-  showRecentPosts = true,
   title,
   description = "A digital garden of ideas, art, and research",
   publishDate,
   contentModifiedDate,
-  accentColor = "gray",
 } = Astro.props;
 
 const isProduction = import.meta.env.PROD;
@@ -36,18 +30,6 @@ const pageImageWideUrl = new URL(
   `/og-images${isPageArticle ? pagePathname : "/"}wide.jpg`,
   currentBaseUrl,
 ).toString();
-
-// If showRecentPosts is true, get 3 latest posts from the feed collection
-let recentPosts: CollectionEntry<"feed">[] | null = null;
-
-if (showRecentPosts) {
-  const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
-  const sortedPosts = allPosts.sort((a, b) => b.data.order - a.data.order);
-  recentPosts = sortedPosts.slice(0, 3);
-}
-
-const allResources: CollectionEntry<"resources">[] = await getCollection("resources");
-const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <!doctype html>
@@ -102,159 +84,6 @@ const sortedResources = allResources.sort((a, b) => a.data.order - b.data.order)
   <body
     class="min-h-full bg-zmoki-bg font-sans text-lg leading-tight tracking-tight text-zmoki-ink xl:text-xl"
   >
-    <div
-      class="grid w-full grid-cols-1 gap-4 p-2 lg:grid-cols-[29%_71%] lg:grid-rows-[200px_160px_minmax(160px,max-content)_200px_minmax(0,max-content)_1fr_minmax(0,max-content)] lg:gap-x-8 lg:py-8 lg:pl-4 lg:pr-12"
-    >
-      <!-- Header -->
-      <header
-        class="min-h-24 rounded-xl bg-zmoki-surface bg-[url(/zmoki.jpg)] bg-cover bg-center tracking-tighter shadow-md"
-      >
-        <div class="h-full w-full bg-white/10 px-2 py-4 lg:px-4">
-          <a href="/" class="inline-block bg-zmoki-azure-500 px-2 text-slate-50">zmoki.xyz</a>
-        </div>
-      </header>
-
-      <!-- Main Content -->
-      <main class="max-w-7xl rounded-xl max-lg:px-2 max-lg:pt-2 lg:row-span-7 lg:pb-4 lg:pr-4">
-        <slot />
-      </main>
-
-      <aside
-        class="flex flex-col gap-2 rounded-xl bg-zmoki-magenta-500 p-6 text-slate-50 shadow-md"
-      >
-        <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Author</h2>
-        <p class="flex flex-col items-start gap-2 md:flex-row md:justify-between">
-          <a href="/feed/1-about-me/" class="inline-block border-b-4 border-dotted border-current"
-            >Zarema Khalilova</a
-          >
-          <a href="/now/" class="border-b-4 border-dotted border-current">now</a>
-        </p>
-      </aside>
-
-      <aside
-        class="flex flex-col gap-2 rounded-xl bg-slate-700 p-6 tracking-tighter text-slate-50 shadow-md"
-      >
-        <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Resources</h2>
-        <ul>
-          {
-            sortedResources.map(({ slug }) => (
-              <li class="py-2">
-                <ResourceLink
-                  slug={slug}
-                  class="border-b-4 border-dotted border-current text-zmoki-jade-500"
-                />
-              </li>
-            ))
-          }
-        </ul>
-      </aside>
-
-      <aside
-        class="flex flex-col gap-2 rounded-xl bg-zmoki-flame-500 p-6 tracking-tighter text-slate-50 shadow-md"
-      >
-        <h2 class="flex-1 pb-4 text-3xl font-medium md:text-4xl">Contact</h2>
-        <p>
-          <a href="mailto:hey@zmoki.xyz" class="border-b-4 border-dotted border-current"
-            >hey@zmoki.xyz</a
-          >
-        </p>
-        <p>say hey!</p>
-      </aside>
-
-      {
-        recentPosts ? (
-          <aside class="flex flex-col gap-2 rounded-xl bg-slate-700 p-6 tracking-tighter text-slate-50 shadow-md">
-            <h2 class="flex-1 text-3xl font-medium md:text-4xl">Recent posts</h2>
-            <ul>
-              {recentPosts.map((post) => (
-                <li class="py-4">
-                  <a
-                    href={`/feed/${post.slug}/`}
-                    class="border-b-4 border-dotted border-current text-zmoki-azure-300"
-                    set:html={post.data.title}
-                  />
-                </li>
-              ))}
-            </ul>
-          </aside>
-        ) : (
-          <div />
-        )
-      }
-
-      {
-        isPageArticle ? (
-          <div
-            class:list={[
-              "flex w-[calc(50%+8px)] items-end border-r-8 border-dashed max-lg:hidden",
-              accentColor === "gray" && "border-slate-400",
-              accentColor === "blue" && "border-zmoki-azure-500",
-              accentColor === "green" && "border-zmoki-jade-500",
-              accentColor === "orange" && "border-zmoki-flame-500",
-              accentColor === "pink" && "border-zmoki-magenta-500",
-            ]}
-          >
-            <button
-              id="go-to-top-button"
-              class="group ml-4 flex flex-col items-center gap-2 text-zmoki-muted"
-            >
-              <span
-                class:list={[
-                  "font-mono text-5xl uppercase transition-all duration-200",
-                  accentColor === "gray" && "group-hover:text-slate-400",
-                  accentColor === "blue" && "group-hover:text-zmoki-azure-500",
-                  accentColor === "green" && "group-hover:text-zmoki-jade-500",
-                  accentColor === "orange" && "group-hover:text-zmoki-flame-500",
-                  accentColor === "pink" && "group-hover:text-zmoki-magenta-500",
-                ]}
-              >
-                &#8593;
-              </span>
-              <span class="font-mono text-xs uppercase group-hover:text-zmoki-ink">Go to top</span>
-            </button>
-          </div>
-        ) : (
-          <div />
-        )
-      }
-
-      <script is:inline>
-        document.querySelector('a[href^="mailto:"]')?.addEventListener("click", function () {
-          window.posthog?.capture("contact_email_clicked", {
-            email: this.getAttribute("href").replace("mailto:", ""),
-          });
-        });
-      </script>
-
-      <script>
-        const goToTopButton = document.getElementById("go-to-top-button");
-        if (goToTopButton) {
-          goToTopButton.addEventListener("click", () => {
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          });
-        }
-      </script>
-
-      <!-- Footer -->
-      <footer
-        class="row-span-2 self-end rounded-xl bg-zmoki-surface px-4 pb-4 pt-2 font-mono text-[0.625rem] uppercase tracking-normal text-zmoki-muted shadow-md xl:text-xs"
-      >
-        <div class="my-2">
-          <span>•</span>
-          <a href="/legal/privacy/">Privacy Policy</a>
-          <span>•</span>
-          <a href="/legal/terms/">Terms of Service</a>
-          <br />
-          <span>•</span>
-          <a href="https://github.com/Zmoki/zmoki.xyz" target="_blank" rel="noopener noreferrer"
-            >Source Code</a
-          >
-        </div>
-        <p>&copy; <a href="/">zmoki.xyz</a> 2025</p>
-      </footer>
-    </div>
+    <slot />
   </body>
 </html>

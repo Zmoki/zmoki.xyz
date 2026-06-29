@@ -216,7 +216,7 @@ const checklist = [
         <section class="flex flex-col gap-3 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
           <h3 class="text-lg font-semibold">{m.rule}</h3>
           <p class="bg-zmoki-jade-200/40 rounded-lg px-3 py-2 text-sm">
-            <span class="text-zmoki-jade-600 mr-1 font-mono text-xs uppercase tracking-normal">
+            <span class="mr-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">
               Yes
             </span>
             {m.right}
@@ -244,7 +244,7 @@ const checklist = [
               <p class="opacity-80">{ex.wrong}</p>
             </div>
             <div class="bg-zmoki-jade-200/40 rounded-lg border-l-4 border-zmoki-jade-500 p-4">
-              <p class="text-zmoki-jade-600 mb-1 font-mono text-xs uppercase tracking-normal">Do</p>
+              <p class="mb-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">Do</p>
               <p class="opacity-80">{ex.right}</p>
             </div>
           </div>
@@ -286,7 +286,7 @@ const checklist = [
   <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Words</h2>
   <div class="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
     <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
-      <h3 class="text-zmoki-jade-600 mb-4 text-xl font-semibold">Use</h3>
+      <h3 class="mb-4 text-xl font-semibold text-zmoki-jade-600">Use</h3>
       <ul class="flex flex-wrap gap-2">
         {
           lexicon.use.map((word) => (

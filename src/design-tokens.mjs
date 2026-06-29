@@ -7,6 +7,7 @@
 export const accents = {
   // zmoki-azure: primary links, navigation, hero sections, ink (900)
   "zmoki-azure": {
+    50: "#f2faff",
     200: "#b7e5ff",
     300: "#7ccfff",
     400: "#42b9ff",
@@ -28,6 +29,7 @@ export const accents = {
   // zmoki-jade: resource links, action buttons
   "zmoki-jade": {
     500: "#00f25a",
+    600: "#00cb4b",
   },
   // zmoki-flame: external links, Contact panel
   "zmoki-flame": {
@@ -41,8 +43,8 @@ export const accents = {
 
 // Neutrals — the structural palette. Flat single values, one per role.
 export const neutrals = {
-  "zmoki-bg": "#e2e8f0", // page background
-  "zmoki-surface": "#f8fafc", // cards & panels
+  "zmoki-bg": "#b7e5ff", // page background (mirrors zmoki-azure-200)
+  "zmoki-surface": "#f2faff", // cards & panels (mirrors zmoki-azure-50)
   "zmoki-ink": "#001d2e", // primary text (mirrors zmoki-azure-900)
   "zmoki-muted": "#475569", // muted / meta text
 };

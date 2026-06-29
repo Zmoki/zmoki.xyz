@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Time from "@/components/Time.astro";
+import { GitBranch, Home, Mail, Palette, Scale, Sprout } from "@lucide/astro";
 
 const { title, description, publishDate, contentModifiedDate } = Astro.props;
 ---
@@ -11,9 +12,49 @@ const { title, description, publishDate, contentModifiedDate } = Astro.props;
   publishDate={publishDate}
   contentModifiedDate={contentModifiedDate}
 >
-  <section class="space-y-4">
+  <section class="mx-auto max-w-4xl space-y-4 p-2 lg:p-4">
+    <!-- Top nav bento -->
+    <nav class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <a
+        href="/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Home class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Home</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >zmoki.xyz</span
+        >
+      </a>
+
+      <a
+        href="/garden/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Garden</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >garden</span
+        >
+      </a>
+
+      <a
+        href="mailto:hey@zmoki.xyz"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold">Say hi</h2>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >hey@zmoki.xyz</span
+        >
+      </a>
+    </nav>
+
+    <!-- Legal Header -->
     <header
-      class="flex flex-col gap-6 rounded-xl bg-zmoki-surface px-4 py-8 shadow-sm outline-dashed outline-8 -outline-offset-2 outline-slate-400 md:items-center md:p-16 md:text-center xl:p-20"
+      class="flex flex-col gap-6 rounded-xl bg-zmoki-surface px-4 py-8 shadow-md outline-dashed outline-8 -outline-offset-2 outline-slate-400 md:items-center md:p-16 md:text-center xl:p-20"
     >
       <h1 class="text-5xl font-semibold xl:text-6xl" set:html={title} />
       {description && <p class="text-2xl xl:text-3xl" set:html={description} />}
@@ -23,10 +64,70 @@ const { title, description, publishDate, contentModifiedDate } = Astro.props;
         <span>Updated on <Time datetime={contentModifiedDate} /></span>
       </p>
     </header>
+
+    <!-- Legal Content -->
     <section
-      class="prose max-w-none rounded-xl bg-zmoki-surface px-4 py-8 shadow-sm prose-headings:font-semibold md:p-16 xl:px-28 xl:py-16 [&_a]:text-zmoki-azure-500"
+      class="prose max-w-none rounded-xl bg-zmoki-surface px-4 py-8 shadow-md prose-headings:font-semibold md:p-16 xl:px-28 xl:py-16 [&_a]:text-zmoki-azure-500"
     >
       <slot />
     </section>
+
+    <!-- Footer bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <a
+        href="https://github.com/Zmoki/zmoki.xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold">Source code</h2>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >github.com</span
+        >
+      </a>
+
+      <a
+        href="/-/astro/brand/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Design system</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >brand</span
+        >
+      </a>
+
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <Scale class="h-6 w-6 text-zmoki-muted" />
+        <h2 class="text-xl font-semibold">Legal</h2>
+        <p class="flex flex-wrap gap-4">
+          <a
+            href="/legal/privacy/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >policy</a
+          >
+          <a
+            href="/legal/terms/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >terms</a
+          >
+        </p>
+      </article>
+    </div>
   </section>
+
+  <script is:inline>
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
+      });
+    });
+  </script>
 </BaseLayout>

@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { CollectionEntry } from "astro:content";
 import Time from "@/components/Time.astro";
+import { GitBranch, Home, Mail, Palette, Scale, Sprout } from "@lucide/astro";
 
 export interface Props {
   title: string;
@@ -21,9 +22,47 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   description={description}
   publishDate={publishDate}
   contentModifiedDate={contentModifiedDate}
-  accentColor="blue"
 >
-  <article class="space-y-4">
+  <article class="mx-auto max-w-4xl space-y-4 p-2 lg:p-4">
+    <!-- Top nav bento -->
+    <nav class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <a
+        href="/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Home class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Home</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >zmoki.xyz</span
+        >
+      </a>
+
+      <a
+        href="/garden/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Garden</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >garden</span
+        >
+      </a>
+
+      <a
+        href="mailto:hey@zmoki.xyz"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold">Say hi</h2>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >hey@zmoki.xyz</span
+        >
+      </a>
+    </nav>
+
     <!-- Post Header -->
     <header
       class="flex flex-col gap-6 rounded-xl bg-zmoki-surface px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-zmoki-azure-500 md:items-center md:p-16 md:text-center lg:p-20"
@@ -61,14 +100,13 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 
     <!-- About Author -->
     <aside
-      class="space-y-2 rounded-xl bg-zmoki-surface px-4 py-8 leading-normal text-zmoki-ink shadow-md md:bg-zmoki-magenta-500 md:p-16 md:text-slate-50 xl:p-20"
+      class="space-y-2 rounded-xl bg-zmoki-surface px-4 py-8 leading-normal text-zmoki-ink shadow-md md:p-16 xl:p-20"
     >
       <h2 class="pb-4 text-3xl font-medium xl:text-4xl">Written by Zarema Khalilova</h2>
       <p>
         I'm a software engineer, a contemporary artist, and a neurodivergent researcher. This post
-        is one piece of my <a
-          href="/feed/2-why-im-building-a-digital-garden/"
-          class="border-b-4 border-dotted border-current">digital&nbsp;garden</a
+        is one piece of my <a href="/garden/" class="border-b-4 border-dotted border-current"
+          >digital&nbsp;garden</a
         >, where I explore the connections between all my different worlds. You can find the bigger
         picture on the <a href="/feed/1-about-me/" class="border-b-4 border-dotted border-current"
           >map&nbsp;of&nbsp;me</a
@@ -118,9 +156,65 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         )
       }
     </nav>
+
+    <!-- Footer bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <a
+        href="https://github.com/Zmoki/zmoki.xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold">Source code</h2>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >github.com</span
+        >
+      </a>
+
+      <a
+        href="/-/astro/brand/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold">Design system</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >brand</span
+        >
+      </a>
+
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <Scale class="h-6 w-6 text-zmoki-muted" />
+        <h2 class="text-xl font-semibold">Legal</h2>
+        <p class="flex flex-wrap gap-4">
+          <a
+            href="/legal/privacy/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >policy</a
+          >
+          <a
+            href="/legal/terms/"
+            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >terms</a
+          >
+        </p>
+      </article>
+    </div>
   </article>
 
   <script is:inline>
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
+      });
+    });
+
     document.querySelectorAll("a[data-nav-direction]").forEach(function (el) {
       el.addEventListener("click", function () {
         window.posthog?.capture("post_navigation_clicked", {
