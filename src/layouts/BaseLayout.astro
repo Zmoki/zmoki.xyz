@@ -10,6 +10,7 @@ export interface Props {
   contentModifiedDate?: Date;
   surfaceBackground?: boolean;
   navClass?: string;
+  showTopNav?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   contentModifiedDate,
   surfaceBackground = false,
   navClass,
+  showTopNav = true,
 } = Astro.props;
 
 const isProduction = import.meta.env.PROD;
@@ -93,7 +95,7 @@ const pageImageWideUrl = new URL(
       surfaceBackground ? "bg-zmoki-surface" : "bg-zmoki-bg",
     ]}
   >
-    <TopNav class={navClass} />
+    {showTopNav && <TopNav class={navClass} />}
     <slot />
     <Footer />
   </body>

@@ -7,9 +7,13 @@ import { Activity, Mail } from "@lucide/astro";
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-08-03");
 
-const posts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
+const allPosts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
   (a, b) => b.data.order - a.data.order,
 );
+
+// "Start here" featured post (1-about-me) leads the grid; the rest stay newest first.
+const featured = allPosts.find((post) => post.slug.startsWith("1-"));
+const posts = featured ? [featured, ...allPosts.filter((post) => post !== featured)] : allPosts;
 const postImages = await Promise.all(posts.map((post) => firstPostImage(post.slug)));
 
 const formatDate = (date: Date) =>
@@ -19,58 +23,64 @@ const formatDate = (date: Date) =>
 <BaseLayout
   title="Digital Garden of Zarema Khalilova"
   description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
+  showTopNav={false}
 >
   <main class="space-y-8 p-2 lg:p-4">
-    <!-- Header -->
-    <section class="rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md md:p-12">
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div class="flex flex-col gap-4 lg:col-span-2">
-          <img
-            src="/zmoki.jpg"
-            alt="Zarema Khalilova"
-            width="112"
-            height="112"
-            class="h-28 w-28 rounded-full object-cover"
-          />
-          <h1 class="text-4xl font-semibold text-zmoki-magenta-500 md:text-5xl">
-            Zarema Khalilova
-          </h1>
-          <p class="text-xl md:text-2xl">
-            I build things, I make art, and I think out loud. Engineer, contemporary artist, data
-            person, all the same person. This is where every side lives.
-          </p>
-        </div>
-        <div class="flex flex-col justify-center gap-8">
-          <div class="flex flex-col gap-2">
-            <Activity class="h-6 w-6 text-zmoki-magenta-500" />
-            <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
-            <ul class="flex flex-col gap-1 text-sm md:text-base">
-              <li>Making paper collages with colored shadows</li>
-              <li>Researching how images perform in SEO</li>
-            </ul>
-            <a
-              href="/now/"
-              class="w-fit font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-              >now</a
-            >
-          </div>
-          <div class="flex flex-col gap-2">
-            <Mail class="h-6 w-6 text-zmoki-flame-500" />
-            <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
-            <a
-              href="mailto:hey@zmoki.xyz"
-              class="w-fit font-mono text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-              >hey@zmoki.xyz</a
-            >
-            <a
-              href="/contact/"
-              class="w-fit font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-              >contact</a
-            >
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Hero bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Intro — 2 wide -->
+      <article
+        class="flex flex-col justify-center gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2"
+      >
+        <img
+          src="/zmoki.jpg"
+          alt="Zarema Khalilova"
+          width="112"
+          height="112"
+          class="h-28 w-28 rounded-full object-cover"
+        />
+        <h1 class="text-4xl font-semibold text-zmoki-magenta-500 md:text-5xl">Zarema Khalilova</h1>
+        <p class="text-xl md:text-2xl">
+          I build things, I make art, and I think out loud. Engineer, contemporary artist, data
+          person, all the same person. This is where every side lives.
+        </p>
+      </article>
+
+      <!-- Right now -->
+      <a
+        href="/now/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Activity class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
+        <ul class="list-disc pl-4 text-xs marker:text-zmoki-magenta-500 md:text-sm">
+          <li>Making paper collages with colored shadows</li>
+          <li>Researching how images perform in SEO</li>
+        </ul>
+        <span
+          class="w-fit font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >now</span
+        >
+      </a>
+
+      <!-- Say hi -->
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
+        <a
+          href="mailto:hey@zmoki.xyz"
+          class="w-fit font-mono text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >hey@zmoki.xyz</a
+        >
+        <a
+          href="/contact/"
+          class="w-fit font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >contact</a
+        >
+      </article>
+    </div>
 
     <!-- All posts, masonry -->
     <section class="columns-1 gap-4 sm:columns-2 lg:columns-3">
@@ -81,17 +91,17 @@ const formatDate = (date: Date) =>
             class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
           >
             {postImages[i] && <img src={postImages[i]} alt="" class="w-full object-cover" />}
-            <span class="flex flex-col gap-2 p-6">
-              <span class="font-mono text-xs uppercase tracking-normal text-zmoki-muted">
-                <time datetime={post.data.contentModifiedDate.toISOString()}>
-                  {formatDate(post.data.contentModifiedDate)}
-                </time>
-              </span>
+            <span class="flex grow flex-col gap-2 p-6">
               <h2
                 class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
                 set:html={post.data.title}
               />
               <span class="text-sm opacity-80" set:html={post.data.description} />
+              <span class="mt-auto pt-2 font-mono text-xs uppercase tracking-normal text-zmoki-muted">
+                <time datetime={post.data.contentModifiedDate.toISOString()}>
+                  {formatDate(post.data.contentModifiedDate)}
+                </time>
+              </span>
             </span>
           </a>
         ))

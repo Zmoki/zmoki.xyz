@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import type { CollectionEntry } from "astro:content";
 import Time from "@/components/Time.astro";
 
 export interface Props {
@@ -8,11 +7,9 @@ export interface Props {
   description?: string;
   publishDate: Date;
   contentModifiedDate: Date;
-  prevPost?: CollectionEntry<"feed"> | null;
-  nextPost?: CollectionEntry<"feed"> | null;
 }
 
-const { title, description, publishDate, contentModifiedDate, prevPost, nextPost } = Astro.props;
+const { title, description, publishDate, contentModifiedDate } = Astro.props;
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
@@ -77,49 +74,6 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         }
       }
     </style>
-
-    <!-- Navigation -->
-    <nav class="grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
-      <!-- Previous Post -->
-      {
-        prevPost && (
-          <a
-            href={`/feed/${prevPost.slug}/`}
-            data-nav-direction="prev"
-            data-nav-slug={prevPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-zmoki-azure-500 bg-zmoki-surface px-6 pb-10 pt-8 shadow-md"
-          >
-            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
-            <div class="text-2xl font-medium leading-normal">
-              <span
-                set:html={prevPost.data.title}
-                class="border-b-4 border-dotted border-current"
-              />
-            </div>
-          </a>
-        )
-      }
-
-      <!-- Next Post -->
-      {
-        nextPost && (
-          <a
-            href={`/feed/${nextPost.slug}/`}
-            data-nav-direction="next"
-            data-nav-slug={nextPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-zmoki-azure-500 bg-zmoki-surface px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
-          >
-            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
-            <div class="text-2xl font-medium leading-normal">
-              <span
-                set:html={nextPost.data.title}
-                class="border-b-4 border-dotted border-current"
-              />
-            </div>
-          </a>
-        )
-      }
-    </nav>
   </article>
 
   <script is:inline>
@@ -127,15 +81,6 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       el.addEventListener("click", function () {
         window.posthog?.capture("contact_email_clicked", {
           email: this.getAttribute("href").replace("mailto:", ""),
-        });
-      });
-    });
-
-    document.querySelectorAll("a[data-nav-direction]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        window.posthog?.capture("post_navigation_clicked", {
-          direction: this.dataset.navDirection,
-          destination_slug: this.dataset.navSlug,
         });
       });
     });

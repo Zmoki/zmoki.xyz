@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Briefcase, Camera, Code, GitBranch, Home, Mail, MapPin, Sprout } from "@lucide/astro";
+import { Briefcase, Camera, GitBranch, Mail } from "@lucide/astro";
 
 export const publishDate = new Date("2026-08-03");
 export const contentModifiedDate = new Date("2026-08-03");
@@ -61,38 +61,6 @@ export const contentModifiedDate = new Date("2026-08-03");
         >
       </a>
 
-      <!-- The Technical Half — 2x1 -->
-      <a
-        href="https://www.linkedin.com/company/thetechnicalhalf/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40 sm:col-span-2"
-      >
-        <Code class="h-6 w-6 text-zmoki-azure-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">The Technical Half</h2>
-        <p class="text-sm md:text-base">
-          For marketing technology work. The LinkedIn page for the technical half of your marketing
-          team.
-        </p>
-        <span
-          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >@thetechnicalhalf</span
-        >
-      </a>
-
-      <!-- Based in — 1x1 -->
-      <article
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
-      >
-        <MapPin class="h-6 w-6 text-zmoki-ink" />
-        <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
-        <p class="text-sm md:text-base">
-          <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
-            >Tbilisi, Georgia</mark
-          > and remote
-        </p>
-      </article>
-
       <!-- GitHub — 1x1 -->
       <a
         href="https://github.com/Zmoki"
@@ -106,32 +74,6 @@ export const contentModifiedDate = new Date("2026-08-03");
         <span
           class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >@Zmoki</span
-        >
-      </a>
-
-      <!-- Home — 1x1 -->
-      <a
-        href="/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Home class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Home</h2>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >zmoki.xyz</span
-        >
-      </a>
-
-      <!-- Garden — 1x1 -->
-      <a
-        href="/garden/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Digital Garden</h2>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >garden</span
         >
       </a>
     </div>
