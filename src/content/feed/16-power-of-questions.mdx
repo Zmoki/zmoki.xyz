@@ -2,14 +2,23 @@
 title: "The strategic power of questions, from theory to SEO and AI search"
 description: "A deep understanding of how questions are formed is a critical component of modern content and SEO strategy. Here's the theory, its application to SEO, and the data-driven proof."
 publishDate: "2026-06-19"
-contentModifiedDate: "2026-06-19"
+contentModifiedDate: "2026-08-03"
 order: 16
 ---
 
 import PostImage from "@/components/PostImage.astro";
+import Split from "@/components/Split.astro";
 import MilanoteBoard from "@/images/screenshot-milanote-questions-research-board.png";
 import GscFilter from "@/images/screenshot-gsc-regex-filter-interrogative-questions.png";
 import GscResults from "@/images/screenshot-gsc-performance-interrogative-queries.png";
+
+<PostImage
+  src={MilanoteBoard}
+  alt="A Milanote research board titled 'questions', showing notes on what a question is, auxiliary verbs, modality, Yes/No questions, and interrogative questions."
+  class="post-right"
+>
+  My Milanote research board from the rabbit hole. The starting point for everything in this post.
+</PostImage>
 
 This is the full research document behind [a client project that started with a simple question](/feed/7-nerdy-curiosity-better-work/). A deep understanding of how questions are formed is a critical component of modern content and SEO strategy.
 
@@ -17,38 +26,38 @@ The difference between a "Yes/No" question and an "interrogative" question is th
 
 This document outlines the theory, its application to SEO, and the data-driven proof of its importance.
 
-<PostImage
-  src={MilanoteBoard}
-  alt="A Milanote research board titled 'questions', showing notes on what a question is, auxiliary verbs, modality, Yes/No questions, and interrogative questions."
->
-  My Milanote research board from the rabbit hole. The starting point for everything in this post.
-</PostImage>
-
 ## The theory of questions, from grammar to intent
 
 At its core, a question is a request for information. For content strategy, understanding a question's grammatical structure allows us to decode the user's intent. There are two fundamental categories:
 
-### 1. Closed questions (Yes/No questions)
+<Split>
+  <Fragment slot="left">
+    ### 1. Closed questions (Yes/No questions)
 
-These are designed for quick confirmation and can be answered with a simple "yes" or "no." Their intent is narrow: to validate a fact.
+    These are designed for quick confirmation and can be answered with a simple "yes" or "no." Their intent is narrow: to validate a fact.
 
-- **Structure:** They are formed by inverting the subject and a "helping verb." This verb is either:
-  - An **Auxiliary Verb** (is, are, do, does, have), which provides grammatical structure.
-  - A **Modal Verb** (can, will, should), which expresses modality (possibility, ability, etc.).
-- **Examples:**
-  - "Are AI ad audience research tools comparable?"
-  - "Can AI analyze data?"
-  - "Does programmatic advertising work?"
+    - **Structure:** They are formed by inverting the subject and a "helping verb." This verb is either:
+      - An **Auxiliary Verb** (is, are, do, does, have), which provides grammatical structure.
+      - A **Modal Verb** (can, will, should), which expresses modality (possibility, ability, etc.).
+    - **Examples:**
+      - "Are AI ad audience research tools comparable?"
+      - "Can AI analyze data?"
+      - "Does programmatic advertising work?"
 
-### 2. Open questions (interrogative questions)
+  </Fragment>
+  <Fragment slot="right">
+    ### 2. Open questions (interrogative questions)
 
-These are designed to encourage detailed, explanatory answers. Their intent is broad: to learn, understand, or solve a problem.
+    These are designed to encourage detailed, explanatory answers. Their intent is broad: to learn, understand, or solve a problem.
 
-- **Structure:** They begin with an interrogative word (What, Why, How, etc.) followed by an auxiliary or modal verb.
-- **Examples:**
-  - "What is considered PII?"
-  - "Why is page speed a ranking factor?"
-  - "How can you boost an Instagram page?"
+    - **Structure:** They begin with an interrogative word (What, Why, How, etc.) followed by an auxiliary or modal verb.
+    - **Examples:**
+      - "What is considered PII?"
+      - "Why is page speed a ranking factor?"
+      - "How can you boost an Instagram page?"
+
+  </Fragment>
+</Split>
 
 ### The building blocks, understanding modality and intent
 
@@ -74,11 +83,16 @@ For SEO, the goal is to align content with user intent. Interrogative questions 
 
 We can strategically map interrogative words to the user's journey, allowing us to create content that meets their needs at every stage.
 
+{/* prettier-ignore */}
+<div class="post-full">
+
 | Funnel Stage          | User's Goal                            | Key Interrogative Words |
 | --------------------- | -------------------------------------- | ----------------------- |
 | Top: Awareness        | "What is this thing?"                  | What…? Who…?            |
 | Middle: Consideration | "Why should I care? How does it work?" | Why…? How…?             |
 | Bottom: Decision      | "Which option is for me?"              | Which…? Best…? Vs.      |
+
+</div>
 
 ## The impact of AI search (Google AI Overviews)
 
