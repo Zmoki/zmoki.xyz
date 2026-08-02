@@ -5,7 +5,6 @@ import {
   contentModifiedDate as indexPageContentModifiedDate,
 } from "@/pages/index.astro";
 import { contentModifiedDate as gardenPageContentModifiedDate } from "@/pages/garden.astro";
-import { contentModifiedDate as techPageContentModifiedDate } from "@/pages/tech.astro";
 import { frontmatter as nowPageFrontmatter } from "@/pages/now.mdx";
 
 const { contentModifiedDate: nowPageContentModifiedDate } = nowPageFrontmatter;
@@ -49,7 +48,6 @@ export const GET: APIRoute = async ({ site }) => {
     <lastmod>${indexPageLatestDate}</lastmod>
   </url>
   ${sitemapUrl("garden/", gardenPageContentModifiedDate.toISOString().substring(0, 10))}
-  ${sitemapUrl("tech/", techPageContentModifiedDate.toISOString().substring(0, 10))}
   ${sitemapUrl("now/", nowPageContentModifiedDate)}
   ${allFeedIems
     .map((post: CollectionEntry<"feed">) =>
