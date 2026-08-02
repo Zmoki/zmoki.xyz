@@ -1,0 +1,149 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Briefcase, Camera, Code, GitBranch, Home, Mail, MapPin, Sprout } from "@lucide/astro";
+
+export const publishDate = new Date("2026-08-03");
+export const contentModifiedDate = new Date("2026-08-03");
+---
+
+<BaseLayout
+  title="Contact — Zarema Khalilova"
+  description="How to reach me. Email is the main door, and I'd genuinely love to hear from you."
+>
+  <main class="p-2 lg:p-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-4">
+      <!-- Hero — 2x2 -->
+      <article
+        class="flex flex-col justify-center gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2 lg:row-span-2"
+      >
+        <Mail class="h-10 w-10 text-zmoki-flame-500" />
+        <h1 class="text-4xl font-semibold text-zmoki-flame-500 md:text-5xl">Say hi</h1>
+        <p class="text-lg md:text-xl">
+          If a post resonates, you spot a mistake, or you want to build something together, I'd
+          genuinely love to hear from you. Email is the main door.
+        </p>
+        <a
+          href="mailto:hey@zmoki.xyz"
+          class="w-fit font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline md:text-3xl"
+          >hey@zmoki.xyz</a
+        >
+      </article>
+
+      <!-- LinkedIn — 1x1 -->
+      <a
+        href="https://www.linkedin.com/in/zaremakhalilova/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40"
+      >
+        <Briefcase class="h-6 w-6 text-zmoki-azure-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
+        <p class="text-sm md:text-base">the work side</p>
+        <span
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >@zaremakhalilova</span
+        >
+      </a>
+
+      <!-- Instagram — 1x1 -->
+      <a
+        href="https://www.instagram.com/zmoki/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Camera class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
+        <p class="text-sm md:text-base">the visual side</p>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >@zmoki</span
+        >
+      </a>
+
+      <!-- The Technical Half — 2x1 -->
+      <a
+        href="https://www.linkedin.com/company/thetechnicalhalf/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40 sm:col-span-2"
+      >
+        <Code class="h-6 w-6 text-zmoki-azure-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">The Technical Half</h2>
+        <p class="text-sm md:text-base">
+          For marketing technology work. The LinkedIn page for the technical half of your marketing
+          team.
+        </p>
+        <span
+          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >@thetechnicalhalf</span
+        >
+      </a>
+
+      <!-- Based in — 1x1 -->
+      <article
+        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
+      >
+        <MapPin class="h-6 w-6 text-zmoki-ink" />
+        <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
+        <p class="text-sm md:text-base">
+          <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
+            >Tbilisi, Georgia</mark
+          > and remote
+        </p>
+      </article>
+
+      <!-- GitHub — 1x1 -->
+      <a
+        href="https://github.com/Zmoki"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
+      >
+        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">GitHub</h2>
+        <p class="text-sm md:text-base">the code side</p>
+        <span
+          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >@Zmoki</span
+        >
+      </a>
+
+      <!-- Home — 1x1 -->
+      <a
+        href="/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Home class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Home</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >zmoki.xyz</span
+        >
+      </a>
+
+      <!-- Garden — 1x1 -->
+      <a
+        href="/garden/"
+        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+      >
+        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Digital Garden</h2>
+        <span
+          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          >garden</span
+        >
+      </a>
+    </div>
+  </main>
+
+  <script is:inline>
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", ""),
+        });
+      });
+    });
+  </script>
+</BaseLayout>
