@@ -168,11 +168,12 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 ## URL structure
 
 ```
-/                        # index: all feed posts
+/                        # index: hero bento + masonry grid of all feed posts
 /feed/{slug}/            # individual post (PostLayout)
 /resources/{slug}/       # resource page (ResourceLayout)
 /legal/{slug}/           # privacy, terms (LegalLayout)
 /now/                    # now page (NowLayout)
+/contact/                # contact page (bento cards: email, socials)
 /thank-you/{slug}/       # post-form confirmation pages
 /rss.xml                 # RSS feed
 /sitemap.xml             # sitemap
@@ -181,6 +182,8 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /-/astro/brand/          # brand design system home (internal, noindex)
 /-/astro/brand/color/    # color palette reference (BrandLayout)
 ```
+
+Removed URLs redirect via `public/_redirects`: `/tech/` → post 18, `/garden/` → `/`.
 
 ---
 
@@ -196,22 +199,29 @@ Props:
   description?: string        // default: "A digital garden of ideas, art, and research"
   publishDate?: Date
   contentModifiedDate?: Date
-  showRecentPosts?: boolean   // default: true — shows 3 latest posts in sidebar
-  accentColor?: "gray" | "blue" | "green" | "orange" | "pink"
+  surfaceBackground?: boolean // default: false — body bg zmoki-surface instead of zmoki-bg
+  navClass?: string           // extra classes for TopNav (e.g. to align with page content)
+  showTopNav?: boolean        // default: true — homepage hides it
 }
 ```
 
-Two-column desktop grid (`lg:grid-cols-[29%_71%]`), 7 rows. Left column: header → Author sidebar → Resources sidebar → Contact sidebar → Recent posts sidebar → accent bar → footer. Right column: `<main>` spans all 7 rows.
+Body structure: `TopNav` (unless hidden) → `<slot />` → `Footer`. No sidebars.
 
 Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images are served from `/og-images{pathname}wide.jpg` (or `/og-images/wide.jpg` for non-articles).
 
 ### `PostLayout.astro`
 
-Wraps `BaseLayout` with `accentColor="blue"`. Props: `title`, `description`, `publishDate`, `contentModifiedDate`, `prevPost?`, `nextPost?`. Shows article header with publish/modified dates, prose content, author bio, prev/next navigation.
+Wraps `BaseLayout` with `surfaceBackground` and an aligned top nav (`navClass="lg:pl-12 xl:pl-16"`). Props: `title`, `description?`, `publishDate`, `contentModifiedDate`. Split header (title + description in a 42rem left column, dates + author on the right), left-aligned prose content at `max-w-2xl`. No cards, no prev/next navigation.
 
-### `ResourceLayout.astro`, `LegalLayout.astro`, `NowLayout.astro`
+Post content layout helpers (defined in a global style in `PostLayout`, active from the `xl` breakpoint):
 
-Exist but follow the same `BaseLayout` wrapper pattern.
+- `post-right` — floats an element into a 28rem right rail beside the text (e.g. `<PostImage class="post-right" ...>`); consecutive ones stack.
+- `post-full` — stretches an element across text column + rail (72rem), for wide tables/images.
+- `Split.astro` component — 50/50 two-column block at the `post-full` width, via `<Fragment slot="left">` / `<Fragment slot="right">`; stacks below `xl`. See post 16 for both patterns.
+
+### `LegalLayout.astro`, `NowLayout.astro`
+
+Same pattern as `PostLayout` (surface background, split header with "Updated on" date, de-carded left-aligned prose). `ResourceLayout.astro` still follows the older card style.
 
 ### `BrandLayout.astro`
 
@@ -244,10 +254,6 @@ All colors are tokens defined in **`src/design-tokens.mjs`** — the single sour
 
 Supporting greys use Tailwind `slate-*` directly: borders, dark panels (`slate-700`), code-block bg (`slate-900`), and inverse light text (`slate-50` on colored panels). The header logo scrim keeps `bg-white/10`.
 
-### `accentColor` prop
-
-`BaseLayout` accepts `accentColor: "gray" | "blue" | "green" | "orange" | "pink"`, mapping to `slate` / `zmoki-azure` / `zmoki-jade` / `zmoki-flame` / `zmoki-magenta` for the article accent bar and go-to-top hover.
-
 ### Prose typography overrides
 
 Set in `tailwind.config.mjs`, referencing the design tokens:
@@ -276,11 +282,12 @@ Also uses `remark-definition-list` for `<dl>`/`<dt>`/`<dd>` support in MDX.
 
 ## Analytics events (PostHog)
 
-| Event                     | Where fired              | Properties                      |
-| ------------------------- | ------------------------ | ------------------------------- |
-| `contact_email_clicked`   | BaseLayout inline script | `email`                         |
-| `post_navigation_clicked` | PostLayout inline script | `direction`, `destination_slug` |
-| `code_block_copied`       | PostLayout inline script | `snippet_length`                |
+| Event                   | Where fired                                       | Properties                |
+| ----------------------- | ------------------------------------------------- | ------------------------- |
+| `contact_email_clicked` | inline scripts on pages/layouts with mailto links | `email`                   |
+| `post_viewed`           | `feed/[...slug].astro` inline script              | `post_slug`, `post_title` |
+| `resource_link_clicked` | `ResourceLink.astro`                              | resource slug/external    |
+| `code_block_copied`     | PostLayout inline script                          | `snippet_length`          |
 
 PostHog captures all listed events plus pageviews automatically.
 
@@ -288,18 +295,21 @@ PostHog captures all listed events plus pageviews automatically.
 
 ## Components
 
-| Component            | Purpose                                           |
-| -------------------- | ------------------------------------------------- |
-| `BaseLayout.astro`   | Shell: grid, meta, sidebars, analytics            |
-| `PostLayout.astro`   | Blog post wrapper                                 |
-| `PostCard.astro`     | Post list item on index page                      |
-| `PostImage.astro`    | Image with caption in posts                       |
-| `RawVideo.astro`     | Video embed                                       |
-| `Video.astro`        | Video with controls                               |
-| `BrevoForm.astro`    | Email signup form (Brevo)                         |
-| `ResourceLink.astro` | Renders a resource link in sidebar/resource pages |
-| `Time.astro`         | Renders `<time>` element with formatted date      |
-| `posthog.astro`      | PostHog init script (injected in `<head>`)        |
+| Component            | Purpose                                                        |
+| -------------------- | -------------------------------------------------------------- |
+| `BaseLayout.astro`   | Shell: meta, TopNav, Footer, analytics                         |
+| `PostLayout.astro`   | Blog post wrapper                                              |
+| `TopNav.astro`       | Colored nav chips (home / now / contact), rendered site-wide   |
+| `Footer.astro`       | Shared footer: avatar, page links, legal + source, copyright   |
+| `Split.astro`        | 50/50 two-column block for post content (left/right slots)     |
+| `PostImage.astro`    | Image with caption in posts; accepts `class` (e.g. post-right) |
+| `RawVideo.astro`     | Video embed                                                    |
+| `Video.astro`        | Video with controls                                            |
+| `BrevoForm.astro`    | Email signup form (Brevo)                                      |
+| `ResourceLink.astro` | Renders a resource link on resource pages                      |
+| `Time.astro`         | Renders `<time>` element with formatted date                   |
+| `posthog.astro`      | PostHog init script (injected in `<head>`)                     |
+| `PostCard.astro`     | Unused since the masonry homepage; candidate for deletion      |
 
 ---
 
