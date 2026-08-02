@@ -1,11 +1,16 @@
 ---
 import PostHog from "@/components/posthog.astro";
+import Footer from "@/components/Footer.astro";
+import TopNav from "@/components/TopNav.astro";
 
 export interface Props {
   title: string;
   description?: string;
   publishDate?: Date;
   contentModifiedDate?: Date;
+  surfaceBackground?: boolean;
+  navClass?: string;
+  showTopNav?: boolean;
 }
 
 const {
@@ -13,6 +18,9 @@ const {
   description = "A digital garden of ideas, art, and research",
   publishDate,
   contentModifiedDate,
+  surfaceBackground = false,
+  navClass,
+  showTopNav = true,
 } = Astro.props;
 
 const isProduction = import.meta.env.PROD;
@@ -82,8 +90,13 @@ const pageImageWideUrl = new URL(
     {analyticsEnabled && <PostHog />}
   </head>
   <body
-    class="min-h-full bg-zmoki-bg font-sans text-lg leading-tight tracking-tight text-zmoki-ink xl:text-xl"
+    class:list={[
+      "min-h-full font-sans text-lg leading-tight tracking-tight text-zmoki-ink xl:text-xl",
+      surfaceBackground ? "bg-zmoki-surface" : "bg-zmoki-bg",
+    ]}
   >
+    {showTopNav && <TopNav class={navClass} />}
     <slot />
+    <Footer />
   </body>
 </html>

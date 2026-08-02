@@ -1,19 +1,15 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import type { CollectionEntry } from "astro:content";
 import Time from "@/components/Time.astro";
-import { GitBranch, Home, Mail, Palette, Scale, Sprout } from "@lucide/astro";
 
 export interface Props {
   title: string;
   description?: string;
   publishDate: Date;
   contentModifiedDate: Date;
-  prevPost?: CollectionEntry<"feed"> | null;
-  nextPost?: CollectionEntry<"feed"> | null;
 }
 
-const { title, description, publishDate, contentModifiedDate, prevPost, nextPost } = Astro.props;
+const { title, description, publishDate, contentModifiedDate } = Astro.props;
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
@@ -22,55 +18,18 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   description={description}
   publishDate={publishDate}
   contentModifiedDate={contentModifiedDate}
+  surfaceBackground
+  navClass="lg:pl-12 xl:pl-16"
 >
-  <article class="mx-auto max-w-4xl space-y-4 p-2 lg:p-4">
-    <!-- Top nav bento -->
-    <nav class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <a
-        href="/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Home class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold">Home</h2>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >zmoki.xyz</span
-        >
-      </a>
-
-      <a
-        href="/garden/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold">Garden</h2>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >garden</span
-        >
-      </a>
-
-      <a
-        href="mailto:hey@zmoki.xyz"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
-      >
-        <Mail class="h-6 w-6 text-zmoki-flame-500" />
-        <h2 class="text-xl font-semibold">Say hi</h2>
-        <span
-          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >hey@zmoki.xyz</span
-        >
-      </a>
-    </nav>
-
+  <article class="space-y-8 p-4 lg:p-8 lg:pl-12 xl:pl-16">
     <!-- Post Header -->
     <header
-      class="flex flex-col gap-6 rounded-xl bg-zmoki-surface px-4 py-8 outline-dashed outline-8 -outline-offset-2 outline-zmoki-azure-500 md:items-center md:p-16 md:text-center lg:p-20"
+      class="grid grid-cols-1 gap-6 py-8 lg:grid-cols-[minmax(0,42rem)_auto] lg:gap-x-12 lg:gap-y-6"
     >
       <h1 class="text-4xl font-semibold xl:text-6xl" set:html={title} />
-      {description && <p class="text-2xl xl:text-3xl" set:html={description} />}
+      {description && <p class="text-2xl lg:col-start-1 xl:text-3xl" set:html={description} />}
       <p
-        class="order-first flex flex-col gap-2 font-mono text-xs uppercase tracking-normal opacity-70 md:flex-row lg:gap-4 xl:text-sm"
+        class="flex flex-col gap-2 self-start font-mono text-xs uppercase tracking-normal opacity-70 lg:col-start-2 lg:row-start-2 xl:text-sm"
       >
         {
           isContentModified ? (
@@ -88,122 +47,33 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
             </span>
           )
         }
+        <span>Author: Zarema Khalilova</span>
       </p>
     </header>
 
     <!-- Post Content -->
-    <div
-      class="prose prose-xl max-w-none rounded-xl bg-zmoki-surface px-4 py-8 shadow-md 2xl:prose-2xl prose-headings:font-semibold md:p-16 xl:pb-24 2xl:px-28 2xl:py-16"
-    >
+    <div class="prose prose-xl max-w-2xl 2xl:prose-2xl prose-headings:font-semibold">
       <slot />
     </div>
 
-    <!-- About Author -->
-    <aside
-      class="space-y-2 rounded-xl bg-zmoki-surface px-4 py-8 leading-normal text-zmoki-ink shadow-md md:p-16 xl:p-20"
-    >
-      <h2 class="pb-4 text-3xl font-medium xl:text-4xl">Written by Zarema Khalilova</h2>
-      <p>
-        I'm a software engineer, a contemporary artist, and a neurodivergent researcher. This post
-        is one piece of my <a href="/garden/" class="border-b-4 border-dotted border-current"
-          >digital&nbsp;garden</a
-        >, where I explore the connections between all my different worlds. You can find the bigger
-        picture on the <a href="/feed/1-about-me/" class="border-b-4 border-dotted border-current"
-          >map&nbsp;of&nbsp;me</a
-        > post.
-      </p>
-    </aside>
-
-    <!-- Navigation -->
-    <nav class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!-- Previous Post -->
-      {
-        prevPost && (
-          <a
-            href={`/feed/${prevPost.slug}/`}
-            data-nav-direction="prev"
-            data-nav-slug={prevPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-l-8 border-solid border-zmoki-azure-500 bg-zmoki-surface px-6 pb-10 pt-8 shadow-md"
-          >
-            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Previous</div>
-            <div class="text-2xl font-medium leading-normal">
-              <span
-                set:html={prevPost.data.title}
-                class="border-b-4 border-dotted border-current"
-              />
-            </div>
-          </a>
-        )
+    <style is:global>
+      /* Content layout helpers, usable on any element inside a post
+         (e.g. <PostImage class="post-right" ...> or <div class="post-full">).
+         The text column is 42rem; the right rail is 28rem with a 2rem gap. */
+      @media screen(xl) {
+        .prose .post-right {
+          float: right;
+          clear: right;
+          width: 28rem;
+          margin-right: -30rem;
+          margin-left: 2rem;
+        }
+        .prose .post-full {
+          width: 72rem;
+          max-width: none;
+        }
       }
-
-      <!-- Next Post -->
-      {
-        nextPost && (
-          <a
-            href={`/feed/${nextPost.slug}/`}
-            data-nav-direction="next"
-            data-nav-slug={nextPost.slug}
-            class="flex flex-col gap-2 rounded-xl border-r-8 border-solid border-zmoki-azure-500 bg-zmoki-surface px-6 pb-10 pt-8 text-right shadow-md md:col-start-2"
-          >
-            <div class="font-mono text-sm uppercase tracking-normal opacity-70">Next</div>
-            <div class="text-2xl font-medium leading-normal">
-              <span
-                set:html={nextPost.data.title}
-                class="border-b-4 border-dotted border-current"
-              />
-            </div>
-          </a>
-        )
-      }
-    </nav>
-
-    <!-- Footer bento -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <a
-        href="https://github.com/Zmoki/zmoki.xyz"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
-      >
-        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
-        <h2 class="text-xl font-semibold">Source code</h2>
-        <span
-          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >github.com</span
-        >
-      </a>
-
-      <a
-        href="/-/astro/brand/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold">Design system</h2>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >brand</span
-        >
-      </a>
-
-      <article
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
-      >
-        <Scale class="h-6 w-6 text-zmoki-muted" />
-        <h2 class="text-xl font-semibold">Legal</h2>
-        <p class="flex flex-wrap gap-4">
-          <a
-            href="/legal/privacy/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-            >policy</a
-          >
-          <a
-            href="/legal/terms/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-            >terms</a
-          >
-        </p>
-      </article>
-    </div>
+    </style>
   </article>
 
   <script is:inline>
@@ -211,15 +81,6 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
       el.addEventListener("click", function () {
         window.posthog?.capture("contact_email_clicked", {
           email: this.getAttribute("href").replace("mailto:", ""),
-        });
-      });
-    });
-
-    document.querySelectorAll("a[data-nav-direction]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        window.posthog?.capture("post_navigation_clicked", {
-          direction: this.dataset.navDirection,
-          destination_slug: this.dataset.navSlug,
         });
       });
     });

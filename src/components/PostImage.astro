@@ -5,15 +5,16 @@ import type { LocalImageProps } from "astro:assets";
 interface Props {
   src: LocalImageProps["src"];
   alt: string;
+  class?: string;
 }
 
-const { src, alt } = Astro.props;
+const { src, alt, class: className } = Astro.props;
 
 const licenseUrl = new URL("/terms#1-content-images--text", Astro.url).href;
 ---
 
 <figure
-  class="!my-0 flex w-full flex-col items-center"
+  class:list={["!my-0 flex w-full flex-col items-center", className]}
   itemscope
   itemtype="https://schema.org/ImageObject"
 >

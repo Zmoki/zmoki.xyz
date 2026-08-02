@@ -1,0 +1,47 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<nav
+  class:list={["flex flex-wrap gap-2 px-2 pt-2 lg:gap-4 lg:px-4 lg:pt-4", className]}
+  aria-label="Main"
+>
+  <a
+    href="/"
+    class="group flex w-fit items-center gap-2 bg-zmoki-azure-500 px-5 py-2 text-slate-50 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-azure-500/40"
+  >
+    <img
+      src="/zmoki.jpg"
+      alt="Zarema Khalilova"
+      width="24"
+      height="24"
+      class="h-6 w-6 rounded-full object-cover"
+    />
+    <span
+      class="font-mono text-sm underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+      >home</span
+    >
+  </a>
+  <a
+    href="/now/"
+    class="group flex w-fit items-center bg-zmoki-magenta-500 px-5 py-2 text-slate-50 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-magenta-500/40"
+  >
+    <span
+      class="font-mono text-sm underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+      >now</span
+    >
+  </a>
+  <a
+    href="/contact/"
+    class="group flex w-fit items-center bg-zmoki-flame-500 px-5 py-2 text-slate-50 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-flame-500/40"
+  >
+    <span
+      class="font-mono text-sm underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+      >contact</span
+    >
+  </a>
+</nav>

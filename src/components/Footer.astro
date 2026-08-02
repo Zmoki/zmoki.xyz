@@ -1,0 +1,74 @@
+---
+import { MapPin } from "@lucide/astro";
+
+const year = new Date().getFullYear();
+
+const pageLinks = [
+  { href: "/", label: "home" },
+  { href: "/contact/", label: "contact" },
+  { href: "/now/", label: "now" },
+];
+
+const legalLinks = [
+  { href: "/legal/privacy/", label: "privacy policy" },
+  { href: "/legal/terms/", label: "terms" },
+];
+---
+
+<footer class="px-2 pb-2 lg:px-4 lg:pb-4">
+  <div class="rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md">
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="flex items-center gap-4">
+        <img
+          src="/zmoki.jpg"
+          alt="Zarema Khalilova"
+          width="56"
+          height="56"
+          class="h-14 w-14 rounded-full object-cover"
+        />
+      </div>
+      <nav class="flex flex-col gap-2" aria-label="Pages">
+        {
+          pageLinks.map((link) => (
+            <a
+              href={link.href}
+              class="w-fit font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+      <nav class="flex flex-col gap-2" aria-label="Legal">
+        {
+          legalLinks.map((link) => (
+            <a
+              href={link.href}
+              class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        <a
+          href="https://github.com/Zmoki/zmoki.xyz"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-fit font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >source code</a
+        >
+      </nav>
+      <div class="flex flex-col gap-2">
+        <MapPin class="h-6 w-6 text-zmoki-ink" />
+        <p class="text-sm md:text-base">
+          <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
+            >Tbilisi, Georgia</mark
+          >
+        </p>
+      </div>
+    </div>
+    <p class="mt-8 border-t border-slate-200 pt-4 font-mono text-sm text-zmoki-muted">
+      © {year} Zarema Khalilova
+    </p>
+  </div>
+</footer>

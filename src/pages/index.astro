@@ -1,44 +1,36 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import { firstPostImage, imageUrl } from "@/utils/post-image";
-import {
-  Activity,
-  Briefcase,
-  CalendarDays,
-  Camera,
-  Code,
-  GitBranch,
-  Mail,
-  MapPin,
-  Palette,
-  Scale,
-  Sprout,
-} from "@lucide/astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { firstPostImage } from "@/utils/post-image";
+import { Activity, Mail } from "@lucide/astro";
 
 export const publishDate = new Date("2025-09-09");
-export const contentModifiedDate = new Date("2026-06-29");
+export const contentModifiedDate = new Date("2026-08-03");
 
-const allPosts: CollectionEntry<"feed">[] = await getCollection("feed");
-// Match by the leading number in the filename/slug (e.g. "6-tbilisi-swaps-guide")
-const postByNumber = (n: number) => allPosts.find((post) => post.slug.startsWith(`${n}-`));
-const post1 = postByNumber(1);
+const allPosts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
+  (a, b) => b.data.order - a.data.order,
+);
 
-const dayThemes = await getEntry("resources", "day-themes-menu");
+// "Start here" featured post (1-about-me) leads the grid; the rest stay newest first.
+const featured = allPosts.find((post) => post.slug.startsWith("1-"));
+const posts = featured ? [featured, ...allPosts.filter((post) => post !== featured)] : allPosts;
+const postImages = await Promise.all(posts.map((post) => firstPostImage(post.slug)));
 
-const post1Image = post1 ? await firstPostImage(post1.slug) : undefined;
-const dayThemesImage = await imageUrl("/src/images/screenshot-notion-day-themes.png");
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 ---
 
 <BaseLayout
   title="Digital Garden of Zarema Khalilova"
   description="A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche."
+  showTopNav={false}
 >
-  <main class="p-2 lg:p-4">
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-4">
-      <!-- Card 1 — 2x2 -->
+  <main class="space-y-8 p-2 lg:p-4">
+    <!-- Hero bento -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Intro — 2 wide -->
       <article
-        class="flex flex-col justify-center gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2 lg:row-span-2"
+        class="flex flex-col justify-center gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md sm:col-span-2"
       >
         <img
           src="/zmoki.jpg"
@@ -54,229 +46,67 @@ const dayThemesImage = await imageUrl("/src/images/screenshot-notion-day-themes.
         </p>
       </article>
 
-      <!-- Card 2 — 1x2 -->
-      <a
-        href="/tech/"
-        class="group flex flex-col justify-end gap-4 rounded-xl bg-zmoki-surface p-8 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40 lg:row-span-2"
-      >
-        <Code class="h-6 w-6 text-zmoki-azure-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">The technical half</h2>
-        <p class="text-base md:text-lg">
-          As a Marketing Technologist I help marketers with engineering stuff.
-        </p>
-        <span
-          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >tech</span
-        >
-      </a>
-
-      <!-- Card 4 — 1x1 — Based in -->
-      <article
-        class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
-      >
-        <MapPin class="h-6 w-6 text-zmoki-ink" />
-        <h2 class="text-xl font-semibold md:text-2xl">Based in</h2>
-        <p class="text-sm md:text-base">
-          <mark class="bg-zmoki-lemon box-decoration-clone px-1 text-zmoki-ink"
-            >Tbilisi, Georgia</mark
-          >
-        </p>
-      </article>
-
-      <!-- Card 3 — 1x1 — Right now -->
+      <!-- Right now -->
       <a
         href="/now/"
         class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
       >
         <Activity class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
-        <p class="text-sm md:text-base">GoodINP, websites migration, paper collages</p>
+        <ul class="list-disc pl-4 text-xs marker:text-zmoki-magenta-500 md:text-sm">
+          <li>Making paper collages with colored shadows</li>
+          <li>Researching how images perform in SEO</li>
+        </ul>
         <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+          class="w-fit font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
           >now</span
         >
       </a>
 
-      <!-- Card 7 — 2x1 — The digital garden -->
-      <a
-        href="/garden/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2"
-      >
-        <Sprout class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Digital Garden</h2>
-        <p class="text-base md:text-lg">Essays and deep dives where my interests connect.</p>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >garden</span
-        >
-      </a>
-
-      <!-- Card 12 — 1x1 — Instagram -->
-      <a
-        href="https://www.instagram.com/zmoki/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
-      >
-        <Camera class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Instagram</h2>
-        <p class="text-sm md:text-base">the visual side</p>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >@zmoki</span
-        >
-      </a>
-
-      <!-- Card 10 — 1x2 — Day Themes Notion template resource -->
-      {
-        dayThemes && dayThemes.data.type === "link" && (
-          <a
-            href={dayThemes.data.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-resource="true"
-            data-resource-slug={dayThemes.slug}
-            data-resource-external="true"
-            class="group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-jade-500/40 lg:row-span-2"
-          >
-            {dayThemesImage && (
-              <img
-                src={dayThemesImage}
-                alt=""
-                aria-hidden="true"
-                class="absolute inset-0 h-full w-full -translate-x-6 -rotate-6 scale-125 object-cover"
-              />
-            )}
-            <div class="absolute inset-0 bg-gradient-to-t from-zmoki-surface/95 via-zmoki-surface/60 to-zmoki-surface/10" />
-            <div class="relative flex flex-col gap-2">
-              <CalendarDays class="h-6 w-6 text-zmoki-jade-600" />
-              <h2
-                class="text-xl font-semibold md:text-2xl"
-                set:html={dayThemes.data.title.replace(" Notion template", "")}
-              />
-              <p
-                class="text-sm opacity-90 md:text-base"
-                set:html={dayThemes.data.description.split(". ")[0] + "."}
-              />
-              <span class="font-mono text-sm text-zmoki-jade-600 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline">
-                notion.com
-              </span>
-            </div>
-          </a>
-        )
-      }
-
-      <!-- Card 8 — 2x2 — preview of post #1 -->
-      {
-        post1 && (
-          <a
-            href={`/feed/${post1.slug}/`}
-            style={post1Image ? `background-image:url(${post1Image})` : undefined}
-            class="group relative flex flex-col justify-end gap-2 overflow-hidden rounded-xl bg-zmoki-surface bg-cover bg-center p-6 text-slate-50 shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2 lg:row-span-2"
-          >
-            <div class="absolute inset-0 bg-gradient-to-t from-zmoki-ink/95 via-zmoki-ink/50 to-zmoki-ink/10" />
-            <div class="relative flex flex-col gap-2">
-              <p class="font-mono text-xs uppercase tracking-wider text-zmoki-magenta-400">
-                from the garden
-              </p>
-              <h2
-                class="text-xl font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-2xl"
-                set:html={post1.data.title}
-              />
-              <p class="text-sm opacity-90 md:text-base" set:html={post1.data.description} />
-              <p class="font-mono text-xs uppercase tracking-normal opacity-80">
-                <time datetime={post1.data.contentModifiedDate.toISOString()}>
-                  {post1.data.contentModifiedDate.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-              </p>
-            </div>
-          </a>
-        )
-      }
-
-      <!-- Card 9 — 1x1 — LinkedIn -->
-      <a
-        href="https://www.linkedin.com/in/zaremakhalilova/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/40"
-      >
-        <Briefcase class="h-6 w-6 text-zmoki-azure-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">LinkedIn</h2>
-        <p class="text-sm md:text-base">the work side</p>
-        <span
-          class="font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >@zaremakhalilova</span
-        >
-      </a>
-
-      <!-- Card 14 — 2x1 — Say hi -->
-      <a
-        href="mailto:hey@zmoki.xyz"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40 sm:col-span-2"
-      >
-        <Mail class="h-6 w-6 text-zmoki-flame-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
-        <span
-          class="font-mono text-2xl text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline md:text-3xl"
-          >hey@zmoki.xyz</span
-        >
-      </a>
-
-      <!-- Card 13 — 1x1 — Source code -->
-      <a
-        href="https://github.com/Zmoki/zmoki.xyz"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-flame-500/40"
-      >
-        <GitBranch class="h-6 w-6 text-zmoki-flame-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Source code</h2>
-        <p class="text-sm md:text-base">this site on GitHub</p>
-        <span
-          class="font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >github.com</span
-        >
-      </a>
-
-      <!-- Card 16 — 2x1 — Design system -->
-      <a
-        href="/-/astro/brand/"
-        class="group flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40 sm:col-span-2"
-      >
-        <Palette class="h-6 w-6 text-zmoki-magenta-500" />
-        <h2 class="text-xl font-semibold md:text-2xl">Design system</h2>
-        <p class="text-sm md:text-base">colors, type, components</p>
-        <span
-          class="font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
-          >brand</span
-        >
-      </a>
-
-      <!-- Card 15 — 1x1 — Legal -->
+      <!-- Say hi -->
       <article
         class="flex flex-col justify-end gap-2 rounded-xl bg-zmoki-surface p-6 text-zmoki-ink shadow-md"
       >
-        <Scale class="h-6 w-6 text-zmoki-muted" />
-        <h2 class="text-xl font-semibold md:text-2xl">Legal</h2>
-        <p class="flex flex-col gap-1">
-          <a
-            href="/legal/privacy/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-            >policy</a
-          >
-          <a
-            href="/legal/terms/"
-            class="w-fit font-mono text-sm text-zmoki-muted underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
-            >terms</a
-          >
-        </p>
+        <Mail class="h-6 w-6 text-zmoki-flame-500" />
+        <h2 class="text-xl font-semibold md:text-2xl">Say hi</h2>
+        <a
+          href="mailto:hey@zmoki.xyz"
+          class="w-fit font-mono text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >hey@zmoki.xyz</a
+        >
+        <a
+          href="/contact/"
+          class="w-fit font-mono text-sm text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >contact</a
+        >
       </article>
     </div>
+
+    <!-- All posts, masonry -->
+    <section class="columns-1 gap-4 sm:columns-2 lg:columns-3">
+      {
+        posts.map((post, i) => (
+          <a
+            href={`/feed/${post.slug}/`}
+            class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
+          >
+            {postImages[i] && <img src={postImages[i]} alt="" class="w-full object-cover" />}
+            <span class="flex grow flex-col gap-2 p-6">
+              <h2
+                class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
+                set:html={post.data.title}
+              />
+              <span class="text-sm opacity-80" set:html={post.data.description} />
+              <span class="mt-auto pt-2 font-mono text-xs uppercase tracking-normal text-zmoki-muted">
+                <time datetime={post.data.contentModifiedDate.toISOString()}>
+                  {formatDate(post.data.contentModifiedDate)}
+                </time>
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </section>
   </main>
 
   <script is:inline>
@@ -284,14 +114,6 @@ const dayThemesImage = await imageUrl("/src/images/screenshot-notion-day-themes.
       el.addEventListener("click", function () {
         window.posthog?.capture("contact_email_clicked", {
           email: this.getAttribute("href").replace("mailto:", ""),
-        });
-      });
-    });
-    document.querySelectorAll('a[data-resource="true"]').forEach(function (el) {
-      el.addEventListener("click", function () {
-        window.posthog?.capture("resource_link_clicked", {
-          resource_slug: this.dataset.resourceSlug,
-          is_external: this.dataset.resourceExternal === "true",
         });
       });
     });
