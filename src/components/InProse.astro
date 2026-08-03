@@ -1,0 +1,37 @@
+---
+export interface Props {
+  centered?: boolean;
+  aside?: boolean;
+}
+
+const { centered = false, aside = false } = Astro.props;
+
+const hasSecondary = Astro.slots.has("secondary");
+---
+
+<div
+  class:list={[
+    { "xl:w-[100ch]": !aside },
+    { "flex flex-col items-center justify-center gap-4": centered },
+    {
+      "grid grid-cols-1 gap-4 xl:grid-cols-[55ch_1fr] xl:gap-12":
+        hasSecondary && !centered && !aside,
+    },
+    {
+      "grid grid-cols-1 gap-4 xl:grid-cols-[1fr_55ch] xl:gap-12":
+        hasSecondary && !centered && aside,
+    },
+    { "xl:float-right xl:clear-right xl:mr-[-47ch] xl:mt-[-6em] xl:w-[42ch]": aside },
+  ]}
+>
+  <div class:list={["primary mb-[-1.2em]", { "xl:w-[60ch]": centered }, { "md:prose-sm": aside }]}>
+    <slot />
+  </div>
+  {
+    hasSecondary && !aside && (
+      <div class:list={["secondary mb-[-1.2em]", { "xl:w-[60ch]": centered }]}>
+        <slot name="secondary" />
+      </div>
+    )
+  }
+</div>

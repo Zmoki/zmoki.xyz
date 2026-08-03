@@ -2,13 +2,17 @@
 title: "My tech SEO recommendations for new websites"
 description: "A practical checklist for setting up a new domain and website based on my experience creating dozens of websites since 2004."
 publishDate: "2025-12-02"
-contentModifiedDate: "2025-12-02"
+contentModifiedDate: "2026-08-03"
 order: 14
 ---
+
+import InProse from "@/components/InProse.astro";
 
 I've been an active internet user since about 2002, and in 2004 I fell in love with web development. Over the years since then, I've created dozens of websites for myself personally, as pet projects, for my own businesses, and for companies where I worked as a software engineer.
 
 And only now, while working on [this digital garden](/feed/2-why-im-building-a-digital-garden/) of mine, I thought to write down and share the main things that need to be taken into account when launching a new website.
+
+<InProse aside>
 
 ## TLDR: Quick SEO checklist for new websites
 
@@ -83,6 +87,8 @@ Content Quality (Most Important!)
 - [ ] Show who created the content (bylines, author pages)
 ```
 
+</InProse>
+
 ## Every website starts with a domain
 
 Think of a domain like your website's address. Just like your home has a street address, your website needs a domain name (like `zmoki.xyz`) so people can find it on the internet.
@@ -115,29 +121,42 @@ SSL (Secure Sockets Layer) is like a lock on your front door. When someone visit
 
 Without SSL, anyone can intercept the data being sent between your website and your visitors. With SSL, that data is encrypted and safe.
 
-**HTTP Strict Transport Security (HSTS)** is an extra security layer. It tells browsers: "Always use the secure version (https) of this website, never the insecure version (http)." This prevents attackers from tricking visitors into using an insecure connection.
-
-For Cloudflare users, you can enable HSTS here: [Cloudflare HSTS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/)
-
-### Other security headers
+### Security headers
 
 Security headers are like security guards for your website. They tell browsers how to behave when visiting your site.
 
-1. **Content-Security-Policy (CSP)**: This tells the browser which sources are allowed to load content on your page. It's like a bouncer at a club who checks IDs. Only approved sources can load scripts, images, or styles.
+Check your website's security headers on [securityheaders.com](https://securityheaders.com/) and follow their instructions to fix any issues.
 
-   For Cloudflare Pages, you can set this up here: [Cloudflare Pages headers configuration](https://developers.cloudflare.com/pages/configuration/headers/)
+#### HTTP Strict Transport Security (HSTS)
 
-   Here's my example CSP:
+HSTS is an extra security layer. It tells browsers: "Always use the secure version (https) of this website, never the insecure version (http)." This prevents attackers from tricking visitors into using an insecure connection.
 
-   ```
-   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: i.zmoki.xyz; media-src 'self' i.zmoki.xyz; font-src 'self'; connect-src 'self' cloudflareinsights.com; object-src 'none'; frame-ancestors 'none';
-   ```
+For Cloudflare users, you can learn how to enable HSTS in [Cloudflare HSTS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/)
 
-   This says: "Only load scripts and styles from my own domain, allow images from my image subdomain, and don't allow any embedded objects or frames."
+#### Content-Security-Policy (CSP)
 
-2. **Permissions-Policy**: This controls which browser features your website can use. For example, you can disable the camera or microphone access, even if your code tries to use them.
+CSP tells the browser which sources are allowed to load content on your page.
 
-Check your website's security headers here: [securityheaders.com](https://securityheaders.com/) and follow their instructions to fix any issues.
+<InProse aside>
+Here's my example CSP:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: i.zmoki.xyz; media-src 'self' i.zmoki.xyz; font-src 'self'; connect-src 'self' cloudflareinsights.com; object-src 'none'; frame-ancestors 'none';
+```
+
+This says: "Only load scripts and styles from my own domain, allow images from my image subdomain, and don't allow any embedded objects or frames."
+
+</InProse>
+
+It's like a bouncer at a club who checks IDs. Only approved sources can load scripts, images, or styles.
+
+For Cloudflare Pages, read [Cloudflare Pages headers configuration](https://developers.cloudflare.com/pages/configuration/headers/)
+
+#### Permissions-Policy
+
+This controls which browser features your website can use.
+
+For example, you can disable the camera or microphone access, even if your code tries to use them.
 
 ## Website-level settings
 
@@ -199,7 +218,8 @@ Learn more: [Google's image sitemap documentation](https://developers.google.com
 
 `robots.txt` is like a sign on your door that tells search engine crawlers (the robots that scan websites) which parts of your site they can and cannot visit.
 
-Add a `robots.txt` file to your website root. Here's a basic example:
+<InProse aside>
+Basic example of `robots.txt`:
 
 ```text
 User-agent: *
@@ -210,11 +230,11 @@ Sitemap: https://www.example.com/sitemap.xml
 
 This says: "All search engines, you're allowed to crawl everything on my site, and here's where my sitemap is located."
 
-<callout icon="/icons/new-badge_pink.svg" color="pink_bg">
-  If you want to disallow something in robots.txt, first be sure that it's not indexed, because
-  robots.txt doesn't control indexing, only crawling. These are different things! Crawling means the
-  search engine visits the page. Indexing means the search engine adds it to their search results.
-</callout>
+</InProse>
+
+Add a `robots.txt` file to your website root.
+
+If you want to disallow something in robots.txt, first be sure that it's not indexed, because **`robots.txt` doesn't control indexing**, only crawling. These are different things! Crawling means the search engine visits the page. Indexing means the search engine adds it to their search results.
 
 ### What about hyped llms.txt?
 

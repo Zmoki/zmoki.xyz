@@ -6,6 +6,7 @@ contentModifiedDate: "2026-03-26"
 order: 1
 ---
 
+import InProse from "@/components/InProse.astro";
 import PostImage from "@/components/PostImage.astro";
 import ImageZaremaMoscowJS from "@/images/photo-zarema-on-stage-moscowjs-50-2021.jpg";
 import ImageMisha from "@/images/photo-cat-misha.jpeg";
@@ -15,6 +16,16 @@ import ImageFirstExhibitionLayout from "@/images/photo-zarema-first-exhibition-l
 
 My name is Zarema Khalilova. For a long time, I treated my identities as separate lives, stored in different boxes. This digital garden is the place where they all meet.
 
+<InProse aside>
+  <PostImage
+    src={ImageZaremaMoscowJS}
+    alt="Photo of Zarema Khalilova on stage at MoscowJS 50 event in 2021 during the talk 'So what next?'"
+  >
+    Me on stage at [MoscowJS 50](https://habr.com/ru/companies/moscowjs/articles/582012/) event in
+    2021 with the talk "So what next?" about my career and art.
+  </PostImage>
+</InProse>
+
 I am a:
 
 - **Software Engineer** with over 20 years of experience.
@@ -23,23 +34,17 @@ I am a:
 - **Neurodivergent Researcher** who loves a deep-dive.
 - [**Kabardian**](https://en.wikipedia.org/wiki/Kabardians).
 
-<PostImage
-  src={ImageZaremaMoscowJS}
-  alt="Photo of Zarema Khalilova on stage at MoscowJS 50 event in 2021 during the talk 'So what next?'"
->
-  Me on stage at [MoscowJS 50](https://habr.com/ru/companies/moscowjs/articles/582012/) event in
-  2021 with the talk "So what next?" about my career and art.
-</PostImage>
-
 ## Places that shaped me
 
 My story is a map of places. It starts in the industrial city of Norilsk, in the Far North of Russia, under a sky that was mostly grey. My teens were spent in the Caucasus, where I found my first community of creative misfits and started my university journey in computer science.
 
-The largest part of my life was lived in Saint Petersburg. It's where I left university to build a career, where I lost my father and then my mother, and where a stray orange cat named Misha joined my life. He's been my traveling companion ever since.
+<InProse aside>
+  <PostImage src={ImageMisha} alt="Photo of Zarema Khalilova's cat Misha">
+    Misha, my cat.
+  </PostImage>
+</InProse>
 
-<PostImage src={ImageMisha} alt="Photo of Zarema Khalilova's cat Misha">
-  Misha, my cat.
-</PostImage>
+The largest part of my life was lived in Saint Petersburg. It's where I left university to build a career, where I lost my father and then my mother, and where a stray orange cat named Misha joined my life. He's been my traveling companion ever since.
 
 On the third day of the full-scale invasion of Ukraine, I left Russia. First for Cyprus, and now I live in [Tbilisi](/feed/6-tbilisi-swaps-guide/), Georgia. This forced migration was also an awakening. It's how I finally saw the true color of the sky and understood the meaning of freedom.
 
@@ -55,18 +60,22 @@ Now, after all that, I feel the pull again. I want to build my own path.
 
 ## My art and collecting
 
-In 2021, I started collecting contemporary art. Inspired by the book _A Poor Collector's Guide to Buying Great Art_ by Erling Kagge, I began my collection by acquiring pieces directly from living artists, galleries, and at art auctions, first focusing on Russian artists, then Cypriot and Greek.
+In 2021, I started collecting contemporary art.
+
+<InProse aside>
+  <PostImage
+    src={ImageFirstExhibitionLayout}
+    alt="Photo of Zarema Khalilova's first exhibition layout"
+  >
+    My first exhibition layout.
+  </PostImage>
+</InProse>
+
+Inspired by the book _A Poor Collector's Guide to Buying Great Art_ by Erling Kagge, I began my collection by acquiring pieces directly from living artists, galleries, and at art auctions, first focusing on Russian artists, then Cypriot and Greek.
 
 Then, in 2023, I had a realization: **I am an artist, too**.
 
 My debut solo exhibition in Limassol, "Do you love the color of the sky?", was built from high-quality prints of my photographs to materialize my journey from the grey world to the bright one.
-
-<PostImage
-  src={ImageFirstExhibitionLayout}
-  alt="Photo of Zarema Khalilova's first exhibition layout"
->
-  My first exhibition layout.
-</PostImage>
 
 Currently, my work is evolving. I'm focusing on more tactile media, creating a series of small collages with paper.
 

@@ -14,7 +14,7 @@ const licenseUrl = new URL("/terms#1-content-images--text", Astro.url).href;
 ---
 
 <figure
-  class:list={["!my-0 flex w-full flex-col items-center", className]}
+  class:list={["flex w-full flex-col items-center", className]}
   itemscope
   itemtype="https://schema.org/ImageObject"
 >
@@ -37,7 +37,7 @@ const licenseUrl = new URL("/terms#1-content-images--text", Astro.url).href;
   <span itemprop="creator" itemscope itemtype="https://schema.org/Person">
     <meta itemprop="name" content="Zarema Khalilova" />
   </span>
-  <figcaption class="!mt-0 max-w-[520px] text-center text-sm text-zmoki-muted">
+  <figcaption class="!mt-0 !max-w-[520px] text-center !text-sm !text-zmoki-muted">
     <slot />
   </figcaption>
 </figure>

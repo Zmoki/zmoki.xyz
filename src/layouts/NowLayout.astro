@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Prose from "@/components/Prose.astro";
 import Time from "@/components/Time.astro";
 
 const {
@@ -36,18 +37,8 @@ const contentModifiedDate = new Date(rawcCntentModifiedDate);
     </header>
 
     <!-- Now Content -->
-    <section class="prose prose-xl max-w-2xl 2xl:prose-2xl prose-headings:font-semibold">
+    <Prose>
       <slot />
-    </section>
+    </Prose>
   </section>
-
-  <script is:inline>
-    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
-      el.addEventListener("click", function () {
-        window.posthog?.capture("contact_email_clicked", {
-          email: this.getAttribute("href").replace("mailto:", ""),
-        });
-      });
-    });
-  </script>
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Prose from "@/components/Prose.astro";
 import Time from "@/components/Time.astro";
 
 const { title, description, publishDate, contentModifiedDate } = Astro.props;
@@ -28,18 +29,8 @@ const { title, description, publishDate, contentModifiedDate } = Astro.props;
     </header>
 
     <!-- Legal Content -->
-    <section class="prose max-w-2xl prose-headings:font-semibold [&_a]:text-zmoki-azure-500">
+    <Prose>
       <slot />
-    </section>
+    </Prose>
   </section>
-
-  <script is:inline>
-    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
-      el.addEventListener("click", function () {
-        window.posthog?.capture("contact_email_clicked", {
-          email: this.getAttribute("href").replace("mailto:", ""),
-        });
-      });
-    });
-  </script>
 </BaseLayout>
