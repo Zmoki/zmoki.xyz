@@ -8,8 +8,6 @@ export interface Props {
   description?: string;
   publishDate?: Date;
   contentModifiedDate?: Date;
-  surfaceBackground?: boolean;
-  navClass?: string;
   showTopNav?: boolean;
 }
 
@@ -18,8 +16,6 @@ const {
   description = "A digital garden of ideas, art, and research",
   publishDate,
   contentModifiedDate,
-  surfaceBackground = false,
-  navClass,
   showTopNav = true,
 } = Astro.props;
 
@@ -90,12 +86,9 @@ const pageImageWideUrl = new URL(
     {analyticsEnabled && <PostHog />}
   </head>
   <body
-    class:list={[
-      "min-h-full font-sans text-lg leading-tight tracking-tight text-zmoki-ink xl:text-xl",
-      surfaceBackground ? "bg-zmoki-surface" : "bg-zmoki-bg",
-    ]}
+    class="min-h-full bg-zmoki-bg font-sans text-lg leading-tight tracking-tight text-zmoki-ink xl:text-xl"
   >
-    {showTopNav && <TopNav class={navClass} />}
+    {showTopNav && <TopNav />}
     <slot />
     <Footer />
   </body>

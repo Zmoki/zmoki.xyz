@@ -18,9 +18,9 @@ export default {
     "uppercase",
     "tracking-normal",
     "rounded-sm",
-    "bg-zmoki-jade-500",
+    "bg-zmoki-jade-600",
     "text-white",
-    "hover:bg-zmoki-jade-500/80",
+    "hover:bg-zmoki-jade-600/80",
     "focus:outline-none",
     "focus:ring-2",
     "focus:ring-zmoki-azure-500",
@@ -37,6 +37,7 @@ export default {
             "--tw-prose-body": brandColors["zmoki-ink"],
             "--tw-prose-bold": brandColors["zmoki-ink"],
             "--tw-prose-links": brandColors["zmoki-azure"][500],
+            "--tw-shadow-color": brandColors["zmoki-flame"][500],
             a: {
               "text-decoration": "none",
               "border-color": "currentColor",
@@ -47,7 +48,7 @@ export default {
               color: brandColors["zmoki-flame"][500],
             },
             "[data-resource]": {
-              color: brandColors["zmoki-jade"][500],
+              color: brandColors["zmoki-jade"][600],
             },
             "[data-anchor]": {
               color: brandColors["zmoki-ink"],

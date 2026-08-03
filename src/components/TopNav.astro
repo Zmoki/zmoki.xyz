@@ -7,7 +7,10 @@ const { class: className } = Astro.props;
 ---
 
 <nav
-  class:list={["flex flex-wrap gap-2 px-2 pt-2 lg:gap-4 lg:px-4 lg:pt-4", className]}
+  class:list={[
+    "flex flex-wrap gap-2 bg-zmoki-surface px-6 pt-2 lg:gap-4 lg:py-4 xl:px-16",
+    className,
+  ]}
   aria-label="Main"
 >
   <a

@@ -69,7 +69,7 @@ const swatchesFor = (key: string) =>
   </header>
 
   <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Accents</h2>
-  <div class="space-y-6">
+  <div class="space-y-2">
     {
       families.map((family) => {
         const swatches = swatchesFor(family.key);
@@ -90,9 +90,9 @@ const swatchesFor = (key: string) =>
               <p class="text-base opacity-80 md:max-w-sm md:text-right">{family.role}</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+            <div class="grid grid-cols-2 gap-0 sm:grid-cols-3 md:grid-cols-11">
               {swatches.map(({ shade, hex }) => (
-                <div class="overflow-hidden rounded-lg border border-slate-200">
+                <div class="overflow-hidden">
                   <div class="h-20" style={`background-color: ${hex}`} />
                   <div class="space-y-0.5 px-3 py-2 font-mono text-xs">
                     <p
@@ -102,7 +102,6 @@ const swatchesFor = (key: string) =>
                       ]}
                     >
                       {shade}
-                      {shade === family.base && " ·base"}
                     </p>
                     <p class="uppercase tracking-normal opacity-60">{hex}</p>
                   </div>

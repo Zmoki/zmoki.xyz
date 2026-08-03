@@ -215,13 +215,13 @@ const checklist = [
       mechanics.map((m) => (
         <section class="flex flex-col gap-3 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
           <h3 class="text-lg font-semibold">{m.rule}</h3>
-          <p class="bg-zmoki-jade-200/40 rounded-lg px-3 py-2 text-sm">
+          <p class="rounded-lg bg-zmoki-jade-200/40 px-3 py-2 text-sm">
             <span class="mr-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">
               Yes
             </span>
             {m.right}
           </p>
-          <p class="bg-zmoki-flame-200/40 rounded-lg px-3 py-2 text-sm line-through opacity-70">
+          <p class="rounded-lg bg-zmoki-flame-200/40 px-3 py-2 text-sm line-through opacity-70">
             {m.wrong}
           </p>
         </section>
@@ -237,13 +237,13 @@ const checklist = [
         <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
           <p class="mb-4 font-mono text-xs uppercase tracking-normal opacity-60">{ex.context}</p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div class="bg-zmoki-flame-200/40 rounded-lg border-l-4 border-zmoki-flame-500 p-4">
-              <p class="text-zmoki-flame-600 mb-1 font-mono text-xs uppercase tracking-normal">
+            <div class="rounded-lg border-l-4 border-zmoki-flame-500 bg-zmoki-flame-200/40 p-4">
+              <p class="mb-1 font-mono text-xs uppercase tracking-normal text-zmoki-flame-600">
                 Don&rsquo;t
               </p>
               <p class="opacity-80">{ex.wrong}</p>
             </div>
-            <div class="bg-zmoki-jade-200/40 rounded-lg border-l-4 border-zmoki-jade-500 p-4">
+            <div class="rounded-lg border-l-4 border-zmoki-jade-500 bg-zmoki-jade-200/40 p-4">
               <p class="mb-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">Do</p>
               <p class="opacity-80">{ex.right}</p>
             </div>
@@ -290,17 +290,17 @@ const checklist = [
       <ul class="flex flex-wrap gap-2">
         {
           lexicon.use.map((word) => (
-            <li class="bg-zmoki-jade-200/50 rounded-full px-3 py-1 font-mono text-sm">{word}</li>
+            <li class="rounded-full bg-zmoki-jade-200/50 px-3 py-1 font-mono text-sm">{word}</li>
           ))
         }
       </ul>
     </section>
     <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
-      <h3 class="text-zmoki-flame-600 mb-4 text-xl font-semibold">Avoid</h3>
+      <h3 class="mb-4 text-xl font-semibold text-zmoki-flame-600">Avoid</h3>
       <ul class="flex flex-wrap gap-2">
         {
           lexicon.avoid.map((word) => (
-            <li class="bg-zmoki-flame-200/50 rounded-full px-3 py-1 font-mono text-sm line-through opacity-70">
+            <li class="rounded-full bg-zmoki-flame-200/50 px-3 py-1 font-mono text-sm line-through opacity-70">
               {word}
             </li>
           ))
