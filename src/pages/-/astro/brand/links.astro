@@ -1,0 +1,470 @@
+---
+import { getCollection } from "astro:content";
+import BrandLayout from "@/layouts/BrandLayout.astro";
+import { accents, neutrals } from "@/design-tokens.mjs";
+
+// Link graph of the feed. Nodes and edges are extracted from the MDX sources
+// at build time, so the graph can never drift from the actual content.
+
+const accentScales = accents as Record<string, Record<string, string>>;
+const neutralTokens = neutrals as Record<string, string>;
+
+// Editorial layer: cluster assignment per post order. New posts fall back to
+// the neutral "page" bucket until they are assigned here.
+const clusterOf: Record<number, string> = {
+  1: "garden",
+  2: "garden",
+  14: "garden",
+  3: "mind",
+  4: "mind",
+  5: "mind",
+  8: "mind",
+  10: "mind",
+  11: "mind",
+  15: "mind",
+  6: "tbilisi",
+  9: "tbilisi",
+  12: "tbilisi",
+  7: "tech",
+  13: "tech",
+  16: "tech",
+  17: "tech",
+  18: "tech",
+};
+
+// Chart palette, drawn from the design tokens. Validated for adjacent-pair
+// colorblind separation on the zmoki-surface ground (jade uses the 600 step
+// for contrast; identity is never color-alone, every node is direct-labeled).
+const clusters: Record<string, { name: string; hex: string }> = {
+  tbilisi: { name: "Tbilisi & art", hex: accentScales["zmoki-flame"]["500"] },
+  garden: { name: "Garden & me", hex: accentScales["zmoki-azure"]["500"] },
+  tech: { name: "Tech & SEO", hex: accentScales["zmoki-jade"]["600"] },
+  mind: { name: "Mind & systems", hex: accentScales["zmoki-magenta"]["500"] },
+  page: { name: "Other pages", hex: neutralTokens["zmoki-muted"] },
+};
+
+type Node = {
+  id: string;
+  num: number | null;
+  label: string;
+  cluster: string;
+  url: string;
+  ext: number;
+  out: number;
+  in: number;
+  x: number;
+  y: number;
+  r: number;
+};
+
+const posts = (await getCollection("feed")).sort((a, b) => a.data.order - b.data.order);
+
+// Short display labels; fall back to a truncated title for new posts.
+const shortLabel: Record<number, string> = {
+  1: "about me",
+  2: "digital garden",
+  3: "grounding",
+  4: "glossary",
+  5: "day themes",
+  6: "swaps",
+  7: "curiosity",
+  8: "1-for-1 sprints",
+  9: "art map",
+  10: "reading list",
+  11: "notebooks",
+  12: "air quality",
+  13: "SEO checklist",
+  14: "freedom",
+  15: "food list",
+  16: "questions",
+  17: "GoodINP",
+  18: "technical half",
+};
+
+const nodes: Node[] = [];
+const nodeById: Record<string, Node> = {};
+const addNode = (n: Node) => {
+  nodes.push(n);
+  nodeById[n.id] = n;
+};
+
+for (const post of posts) {
+  const num = parseInt(post.slug, 10);
+  addNode({
+    id: post.slug,
+    num,
+    label: shortLabel[num] ?? post.data.title.slice(0, 18),
+    cluster: clusterOf[num] ?? "page",
+    url: `/feed/${post.slug}/`,
+    ext: 0,
+    out: 0,
+    in: 0,
+    x: 0,
+    y: 0,
+    r: 0,
+  });
+}
+
+// Edges: markdown internal links plus ResourceLink components, weighted by
+// how many times the same pair occurs. External links only add to a count.
+const edgeWeights: Record<string, number> = {};
+for (const post of posts) {
+  const source = nodeById[post.slug];
+  const body = post.body;
+  source.ext = (body.match(/\]\(https?:\/\/[^)]+\)/g) ?? []).length;
+
+  const targets: string[] = [];
+  for (const match of body.matchAll(/\]\((\/[^)\s#]+?)\/?(?:#[^)]*)?\)/g)) {
+    targets.push(match[1]);
+  }
+  for (const match of body.matchAll(/<ResourceLink\s+slug="([^"]+)"/g)) {
+    targets.push(`/resources/${match[1]}`);
+  }
+
+  for (const target of targets) {
+    let targetId: string;
+    const feedMatch = target.match(/^\/feed\/(.+)$/);
+    if (feedMatch) {
+      targetId = feedMatch[1];
+    } else {
+      targetId = target;
+      if (!nodeById[targetId]) {
+        addNode({
+          id: targetId,
+          num: null,
+          label: target.replace("/resources/", "").replace(/\//g, "") || target,
+          cluster: "page",
+          url: `${target}/`,
+          ext: 0,
+          out: 0,
+          in: 0,
+          x: 0,
+          y: 0,
+          r: 0,
+        });
+      }
+    }
+    if (!nodeById[targetId]) continue;
+    const key = `${source.id}→${targetId}`;
+    edgeWeights[key] = (edgeWeights[key] ?? 0) + 1;
+  }
+}
+
+const edges = Object.entries(edgeWeights).map(([key, weight]) => {
+  const [from, to] = key.split("→");
+  return { a: nodeById[from], b: nodeById[to], weight };
+});
+edges.forEach((e) => {
+  e.a.out += e.weight;
+  e.b.in += e.weight;
+});
+const degree = (n: Node) => n.out + n.in;
+
+// Deterministic force layout, computed at build time.
+const W = 1100;
+const H = 640;
+const anchors: Record<string, [number, number]> = {
+  garden: [W * 0.38, H * 0.34],
+  mind: [W * 0.72, H * 0.3],
+  tbilisi: [W * 0.26, H * 0.68],
+  tech: [W * 0.68, H * 0.72],
+  page: [W * 0.5, H * 0.52],
+};
+nodes.forEach((n, i) => {
+  const [ax, ay] = anchors[n.cluster];
+  n.x = ax + Math.cos(i * 2.4) * 80;
+  n.y = ay + Math.sin(i * 2.4) * 80;
+  n.r = n.cluster === "page" ? 7 : 9 + Math.min(degree(n), 12) * 1.6;
+});
+for (let step = 0; step < 400; step++) {
+  const alpha = 1 - (step / 400) * 0.6;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i];
+      const b = nodes[j];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const d = Math.sqrt(dx * dx + dy * dy) || 1;
+      const min = a.r + b.r + 34;
+      if (d < min * 2) {
+        const f = ((min * 2 - d) / d) * 0.5 * alpha;
+        a.x -= dx * f;
+        a.y -= dy * f;
+        b.x += dx * f;
+        b.y += dy * f;
+      }
+    }
+  }
+  edges.forEach(({ a, b }) => {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const d = Math.sqrt(dx * dx + dy * dy) || 1;
+    const f = ((d - 130) / d) * 0.05 * alpha;
+    a.x += dx * f;
+    a.y += dy * f;
+    b.x -= dx * f;
+    b.y -= dy * f;
+  });
+  nodes.forEach((n) => {
+    const [ax, ay] = anchors[n.cluster];
+    n.x += (ax - n.x) * 0.02 * alpha;
+    n.y += (ay - n.y) * 0.02 * alpha;
+    n.x = Math.max(n.r + 60, Math.min(W - n.r - 60, n.x));
+    n.y = Math.max(n.r + 26, Math.min(H - n.r - 26, n.y));
+  });
+}
+
+const edgePaths = edges.map(({ a, b, weight }) => {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const d = Math.sqrt(dx * dx + dy * dy) || 1;
+  const sx = a.x + (dx / d) * a.r;
+  const sy = a.y + (dy / d) * a.r;
+  const tx = b.x - (dx / d) * (b.r + 4);
+  const ty = b.y - (dy / d) * (b.r + 4);
+  const mx = (sx + tx) / 2 - (dy / d) * 16;
+  const my = (sy + ty) / 2 + (dx / d) * 16;
+  return { a, b, weight, d: `M ${sx} ${sy} Q ${mx} ${my} ${tx} ${ty}` };
+});
+
+const feedNodes = nodes.filter((n) => n.num !== null);
+const internalLinks = edges
+  .filter((e) => e.a.num !== null && e.b.num !== null)
+  .reduce((sum, e) => sum + e.weight, 0);
+const extTotal = feedNodes.reduce((sum, n) => sum + n.ext, 0);
+const orphans = feedNodes.filter((n) => degree(n) === 0);
+const maxExt = Math.max(1, ...feedNodes.map((n) => n.ext));
+const tableRows = feedNodes.slice().sort((a, b) => degree(b) - degree(a));
+
+const stats = [
+  { value: feedNodes.length, label: "posts" },
+  { value: internalLinks, label: "post-to-post links" },
+  { value: extTotal, label: "external links" },
+  { value: orphans.length, label: "orphan posts" },
+];
+---
+
+<BrandLayout
+  title="Link graph — zmoki.xyz design system"
+  description="Every internal link between feed posts, extracted from the content at build time"
+>
+  <header
+    class="mb-8 rounded-xl bg-zmoki-azure-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
+  >
+    <a
+      href="/-/astro/brand/"
+      class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
+      >← zmoki.xyz brand</a
+    >
+    <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Link graph</h1>
+    <p class="mt-4 max-w-2xl text-xl md:text-2xl">
+      Every internal link between feed posts, extracted from the MDX sources at build time. Node
+      size follows how connected a post is. Arrows point from the linking post to the linked one.
+      Click a node to open the post.
+    </p>
+  </header>
+
+  <div class="mb-6 flex flex-wrap gap-3">
+    {
+      stats.map((stat) => (
+        <div class="flex min-w-32 flex-col rounded-lg bg-zmoki-surface px-4 py-2 shadow-sm">
+          <b class="font-mono text-2xl tabular-nums">{stat.value}</b>
+          <span class="text-xs uppercase tracking-wide text-zmoki-muted">{stat.label}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+    {
+      Object.values(clusters).map((cluster) => (
+        <span class="inline-flex items-center gap-2">
+          <span class="h-3 w-3 rounded-full" style={`background-color: ${cluster.hex}`} />
+          {cluster.name}
+        </span>
+      ))
+    }
+    <span class="text-zmoki-muted">dashed ring = no internal links</span>
+  </div>
+
+  <div class="relative mb-8 overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
+    <svg
+      id="link-graph"
+      viewBox={`0 0 ${W} ${H}`}
+      class="block h-auto w-full"
+      role="img"
+      aria-label="Network graph of internal links between zmoki.xyz feed posts"
+    >
+      <defs>
+        {
+          Object.entries(clusters).map(([key, cluster]) => (
+            <marker
+              id={`arrow-${key}`}
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6.5"
+              markerHeight="6.5"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 1 L 9 5 L 0 9 z" fill={cluster.hex} />
+            </marker>
+          ))
+        }
+      </defs>
+      <g>
+        {
+          edgePaths.map((edge) => (
+            <path
+              class="graph-edge transition-opacity"
+              data-a={edge.a.id}
+              data-b={edge.b.id}
+              d={edge.d}
+              fill="none"
+              stroke={clusters[edge.a.cluster].hex}
+              stroke-width={1.2 + (edge.weight - 1) * 1.1}
+              stroke-opacity="0.5"
+              marker-end={`url(#arrow-${edge.a.cluster})`}
+            />
+          ))
+        }
+      </g>
+      <g>
+        {
+          nodes.map((node) => (
+            <g
+              class="graph-node cursor-pointer"
+              data-id={node.id}
+              data-label={node.num !== null ? `#${node.num} ${node.label}` : node.label}
+              data-counts={`out ${node.out} · in ${node.in} · ext ${node.ext}`}
+              data-url={node.url}
+              transform={`translate(${node.x},${node.y})`}
+            >
+              <circle
+                r={node.r}
+                fill={clusters[node.cluster].hex}
+                fill-opacity={node.cluster === "page" ? 0.35 : 0.9}
+                stroke={clusters[node.cluster].hex}
+                stroke-width="1.5"
+                stroke-dasharray={degree(node) === 0 ? "3 3" : "none"}
+              />
+              <text
+                y={node.r + 13}
+                text-anchor="middle"
+                class="pointer-events-none fill-zmoki-ink text-[11px]"
+              >
+                {node.num !== null && <tspan class="font-mono font-bold">#{node.num} </tspan>}
+                <tspan>{node.label}</tspan>
+              </text>
+              {node.ext > 0 && (
+                <text
+                  y={node.r + 26}
+                  text-anchor="middle"
+                  class="pointer-events-none fill-zmoki-muted font-mono text-[9.5px]"
+                >
+                  ↗ {node.ext} ext
+                </text>
+              )}
+            </g>
+          ))
+        }
+      </g>
+    </svg>
+    <div
+      id="graph-tip"
+      class="pointer-events-none absolute z-10 max-w-64 rounded-lg bg-white px-3 py-2 text-sm opacity-0 shadow-lg transition-opacity"
+    >
+    </div>
+  </div>
+
+  <div class="overflow-x-auto rounded-xl bg-zmoki-surface shadow-md">
+    <table class="w-full min-w-[40rem] border-collapse text-sm">
+      <thead>
+        <tr class="text-left text-xs uppercase tracking-wide text-zmoki-muted">
+          <th class="px-4 py-3">Post</th>
+          <th class="px-4 py-3">Cluster</th>
+          <th class="px-4 py-3 text-right">Out</th>
+          <th class="px-4 py-3 text-right">In</th>
+          <th class="px-4 py-3 text-right">External links</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          tableRows.map((node) => (
+            <tr class="border-t border-slate-200">
+              <td class="px-4 py-2">
+                <span class="font-mono">#{node.num}</span>{" "}
+                <a href={node.url} class="border-b-2 border-dotted border-zmoki-muted">
+                  {node.label}
+                </a>
+                {degree(node) === 0 && (
+                  <span class="font-semibold text-zmoki-flame-500"> orphan</span>
+                )}
+              </td>
+              <td class="px-4 py-2">
+                <span
+                  class="mr-2 inline-block h-2.5 w-2.5 rounded-full"
+                  style={`background-color: ${clusters[node.cluster].hex}`}
+                />
+                {clusters[node.cluster].name}
+              </td>
+              <td class="px-4 py-2 text-right font-mono tabular-nums">{node.out}</td>
+              <td class="px-4 py-2 text-right font-mono tabular-nums">{node.in}</td>
+              <td class="px-4 py-2 text-right font-mono tabular-nums">
+                <span
+                  class="mr-2 inline-block h-2 rounded-full bg-zmoki-muted align-middle"
+                  style={`width: ${node.ext === 0 ? 0 : Math.max(6, (node.ext / maxExt) * 60)}px`}
+                />
+                {node.ext}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mt-6 max-w-2xl text-sm text-zmoki-muted">
+    Out and in count internal links between feed posts. Links to the now page and resource pages
+    appear as small neutral nodes. External links are absolute URLs leaving zmoki.xyz. New posts
+    join the graph automatically and land in the neutral bucket until they get a cluster in this
+    page's source.
+  </p>
+</BrandLayout>
+
+<script>
+  const svg = document.getElementById("link-graph") as unknown as SVGSVGElement;
+  const tip = document.getElementById("graph-tip") as HTMLElement;
+  const edges = Array.from(document.querySelectorAll<SVGPathElement>(".graph-edge"));
+
+  document.querySelectorAll<SVGGElement>(".graph-node").forEach((node) => {
+    const id = node.dataset.id ?? "";
+    node.addEventListener("mouseenter", () => {
+      edges.forEach((edge) => {
+        const connected = edge.dataset.a === id || edge.dataset.b === id;
+        edge.style.opacity = connected ? "1" : "0.12";
+      });
+      tip.innerHTML = `<b>${node.dataset.label}</b><div class="font-mono text-xs text-zmoki-muted">${node.dataset.counts}</div>`;
+      tip.style.opacity = "1";
+    });
+    node.addEventListener("mousemove", () => {
+      const rect = svg.getBoundingClientRect();
+      const transform = node.getAttribute("transform") ?? "";
+      const match = transform.match(/translate\(([\d.]+),([\d.]+)\)/);
+      if (!match) return;
+      const scaleX = rect.width / 1100;
+      const scaleY = rect.height / 640;
+      tip.style.left = `${Math.min(parseFloat(match[1]) * scaleX + 18, rect.width - 200)}px`;
+      tip.style.top = `${parseFloat(match[2]) * scaleY - 10}px`;
+    });
+    node.addEventListener("mouseleave", () => {
+      edges.forEach((edge) => {
+        edge.style.opacity = "";
+      });
+      tip.style.opacity = "0";
+    });
+    node.addEventListener("click", () => {
+      if (node.dataset.url) window.location.href = node.dataset.url;
+    });
+  });
+</script>
