@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import BrandLayout from "@/layouts/BrandLayout.astro";
+
+// Preview grid for the abstract OG cards. Each card is the post's
+// ego-network from the link graph, rendered by /og/[...path].png.ts.
+
+const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data.order);
+---
+
+<BrandLayout
+  title="OG images — zmoki.xyz design system"
+  description="Abstract link-graph OG cards, generated at build time"
+>
+  <header
+    class="mb-8 rounded-xl bg-zmoki-magenta-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
+  >
+    <a
+      href="/-/astro/brand/"
+      class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
+      >← zmoki.xyz brand</a
+    >
+    <h1 class="mt-2 text-4xl font-semibold md:text-5xl">OG images</h1>
+    <p class="mt-4 max-w-2xl text-xl md:text-2xl">
+      Abstract social-share cards. Each post's card is its real place in the link graph, drawn from
+      the content at build time. No titles, platforms already show those.
+    </p>
+  </header>
+
+  <h2 class="mb-4 text-2xl font-semibold">Site</h2>
+  <div class="mb-8 max-w-xl overflow-hidden rounded-xl shadow-md">
+    <img
+      src="/og/site.png"
+      alt="Site-wide OG card: the whole link graph constellation"
+      width="1200"
+      height="630"
+      class="block h-auto w-full"
+    />
+  </div>
+
+  <h2 class="mb-4 text-2xl font-semibold">Posts</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    {
+      posts.map((post) => (
+        <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
+          <img
+            src={`/og/feed/${post.slug}.png`}
+            alt={`OG card for ${post.data.title}`}
+            width="1200"
+            height="630"
+            loading="lazy"
+            class="block h-auto w-full"
+          />
+          <figcaption class="px-4 py-3 text-sm text-zmoki-muted">
+            <span class="font-mono">#{post.data.order}</span> {post.data.title}
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</BrandLayout>
