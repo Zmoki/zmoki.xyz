@@ -41,9 +41,7 @@ A project run skill is at `.claude/skills/run/SKILL.md` — use `/run` to launch
 
 ```
 npm run dev              # dev server
-npm run build            # production build
-npm run og:generate      # generate OG images via Puppeteer
-npm run build:full       # build + og:generate
+npm run build            # production build (includes OG card PNGs)
 npm run timeline:feed    # generate feed-timeline.csv
 npm run lhci:mobile      # Lighthouse CI mobile
 npm run lhci:desktop     # Lighthouse CI desktop
@@ -177,10 +175,12 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /thank-you/{slug}/       # post-form confirmation pages
 /rss.xml                 # RSS feed
 /sitemap.xml             # sitemap
-/og-images/              # generated OG images (public/)
+/og/site.png             # site-wide OG card; /og/feed/{slug}.png per post
 /-/astro/health          # health check — returns "ok" + short commit hash
 /-/astro/brand/          # brand design system home (internal, noindex)
 /-/astro/brand/color/    # color palette reference (BrandLayout)
+/-/astro/brand/links/    # interactive link graph of the feed (build-time data)
+/-/astro/brand/og/       # OG card preview grid
 ```
 
 Removed URLs redirect via `public/_redirects`: `/tech/` → post 18, `/garden/` → `/`.
@@ -207,7 +207,7 @@ Props:
 
 Body structure: `TopNav` (unless hidden) → `<slot />` → `Footer`. No sidebars.
 
-Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images are served from `/og-images{pathname}wide.jpg` (or `/og-images/wide.jpg` for non-articles).
+Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images are served from `/og/feed/{slug}.png` for feed posts and `/og/site.png` for everything else.
 
 ### `PostLayout.astro`
 
@@ -369,6 +369,4 @@ Do not commit anything from `src/images/tmp/` — it's a staging folder.
 
 ## OG image generation
 
-`scripts/generate-og-images.mjs` uses Puppeteer to screenshot pages at 1200×675 and save to `public/og-images/`. Run after build: `npm run og:generate` or `npm run build:full`.
-
-OG images are wide JPEGs (1200×675). BaseLayout constructs the URL as `/og-images{pathname}wide.jpg`.
+OG cards are abstract SVG compositions rendered to PNG (1200×630) at build time by the static endpoint `src/pages/og/[...path].png.ts` using `@resvg/resvg-js` — no browser, no separate generate step. Each feed post has a bespoke card in `src/og/card.ts` (design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens). Posts without a bespoke card fall back to an ego-network card drawn from the link graph (`src/lib/link-graph.ts`), which also powers `/-/astro/brand/links/`. Preview all cards at `/-/astro/brand/og/`.
