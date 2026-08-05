@@ -19,6 +19,7 @@ const { Content } = await post.render();
   description={post.data.description}
   publishDate={post.data.publishDate}
   contentModifiedDate={post.data.contentModifiedDate}
+  coverImage={`/og/cover/feed/${post.slug}.png`}
 >
   <Content />
 </PostLayout>

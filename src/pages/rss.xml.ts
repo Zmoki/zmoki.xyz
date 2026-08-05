@@ -125,10 +125,8 @@ export async function GET(context: { site: string | undefined }) {
       // Convert relative URLs to absolute URLs for RSS compatibility
       contentHtml = convertRelativeUrlsToAbsolute(contentHtml, siteUrl);
 
-      // Use the OG image for this post (already generated for each post)
-      // This follows the pattern from https://webreaper.dev/posts/astro-rss-feed-blog-post-images/
-      // Ensure no double slashes in URL
-      const ogImagePath = `og-images/feed/${post.slug}/wide.jpg`;
+      // Use the OG card for this post, rendered at build time by /og/[...path].png
+      const ogImagePath = `og/feed/${post.slug}.png`;
       const baseUrl = String(siteUrl).replace(/\/$/, "");
       const ogImageUrl = `${baseUrl}/${ogImagePath}`;
 
