@@ -8,9 +8,10 @@ export interface Props {
   description?: string;
   publishDate: Date;
   contentModifiedDate: Date;
+  coverImage?: string;
 }
 
-const { title, description, publishDate, contentModifiedDate } = Astro.props;
+const { title, description, publishDate, contentModifiedDate, coverImage } = Astro.props;
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
@@ -20,34 +21,46 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
   publishDate={publishDate}
   contentModifiedDate={contentModifiedDate}
 >
-  <article class="space-y-8 bg-zmoki-surface">
+  <article class="bg-zmoki-surface px-4 sm:gap-6 md:gap-8 md:px-8 lg:gap-12 lg:px-12 xl:pb-32">
     <!-- Post Header -->
     <header
-      class="grid grid-cols-1 gap-6 px-6 py-8 md:px-12 lg:grid-cols-[60ch_1fr] lg:gap-x-24 lg:gap-y-6 lg:pb-12 lg:pt-24 xl:px-16"
+      class="grid grid-cols-1 gap-4 py-12 text-[0.65rem] sm:gap-6 md:grid-cols-[1fr_55ch] md:gap-12 lg:grid-cols-[1fr_80ch] lg:gap-20 xl:py-20"
     >
-      <h1 class="text-4xl font-semibold xl:text-6xl" set:html={title} />
-      {description && <p class="text-2xl lg:col-start-1 xl:text-3xl" set:html={description} />}
-      <p
-        class="flex flex-col gap-2 self-start font-mono text-xs uppercase tracking-normal opacity-70 lg:col-start-2 lg:row-start-2 xl:text-sm"
-      >
+      <div class="flex flex-col gap-4 lg:gap-8">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl" set:html={title} />
+        {description && <p class="text-xl lg:text-3xl xl:text-4xl" set:html={description} />}
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6">
         {
-          isContentModified ? (
-            <>
-              <span>
-                Updated on <Time datetime={contentModifiedDate} />
-              </span>
-              <span>
-                [published on <Time datetime={publishDate} />]
-              </span>
-            </>
-          ) : (
-            <span>
-              Published on <Time datetime={publishDate} />
-            </span>
+          coverImage && (
+            <figure>
+              <img src={coverImage} alt="" width="1200" height="675" class="max-w-full" />
+            </figure>
           )
         }
-        <span>Author: Zarema Khalilova</span>
-      </p>
+
+        <aside
+          class="flex flex-row flex-wrap justify-evenly gap-2 font-mono uppercase tracking-normal opacity-70"
+        >
+          {
+            isContentModified ? (
+              <>
+                <p>
+                  Updated on <Time datetime={contentModifiedDate} />
+                </p>
+                <p>
+                  [published on <Time datetime={publishDate} />]
+                </p>
+              </>
+            ) : (
+              <p>
+                Published on <Time datetime={publishDate} />
+              </p>
+            )
+          }
+          <p>Author Zarema Khalilova</p>
+        </aside>
+      </div>
     </header>
 
     <!-- Post Content -->

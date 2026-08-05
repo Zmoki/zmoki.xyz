@@ -41,6 +41,21 @@ const frame = (
   <rect width="${W}" height="${H}" fill="${ground}" />
   ${content}</svg>`;
 
+// 16:9 cover variant (1200×675) of a rendered card: same composition, the
+// ground extended evenly above and below.
+export const toCoverSvg = (svg: string): string => {
+  const extra = (W * 9) / 16 - H;
+  return svg
+    .replace(
+      `height="${H}" viewBox="0 0 ${W} ${H}"`,
+      `height="${H + extra}" viewBox="0 -${extra / 2} ${W} ${H + extra}"`,
+    )
+    .replace(
+      `<rect width="${W}" height="${H}"`,
+      `<rect y="-${extra / 2}" width="${W}" height="${H + extra}"`,
+    );
+};
+
 const particles = (seed: string, count: number, color: string): string => {
   let out = "";
   for (let i = 0; i < count; i++) {

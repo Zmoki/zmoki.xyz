@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import { firstPostImage } from "@/utils/post-image";
 import { Activity, Mail } from "@lucide/astro";
 
 export const publishDate = new Date("2025-09-09");
@@ -14,7 +13,6 @@ const allPosts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
 // "Start here" featured post (1-about-me) leads the grid; the rest stay newest first.
 const featured = allPosts.find((post) => post.slug.startsWith("1-"));
 const posts = featured ? [featured, ...allPosts.filter((post) => post !== featured)] : allPosts;
-const postImages = await Promise.all(posts.map((post) => firstPostImage(post.slug)));
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -90,7 +88,14 @@ const formatDate = (date: Date) =>
             href={`/feed/${post.slug}/`}
             class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
           >
-            {postImages[i] && <img src={postImages[i]} alt="" class="w-full object-cover" />}
+            <img
+              src={`/og/cover/feed/${post.slug}.png`}
+              alt=""
+              width="1200"
+              height="675"
+              loading={i < 3 ? "eager" : "lazy"}
+              class="w-full object-cover"
+            />
             <span class="flex grow flex-col gap-2 p-6">
               <h2
                 class="text-lg font-semibold underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"
