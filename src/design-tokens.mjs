@@ -80,7 +80,7 @@ export const accents = {
 // Neutrals — the structural palette. Flat single values, one per role.
 export const neutrals = {
   "zmoki-bg": "#ff692e", // page background (mirrors zmoki-azure-200)
-  "zmoki-surface": "#fff6f2", // cards & panels (mirrors zmoki-azure-50)
+  "zmoki-surface": "#fff2ed", // cards & panels (55% opacity of zmoki-flame-100)
   "zmoki-ink": "#001d2e", // primary text (mirrors zmoki-azure-900)
   "zmoki-muted": "#475569", // muted / meta text
 };
