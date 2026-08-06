@@ -2,7 +2,7 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import { buildLinkGraph } from "@/lib/link-graph";
-import { egoCardSvg, constellationSvg, customCards, toCoverSvg } from "@/og/card";
+import { egoCardSvg, constellationSvg, customCards, nowCardSvg, toCoverSvg } from "@/og/card";
 import { OG_WIDTH } from "@/og/theme";
 
 // Build-time OG card endpoint. /og/site.png is the whole constellation;
@@ -11,7 +11,7 @@ import { OG_WIDTH } from "@/og/theme";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("feed");
-  const base = ["site", ...posts.map((post) => `feed/${post.slug}`)];
+  const base = ["site", "now", ...posts.map((post) => `feed/${post.slug}`)];
   return base.flatMap((path) => [{ params: { path } }, { params: { path: `cover/${path}` } }]);
 };
 
@@ -25,6 +25,8 @@ export const GET: APIRoute = async ({ params }) => {
   let svg: string;
   if (path === "site") {
     svg = constellationSvg(graph);
+  } else if (path === "now") {
+    svg = nowCardSvg();
   } else {
     const node = graph.byId[path.replace(/^feed\//, "")];
     if (!node) return new Response("Not found", { status: 404 });
