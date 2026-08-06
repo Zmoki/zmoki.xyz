@@ -1,0 +1,4 @@
+/* Tailwind 4 entry point. Theme, plugins, and prose overrides stay in
+   tailwind.config.mjs (fed by src/design-tokens.mjs) via @config. */
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";

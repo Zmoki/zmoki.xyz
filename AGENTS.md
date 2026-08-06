@@ -14,14 +14,14 @@ Personal digital garden at `https://zmoki.xyz` — a living collection of posts,
 
 | Layer               | Tool                                                           | Version      |
 | ------------------- | -------------------------------------------------------------- | ------------ |
-| Framework           | Astro                                                          | ^5.16        |
+| Framework           | Astro                                                          | ^7.2         |
 | Language            | TypeScript                                                     | via Astro    |
-| Styling             | Tailwind CSS + @tailwindcss/typography                         | ^3           |
+| Styling             | Tailwind CSS (via @tailwindcss/vite) + @tailwindcss/typography | ^4           |
 | Content             | MDX via @astrojs/mdx                                           | —            |
 | Fonts               | Noto Sans, Noto Sans Mono                                      | Google Fonts |
 | Analytics           | PostHog                                                        | posthog-js   |
 | Email/Forms         | Brevo                                                          | —            |
-| OG images           | Puppeteer (script)                                             | —            |
+| OG images           | @resvg/resvg-js (build-time endpoint)                          | —            |
 | RSS                 | @astrojs/rss                                                   | —            |
 | Syntax highlighting | Shiki, theme: `catppuccin-latte`                               | —            |
 | Performance         | Lighthouse CI (@lhci/cli)                                      | —            |
@@ -106,7 +106,15 @@ npm run format
 
 ---
 
-## Content collections (`src/content/config.ts`)
+## Tailwind setup
+
+Tailwind 4 runs through the `@tailwindcss/vite` plugin (configured in `astro.config.mjs`; there is no `@astrojs/tailwind` integration). The CSS entry is `src/styles/global.css`, imported by `BaseLayout.astro` and `BrandLayout.astro`; it pulls in Tailwind and loads the legacy-format JS config via `@config "../../tailwind.config.mjs"`. Theme values, plugins (`@tailwindcss/typography`, custom prose overrides), and the `zmoki-*` palette stay in `tailwind.config.mjs`, fed by `src/design-tokens.mjs`.
+
+---
+
+## Content collections (`src/content.config.ts`)
+
+Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`.
 
 ### `feed` — blog posts
 
@@ -268,7 +276,7 @@ Set in `tailwind.config.mjs`, referencing the design tokens:
 
 ## Custom Astro/Markdown pipeline (`astro.config.mjs`)
 
-Three custom rehype plugins applied to all MDX/Markdown content:
+Astro 7's default markdown processor is Sätteri (Rust); this project stays on the unified (remark/rehype) pipeline via `markdown.processor: unified({...})` from `@astrojs/markdown-remark` so the custom plugins below keep working. Three custom rehype plugins applied to all MDX/Markdown content:
 
 1. **`rehypeDefinitionListIds`** — adds `id` attribute (slugified text) to every `<dt>` element, enabling anchor links to glossary terms.
 

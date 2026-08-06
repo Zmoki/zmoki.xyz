@@ -17,7 +17,7 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
   >
     <a
       href="/-/astro/brand/"
-      class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
+      class="font-mono text-xs tracking-normal uppercase opacity-80 hover:opacity-100"
       >← zmoki.xyz brand</a
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">OG images</h1>
@@ -44,7 +44,7 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
       posts.map((post) => (
         <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
           <img
-            src={`/og/feed/${post.slug}.png`}
+            src={`/og/feed/${post.id}.png`}
             alt={`OG card for ${post.data.title}`}
             width="1200"
             height="630"

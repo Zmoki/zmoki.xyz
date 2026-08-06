@@ -11,7 +11,7 @@ import { OG_WIDTH } from "@/og/theme";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("feed");
-  const base = ["site", ...posts.map((post) => `feed/${post.slug}`)];
+  const base = ["site", ...posts.map((post) => `feed/${post.id}`)];
   return base.flatMap((path) => [{ params: { path } }, { params: { path: `cover/${path}` } }]);
 };
 

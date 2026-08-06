@@ -89,13 +89,13 @@ const addNode = (n: Node) => {
 };
 
 for (const post of posts) {
-  const num = parseInt(post.slug, 10);
+  const num = parseInt(post.id, 10);
   addNode({
-    id: post.slug,
+    id: post.id,
     num,
     label: shortLabel[num] ?? post.data.title.slice(0, 18),
     cluster: clusterOf[num] ?? "page",
-    url: `/feed/${post.slug}/`,
+    url: `/feed/${post.id}/`,
     ext: 0,
     out: 0,
     in: 0,
@@ -109,8 +109,8 @@ for (const post of posts) {
 // how many times the same pair occurs. External links only add to a count.
 const edgeWeights: Record<string, number> = {};
 for (const post of posts) {
-  const source = nodeById[post.slug];
-  const body = post.body;
+  const source = nodeById[post.id];
+  const body = post.body ?? "";
   source.ext = (body.match(/\]\(https?:\/\/[^)]+\)/g) ?? []).length;
 
   const targets: string[] = [];
@@ -253,7 +253,7 @@ const stats = [
   >
     <a
       href="/-/astro/brand/"
-      class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
+      class="font-mono text-xs tracking-normal uppercase opacity-80 hover:opacity-100"
       >← zmoki.xyz brand</a
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Link graph</h1>
@@ -267,9 +267,9 @@ const stats = [
   <div class="mb-6 flex flex-wrap gap-3">
     {
       stats.map((stat) => (
-        <div class="flex min-w-32 flex-col rounded-lg bg-zmoki-surface px-4 py-2 shadow-sm">
+        <div class="flex min-w-32 flex-col rounded-lg bg-zmoki-surface px-4 py-2 shadow-xs">
           <b class="font-mono text-2xl tabular-nums">{stat.value}</b>
-          <span class="text-xs uppercase tracking-wide text-zmoki-muted">{stat.label}</span>
+          <span class="text-xs tracking-wide text-zmoki-muted uppercase">{stat.label}</span>
         </div>
       ))
     }
@@ -380,7 +380,7 @@ const stats = [
   <div class="overflow-x-auto rounded-xl bg-zmoki-surface shadow-md">
     <table class="w-full min-w-[40rem] border-collapse text-sm">
       <thead>
-        <tr class="text-left text-xs uppercase tracking-wide text-zmoki-muted">
+        <tr class="text-left text-xs tracking-wide text-zmoki-muted uppercase">
           <th class="px-4 py-3">Post</th>
           <th class="px-4 py-3">Cluster</th>
           <th class="px-4 py-3 text-right">Out</th>

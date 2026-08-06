@@ -1,17 +1,17 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("feed");
   return posts.map((post: CollectionEntry<"feed">) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: post,
   }));
 }
 
 const post = Astro.props as CollectionEntry<"feed">;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <PostLayout
@@ -19,12 +19,12 @@ const { Content } = await post.render();
   description={post.data.description}
   publishDate={post.data.publishDate}
   contentModifiedDate={post.data.contentModifiedDate}
-  coverImage={`/og/cover/feed/${post.slug}.png`}
+  coverImage={`/og/cover/feed/${post.id}.png`}
 >
   <Content />
 </PostLayout>
 
-<script is:inline define:vars={{ postSlug: post.slug, postTitle: post.data.title }}>
+<script is:inline define:vars={{ postSlug: post.id, postTitle: post.data.title }}>
   window.posthog?.capture("post_viewed", {
     post_slug: postSlug,
     post_title: postTitle,

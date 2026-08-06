@@ -172,7 +172,7 @@ const checklist = [
   >
     <a
       href="/-/astro/brand/"
-      class="font-mono text-xs uppercase tracking-normal opacity-80 hover:opacity-100"
+      class="font-mono text-xs tracking-normal uppercase opacity-80 hover:opacity-100"
       >← zmoki.xyz brand</a
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Voice &amp; tone</h1>
@@ -194,7 +194,7 @@ const checklist = [
   </section>
 
   <!-- Voice pillars -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Voice pillars</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">Voice pillars</h2>
   <div class="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
     {
       pillars.map((pillar) => (
@@ -209,14 +209,14 @@ const checklist = [
   </div>
 
   <!-- Writing mechanics -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">House style</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">House style</h2>
   <div class="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
     {
       mechanics.map((m) => (
         <section class="flex flex-col gap-3 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
           <h3 class="text-lg font-semibold">{m.rule}</h3>
           <p class="rounded-lg bg-zmoki-jade-200/40 px-3 py-2 text-sm">
-            <span class="mr-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">
+            <span class="mr-1 font-mono text-xs tracking-normal text-zmoki-jade-600 uppercase">
               Yes
             </span>
             {m.right}
@@ -230,21 +230,21 @@ const checklist = [
   </div>
 
   <!-- Do / don't -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Rewrites</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">Rewrites</h2>
   <div class="mb-10 space-y-4">
     {
       examples.map((ex) => (
         <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
-          <p class="mb-4 font-mono text-xs uppercase tracking-normal opacity-60">{ex.context}</p>
+          <p class="mb-4 font-mono text-xs tracking-normal uppercase opacity-60">{ex.context}</p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="rounded-lg border-l-4 border-zmoki-flame-500 bg-zmoki-flame-200/40 p-4">
-              <p class="mb-1 font-mono text-xs uppercase tracking-normal text-zmoki-flame-600">
+              <p class="mb-1 font-mono text-xs tracking-normal text-zmoki-flame-600 uppercase">
                 Don&rsquo;t
               </p>
               <p class="opacity-80">{ex.wrong}</p>
             </div>
             <div class="rounded-lg border-l-4 border-zmoki-jade-500 bg-zmoki-jade-200/40 p-4">
-              <p class="mb-1 font-mono text-xs uppercase tracking-normal text-zmoki-jade-600">Do</p>
+              <p class="mb-1 font-mono text-xs tracking-normal text-zmoki-jade-600 uppercase">Do</p>
               <p class="opacity-80">{ex.right}</p>
             </div>
           </div>
@@ -255,7 +255,7 @@ const checklist = [
   </div>
 
   <!-- Asking good questions -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">
     Asking good questions
   </h2>
   <section class="mb-10 rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
@@ -283,7 +283,7 @@ const checklist = [
   </section>
 
   <!-- Lexicon -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Words</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">Words</h2>
   <div class="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
     <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
       <h3 class="mb-4 text-xl font-semibold text-zmoki-jade-600">Use</h3>
@@ -310,7 +310,7 @@ const checklist = [
   </div>
 
   <!-- UI microcopy -->
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">UI copy</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">UI copy</h2>
   <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
     <p class="mb-5 max-w-2xl opacity-80">
       The same voice runs through interface copy, from buttons and links to empty states and errors.
@@ -329,7 +329,7 @@ const checklist = [
   </section>
 
   <!-- Pre-publish checklist -->
-  <h2 class="mb-4 mt-10 px-1 font-mono text-sm uppercase tracking-normal opacity-60">
+  <h2 class="mt-10 mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">
     Before you publish
   </h2>
   <section class="rounded-xl bg-zmoki-azure-900 p-6 text-slate-50 shadow-md md:p-8">
@@ -337,7 +337,7 @@ const checklist = [
       {
         checklist.map((item) => (
           <li class="flex items-start gap-3">
-            <span class="mt-1 h-4 w-4 shrink-0 rounded border-2 border-zmoki-azure-300" />
+            <span class="mt-1 h-4 w-4 shrink-0 rounded-sm border-2 border-zmoki-azure-300" />
             <span class="opacity-90">{item}</span>
           </li>
         ))
