@@ -38,6 +38,17 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
     />
   </div>
 
+  <h2 class="mb-4 text-2xl font-semibold">Now</h2>
+  <div class="mb-8 max-w-xl overflow-hidden rounded-xl shadow-md">
+    <img
+      src="/og/now.png"
+      alt="Now page OG card: a timeline of moments growing toward the present"
+      width="1200"
+      height="630"
+      class="block h-auto w-full"
+    />
+  </div>
+
   <h2 class="mb-4 text-2xl font-semibold">Posts</h2>
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
     {

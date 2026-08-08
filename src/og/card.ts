@@ -755,6 +755,45 @@ export const customCards: Record<number, () => string> = {
 };
 
 // ---------------------------------------------------------------------------
+// Now page: a timeline of moments growing toward the present — three past
+// dots brightening left to right, the big "now" circle with a "you are here"
+// ring, and the future ahead as a dashed outline.
+// ---------------------------------------------------------------------------
+
+export function nowCardSvg(): string {
+  const cy = H * 0.5;
+  const moments = [
+    { x: 165, r: 42, shade: "200" },
+    { x: 330, r: 52, shade: "300" },
+    { x: 520, r: 64, shade: "500" },
+  ];
+
+  let timeline = "";
+  moments.forEach((m) => {
+    timeline += circle(m.x, cy, m.r, `fill="${tokenHex("magenta", m.shade)}"`);
+  });
+
+  const nowX = 790;
+  const nowR = 118;
+  timeline += circle(nowX, cy, nowR, `fill="${tokenHex("magenta", "600")}"`);
+  timeline += circle(
+    nowX,
+    cy,
+    nowR + 32,
+    `fill="none" stroke="${tokenHex("magenta", "700")}" stroke-width="6" stroke-opacity="0.55"`,
+  );
+
+  timeline += circle(
+    1085,
+    cy,
+    54,
+    `fill="none" stroke="${tokenHex("magenta", "400")}" stroke-width="5" stroke-dasharray="10 14" stroke-opacity="0.7"`,
+  );
+
+  return frame(timeline);
+}
+
+// ---------------------------------------------------------------------------
 // Site-wide card: the whole constellation, laid out with the same cluster
 // anchors as the brand links page, scaled to the card canvas.
 // ---------------------------------------------------------------------------

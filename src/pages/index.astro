@@ -3,9 +3,10 @@ import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Activity, Mail } from "@lucide/astro";
+import { frontmatter as nowFrontmatter } from "./now.mdx";
 
 export const publishDate = new Date("2025-09-09");
-export const contentModifiedDate = new Date("2026-08-03");
+export const contentModifiedDate = new Date("2026-08-07");
 
 const allPosts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
   (a, b) => b.data.order - a.data.order,
@@ -53,8 +54,7 @@ const formatDate = (date: Date) =>
         <Activity class="h-6 w-6 text-zmoki-magenta-500" />
         <h2 class="text-xl font-semibold md:text-2xl">Right now</h2>
         <ul class="list-disc pl-4 text-xs marker:text-zmoki-magenta-500 md:text-sm">
-          <li>Making paper collages with colored shadows</li>
-          <li>Researching how images perform in SEO</li>
+          {nowFrontmatter.preview.map((item: string) => <li>{item}</li>)}
         </ul>
         <span
           class="w-fit font-mono text-sm text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline"

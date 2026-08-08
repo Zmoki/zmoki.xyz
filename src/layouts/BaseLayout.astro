@@ -32,7 +32,11 @@ const isPageArticle = publishDate && contentModifiedDate;
 const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
 
 const pageImageWideUrl = new URL(
-  pagePathname.startsWith("/feed/") ? `/og${pagePathname.replace(/\/$/, "")}.png` : "/og/site.png",
+  pagePathname.startsWith("/feed/")
+    ? `/og${pagePathname.replace(/\/$/, "")}.png`
+    : pagePathname === "/now/"
+      ? "/og/now.png"
+      : "/og/site.png",
   currentBaseUrl,
 ).toString();
 ---
