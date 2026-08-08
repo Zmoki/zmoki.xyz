@@ -58,7 +58,7 @@ const swatchesFor = (key: string) =>
   <header
     class="mb-8 rounded-xl bg-zmoki-magenta-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
   >
-    <a href="/-/astro/brand/" class="font-mono text-xs uppercase tracking-normal opacity-80"
+    <a href="/-/astro/brand/" class="font-mono text-xs tracking-normal uppercase opacity-80"
       >← zmoki.xyz brand</a
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Color</h1>
@@ -68,7 +68,7 @@ const swatchesFor = (key: string) =>
     </p>
   </header>
 
-  <h2 class="mb-4 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Accents</h2>
+  <h2 class="mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">Accents</h2>
   <div class="space-y-2">
     {
       families.map((family) => {
@@ -84,7 +84,7 @@ const swatchesFor = (key: string) =>
                 />
                 <div>
                   <h3 class="text-2xl font-semibold md:text-3xl">{family.label}</h3>
-                  <p class="font-mono text-xs uppercase tracking-normal opacity-60">{family.key}</p>
+                  <p class="font-mono text-xs tracking-normal uppercase opacity-60">{family.key}</p>
                 </div>
               </div>
               <p class="text-base opacity-80 md:max-w-sm md:text-right">{family.role}</p>
@@ -103,7 +103,7 @@ const swatchesFor = (key: string) =>
                     >
                       {shade}
                     </p>
-                    <p class="uppercase tracking-normal opacity-60">{hex}</p>
+                    <p class="tracking-normal uppercase opacity-60">{hex}</p>
                   </div>
                 </div>
               ))}
@@ -115,7 +115,7 @@ const swatchesFor = (key: string) =>
   </div>
 
   <!-- Neutrals -->
-  <h2 class="mb-4 mt-10 px-1 font-mono text-sm uppercase tracking-normal opacity-60">Neutrals</h2>
+  <h2 class="mt-10 mb-4 px-1 font-mono text-sm tracking-normal uppercase opacity-60">Neutrals</h2>
   <section class="rounded-xl bg-zmoki-surface p-6 shadow-md md:p-8">
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
       {
@@ -125,7 +125,7 @@ const swatchesFor = (key: string) =>
             <div class="space-y-0.5 px-3 py-2">
               <p class="text-sm font-semibold">{label}</p>
               <p class="font-mono text-xs lowercase opacity-60">{key}</p>
-              <p class="font-mono text-xs uppercase tracking-normal opacity-60">
+              <p class="font-mono text-xs tracking-normal uppercase opacity-60">
                 {neutralTokens[key]}
               </p>
               <p class="pt-1 text-xs opacity-70">{role}</p>
@@ -146,7 +146,7 @@ const swatchesFor = (key: string) =>
     <h2 class="mb-4 text-2xl font-semibold md:text-3xl">Usage</h2>
     <p class="mb-4 opacity-90">
       Reference tokens as Tailwind utilities. Reach for the <code
-        class="rounded bg-slate-900 px-1.5 py-0.5 font-mono text-base">-500</code
+        class="rounded-sm bg-slate-900 px-1.5 py-0.5 font-mono text-base">-500</code
       > base unless a panel needs more contrast.
     </p>
     <ul class="space-y-2 font-mono text-sm">

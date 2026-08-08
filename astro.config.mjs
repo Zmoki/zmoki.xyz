@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import { unified } from "@astrojs/markdown-remark";
+import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import remarkDefinitionList from "remark-definition-list";
 import { defListHastHandlers } from "remark-definition-list";
@@ -113,7 +114,7 @@ function rehypeCodeBlockCopy() {
                 properties: {
                   type: "button",
                   class:
-                    "absolute top-2 right-2 px-3 py-1.5 text-xs font-medium font-mono uppercase tracking-normal rounded-sm bg-zmoki-jade-600 text-white hover:bg-zmoki-jade-600/80 focus:outline-none focus:ring-2 focus:ring-zmoki-azure-500 focus:ring-offset-2 transition-colors duration-200",
+                    "absolute top-2 right-2 px-3 py-1.5 text-xs font-medium font-mono uppercase tracking-normal rounded-xs bg-zmoki-jade-600 text-white hover:bg-zmoki-jade-600/80 focus:outline-hidden focus:ring-2 focus:ring-zmoki-azure-500 focus:ring-offset-2 transition-colors duration-200",
                   "data-copy-button": "true",
                   "aria-label": "Copy code to clipboard",
                 },
@@ -148,7 +149,13 @@ function rehypeCodeBlockCopy() {
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), mdx()],
+  integrations: [mdx()],
+  // Astro 7 defaults to "jsx" whitespace compression; keep the pre-v7 behavior
+  // so inline-element spacing in templates stays as authored.
+  compressHTML: true,
+  vite: {
+    plugins: [tailwindcss()],
+  },
   site: "https://zmoki.xyz",
   server: {
     port: 4321,
@@ -157,8 +164,10 @@ export default defineConfig({
     shikiConfig: {
       theme: "catppuccin-latte",
     },
-    remarkPlugins: [remarkDefinitionList],
-    remarkRehype: { handlers: defListHastHandlers },
-    rehypePlugins: [rehypeDefinitionListIds, rehypeExternalLinks, rehypeCodeBlockCopy],
+    processor: unified({
+      remarkPlugins: [remarkDefinitionList],
+      remarkRehype: { handlers: defListHastHandlers },
+      rehypePlugins: [rehypeDefinitionListIds, rehypeExternalLinks, rehypeCodeBlockCopy],
+    }),
   },
 });

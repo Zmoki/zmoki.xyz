@@ -1,7 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const feed = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/feed" }),
   schema: z.object({
     order: z.number(),
     title: z.string(),
@@ -12,7 +13,7 @@ const feed = defineCollection({
 });
 
 const resources = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/resources" }),
   schema: z.object({
     type: z.enum(["page", "link"]),
     name: z.string(),
@@ -41,7 +42,7 @@ const resources = defineCollection({
 });
 
 const legal = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/legal" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

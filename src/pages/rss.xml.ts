@@ -114,10 +114,10 @@ export async function GET(context: { site: string | undefined }) {
   const items = await Promise.all(
     sortedPosts.map(async (post: CollectionEntry<"feed">) => {
       // First, strip import statements
-      let processedContent = stripImports(post.body);
+      let processedContent = stripImports(post.body ?? "");
 
       // Then convert MDX components to HTML
-      processedContent = convertMdxComponentsToHtml(processedContent, siteUrl, post.slug);
+      processedContent = convertMdxComponentsToHtml(processedContent, siteUrl, post.id);
 
       // Then render the Markdown to HTML using markdown-it
       let contentHtml = parser.render(processedContent);
@@ -126,7 +126,7 @@ export async function GET(context: { site: string | undefined }) {
       contentHtml = convertRelativeUrlsToAbsolute(contentHtml, siteUrl);
 
       // Use the OG card for this post, rendered at build time by /og/[...path].png
-      const ogImagePath = `og/feed/${post.slug}.png`;
+      const ogImagePath = `og/feed/${post.id}.png`;
       const baseUrl = String(siteUrl).replace(/\/$/, "");
       const ogImageUrl = `${baseUrl}/${ogImagePath}`;
 
@@ -168,7 +168,7 @@ export async function GET(context: { site: string | undefined }) {
       return {
         title: post.data.title,
         description: post.data.description,
-        link: `/feed/${post.slug}/`,
+        link: `/feed/${post.id}/`,
         pubDate: post.data.publishDate,
         content: sanitizedContent,
         customData: customData,

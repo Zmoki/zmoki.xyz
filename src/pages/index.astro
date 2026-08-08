@@ -13,7 +13,7 @@ const allPosts: CollectionEntry<"feed">[] = (await getCollection("feed")).sort(
 );
 
 // "Start here" featured post (1-about-me) leads the grid; the rest stay newest first.
-const featured = allPosts.find((post) => post.slug.startsWith("1-"));
+const featured = allPosts.find((post) => post.id.startsWith("1-"));
 const posts = featured ? [featured, ...allPosts.filter((post) => post !== featured)] : allPosts;
 
 const formatDate = (date: Date) =>
@@ -86,11 +86,11 @@ const formatDate = (date: Date) =>
       {
         posts.map((post, i) => (
           <a
-            href={`/feed/${post.slug}/`}
+            href={`/feed/${post.id}/`}
             class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
           >
             <Image
-              src={`/og/cover/feed/${post.slug}.png`}
+              src={`/og/cover/feed/${post.id}.png`}
               alt=""
               width={1200}
               height={675}
@@ -103,7 +103,7 @@ const formatDate = (date: Date) =>
                 set:html={post.data.title}
               />
               <span class="text-sm opacity-80" set:html={post.data.description} />
-              <span class="mt-auto pt-2 font-mono text-xs uppercase tracking-normal text-zmoki-muted">
+              <span class="mt-auto pt-2 font-mono text-xs tracking-normal text-zmoki-muted uppercase">
                 <time datetime={post.data.contentModifiedDate.toISOString()}>
                   {formatDate(post.data.contentModifiedDate)}
                 </time>

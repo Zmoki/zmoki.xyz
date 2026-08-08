@@ -21,7 +21,7 @@ const hasSecondary = Astro.slots.has("secondary");
       "grid grid-cols-1 gap-4 xl:grid-cols-[1fr_55ch] xl:gap-12":
         hasSecondary && !centered && aside,
     },
-    { "xl:float-right xl:clear-right xl:mr-[-47ch] xl:mt-[-4em] xl:w-[42ch]": aside },
+    { "xl:float-right xl:clear-right xl:mt-[-4em] xl:mr-[-47ch] xl:w-[42ch]": aside },
   ]}
 >
   <div class:list={["primary mb-[-1.2rem]", { "xl:w-[60ch]": centered }, { "md:prose-sm": aside }]}>

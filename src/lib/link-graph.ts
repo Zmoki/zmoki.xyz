@@ -60,12 +60,12 @@ export async function buildLinkGraph(): Promise<LinkGraph> {
   };
 
   for (const post of posts) {
-    const num = parseInt(post.slug, 10);
+    const num = parseInt(post.id, 10);
     addNode({
-      id: post.slug,
+      id: post.id,
       num,
       cluster: clusterOf[num] ?? "page",
-      url: `/feed/${post.slug}/`,
+      url: `/feed/${post.id}/`,
       ext: 0,
       out: 0,
       in: 0,
@@ -74,8 +74,8 @@ export async function buildLinkGraph(): Promise<LinkGraph> {
 
   const edgeWeights: Record<string, number> = {};
   for (const post of posts) {
-    const source = byId[post.slug];
-    const body = post.body;
+    const source = byId[post.id];
+    const body = post.body ?? "";
     source.ext = (body.match(/\]\(https?:\/\/[^)]+\)/g) ?? []).length;
 
     const targets: string[] = [];
