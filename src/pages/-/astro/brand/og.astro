@@ -85,6 +85,21 @@ const ogCards = await cardMap();
     </figure>
   </div>
 
+  <h2 class="mb-4 text-2xl font-semibold">Pages</h2>
+  <div class="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    {
+      ["now", "contact", "legal/privacy", "legal/terms", "404"].map((id) => (
+        <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
+          <span
+            class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+            set:html={ogCards.get(id)}
+          />
+          <figcaption class="px-4 py-3 font-mono text-sm text-zmoki-muted">/{id}/</figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
   <h2 class="mb-4 text-2xl font-semibold">Posts</h2>
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
     {

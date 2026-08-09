@@ -13,8 +13,12 @@ import { OG_WIDTH } from "@/og/theme";
 // to dist/og/ at build.
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const cards = await cardMap();
   const posts = await getCollection("feed");
-  const base = ["site", "now", ...posts.map((post) => `feed/${post.id}`)];
+  // Every master plus ego fallbacks for posts without one; the index card
+  // is served as /og/site.png.
+  const ids = new Set([...cards.keys(), ...posts.map((post) => `feed/${post.id}`)]);
+  const base = [...ids].map((id) => (id === "index" ? "site" : id));
   return base.flatMap((path) => [{ params: { path } }, { params: { path: `square/${path}` } }]);
 };
 

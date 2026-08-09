@@ -377,7 +377,9 @@ Do not commit anything from `src/images/tmp/` — it's a staging folder.
 
 ## OG image generation
 
-Every card is a hand-editable 16:9 SVG master (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. The `src/content/og/` folder mirrors the pages tree: `index.svg` (site-wide card, served as `/og/site.png`), `now.svg`, and `feed/{id}.svg` per post. `index.svg` is a materialized snapshot of the link-graph constellation — delete it and the build regenerates the card dynamically (same for any missing post master, which falls back to its ego-network card). Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
+Every card is a hand-editable 16:9 SVG master (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. The `src/content/og/` folder mirrors the pages tree: `index.svg` (homepage card, served as `/og/site.png`), `now.svg`, `contact.svg`, `404.svg`, `legal/{page}.svg`, and `feed/{id}.svg` per post.
+
+**Every page rendered through `BaseLayout` must have its own card** — the build fails with a "has no OG card" error otherwise. The one exception is feed posts, which fall back to a generated ego-network card until their master exists. `index.svg` is a materialized snapshot of the link-graph constellation — delete it and the build regenerates the card dynamically. Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
 
 One master, three outputs:
 

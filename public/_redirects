@@ -12,4 +12,6 @@
 /og-images/feed/9-next-exhibition-deadline-map-tbilisi-art-spaces/wide.jpg /og/feed/9-tbilisi-art-scene-map.png 301
 /og-images/feed/:slug/wide.jpg /og/feed/:slug.png 301
 /og-images/now/wide.jpg /og/now.png 301
+/og-images/legal/privacy/* /og/legal/privacy.png 301
+/og-images/legal/terms/* /og/legal/terms.png 301
 /og-images/* /og/site.png 301

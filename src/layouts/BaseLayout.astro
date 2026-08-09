@@ -31,12 +31,16 @@ const isPageArticle = publishDate && contentModifiedDate;
 
 const canonicalURL = new URL(Astro.url.pathname, siteBaseUrl).toString();
 
-// The og masters mirror the pages tree, so for pages with their own card
-// (feed posts, now) the card id is simply the trimmed pathname; every
-// other page shares the site-wide index card.
-const cardId = /^\/(feed\/[^/]+|now)\/$/.test(Astro.url.pathname)
-  ? Astro.url.pathname.slice(1, -1)
-  : "index";
+// The og masters mirror the pages tree: every page must have its own card
+// at src/content/og/{trimmed pathname}.svg (index.svg for the homepage).
+// Only feed posts may lack one — they fall back to a generated ego-network
+// card. Any other page without a master fails the build here.
+const trimmedPathname = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
+const cardId = trimmedPathname === "" ? "index" : trimmedPathname;
+const ogCard = await getEntry("og", cardId);
+if (!ogCard && !cardId.startsWith("feed/")) {
+  throw new Error(`Page "${Astro.url.pathname}" has no OG card — add src/content/og/${cardId}.svg`);
+}
 const pageImagePath = cardId === "index" ? "/og/site.png" : `/og/${cardId}.png`;
 const pageImageWideUrl = new URL(pageImagePath, currentBaseUrl).toString();
 const pageImageSquareUrl = new URL(
@@ -44,10 +48,10 @@ const pageImageSquareUrl = new URL(
   currentBaseUrl,
 ).toString();
 
-// Per-card alt text from the SVG master's <desc>; graph-drawn fallback
-// cards (ego network) get a generic description.
+// Per-card alt text from the SVG master's <desc>; generated ego-network
+// fallback cards get a generic description.
 const pageImageAlt =
-  (await getEntry("og", cardId))?.data.alt ??
+  ogCard?.data.alt ??
   "Network of circles around a large center circle, joined by curved lines, on a creamy ground";
 ---
 
