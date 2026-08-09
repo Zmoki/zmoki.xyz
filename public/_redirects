@@ -8,3 +8,4 @@
 /garden/ / 301
 /resources/day-themes-menu/ https://www.notion.com/templates/the-day-themes-menu 302
 /feed/9-next-exhibition-deadline-map-tbilisi-art-spaces/ /feed/9-tbilisi-art-scene-map/ 301
+/og/cover/* /og/:splat 301

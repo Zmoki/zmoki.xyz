@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { Activity, Mail } from "@lucide/astro";
 import { frontmatter as nowFrontmatter } from "./now.mdx";
 import { buildLinkGraph } from "@/lib/link-graph";
-import { egoCardSvg } from "@/og/card";
+import { cardMap, egoCardSvg } from "@/og/card";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-08-07");
@@ -22,7 +22,7 @@ const formatDate = (date: Date) =>
 
 // Card SVG per post, inlined in the masonry so the cards can be animated
 // with CSS later. Posts without a master fall back to their ego-network card.
-const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card.data.svg]));
+const ogCards = await cardMap();
 const graph = await buildLinkGraph();
 const cardSvg = (id: string): string =>
   ogCards.get(`feed/${id}`) ?? egoCardSvg(graph.byId[id], graph);

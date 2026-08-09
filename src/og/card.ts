@@ -1,3 +1,4 @@
+import { getCollection } from "astro:content";
 import type { GraphNode, LinkGraph } from "@/lib/link-graph";
 import { degree } from "@/lib/link-graph";
 import {
@@ -46,12 +47,26 @@ const frame = (
 // Ratio transforms. They rewrite the master's dimension attributes and
 // ground rect, so masters must keep the exact markers frame() emits:
 // `height="675" viewBox="0 0 1200 675"` and `<rect width="1200" height="675"`.
+// A master that lost a marker (e.g. re-saved by a vector editor that
+// reordered attributes) fails the build instead of shipping a wrong-sized
+// card.
 // ---------------------------------------------------------------------------
+
+const mustReplace = (svg: string, marker: string, replacement: string): string => {
+  if (!svg.includes(marker)) {
+    throw new Error(
+      `OG card master is missing the expected marker \`${marker}\` — ` +
+        `keep the dimension attributes and ground rect exactly as frame() emits them.`,
+    );
+  }
+  return svg.replace(marker, replacement);
+};
 
 // 1.91:1 (1200×630): crop the master evenly top and bottom.
 export const toWideSvg = (svg: string): string => {
   const crop = (H - OG_HEIGHT) / 2;
-  return svg.replace(
+  return mustReplace(
+    svg,
     `height="${H}" viewBox="0 0 ${W} ${H}"`,
     `height="${OG_HEIGHT}" viewBox="0 ${crop} ${W} ${OG_HEIGHT}"`,
   );
@@ -60,16 +75,22 @@ export const toWideSvg = (svg: string): string => {
 // 1:1 (1200×1200): extend the ground evenly above and below the composition.
 export const toSquareSvg = (svg: string): string => {
   const pad = (SQUARE_SIZE - H) / 2;
-  return svg
-    .replace(
+  return mustReplace(
+    mustReplace(
+      svg,
       `height="${H}" viewBox="0 0 ${W} ${H}"`,
       `height="${SQUARE_SIZE}" viewBox="0 -${pad} ${W} ${SQUARE_SIZE}"`,
-    )
-    .replace(
-      `<rect width="${W}" height="${H}"`,
-      `<rect y="-${pad}" width="${W}" height="${SQUARE_SIZE}"`,
-    );
+    ),
+    `<rect width="${W}" height="${H}"`,
+    `<rect y="-${pad}" width="${W}" height="${SQUARE_SIZE}"`,
+  );
 };
+
+// All card masters as id → svg ("index", "now", "feed/{id}").
+export async function cardMap(): Promise<Map<string, string>> {
+  const cards = await getCollection("og");
+  return new Map(cards.map((card) => [card.id, card.data.svg]));
+}
 
 const particles = (seed: string, count: number, color: string): string => {
   let out = "";

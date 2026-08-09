@@ -1,13 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import BrandLayout from "@/layouts/BrandLayout.astro";
+import { cardMap } from "@/og/card";
 
 // Preview grid for the abstract OG cards. Masters are hand-editable 16:9
 // SVGs in src/content/og (inlined here); the PNG ratios below each master
 // are what /og/[...path].png.ts derives from it at build time.
 
 const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data.order);
-const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card.data.svg]));
+const ogCards = await cardMap();
 ---
 
 <BrandLayout

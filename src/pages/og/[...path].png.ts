@@ -2,7 +2,7 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import { buildLinkGraph } from "@/lib/link-graph";
-import { egoCardSvg, constellationSvg, toWideSvg, toSquareSvg } from "@/og/card";
+import { cardMap, egoCardSvg, constellationSvg, toWideSvg, toSquareSvg } from "@/og/card";
 import { OG_WIDTH } from "@/og/theme";
 
 // Build-time OG card endpoint. Sources are the 16:9 SVG masters in
@@ -19,13 +19,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const graphPromise = buildLinkGraph();
-const cardsPromise = getCollection("og").then(
-  (cards) => new Map(cards.map((card) => [card.id, card.data.svg])),
-);
 
 export const GET: APIRoute = async ({ params }) => {
   const graph = await graphPromise;
-  const cards = await cardsPromise;
+  // Fetched per request (not module scope) so dev picks up master edits.
+  const cards = await cardMap();
   const isSquare = (params.path ?? "").startsWith("square/");
   const path = (params.path ?? "site").replace(/^square\//, "");
   // Card ids mirror the pages tree; the site-wide card is index.svg.
