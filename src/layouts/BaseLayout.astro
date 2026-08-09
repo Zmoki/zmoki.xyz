@@ -27,29 +27,27 @@ const analyticsEnabled = import.meta.env.PUBLIC_ANALYTICS_ENABLED !== "false";
 const siteBaseUrl = Astro.site;
 const currentBaseUrl = isProduction ? siteBaseUrl : `http://localhost:${Astro.url.port}`;
 
-const pagePathname = Astro.url.pathname;
 const isPageArticle = publishDate && contentModifiedDate;
 
-const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
+const canonicalURL = new URL(Astro.url.pathname, siteBaseUrl).toString();
 
-const pageImagePath = pagePathname.startsWith("/feed/")
-  ? `/og${pagePathname.replace(/\/$/, "")}.png`
-  : pagePathname === "/now/"
-    ? "/og/now.png"
-    : "/og/site.png";
+// The og masters mirror the pages tree, so for pages with their own card
+// (feed posts, now) the card id is simply the trimmed pathname; every
+// other page shares the site-wide index card.
+const cardId = /^\/(feed\/[^/]+|now)\/$/.test(Astro.url.pathname)
+  ? Astro.url.pathname.slice(1, -1)
+  : "index";
+const pageImagePath = cardId === "index" ? "/og/site.png" : `/og/${cardId}.png`;
 const pageImageWideUrl = new URL(pageImagePath, currentBaseUrl).toString();
 const pageImageSquareUrl = new URL(
-  pageImagePath.replace(/^\/og\//, "/og/square/"),
+  pageImagePath.replace("/og/", "/og/square/"),
   currentBaseUrl,
 ).toString();
 
-// Per-card alt text from the SVG master's <desc>; card ids mirror the
-// pages tree (the site-wide card is index.svg). Graph-drawn fallback
-// cards get a generic description.
-const cardId = pageImagePath === "/og/site.png" ? "index" : pageImagePath.slice(4, -4);
-const ogCard = await getEntry("og", cardId);
+// Per-card alt text from the SVG master's <desc>; graph-drawn fallback
+// cards (ego network) get a generic description.
 const pageImageAlt =
-  ogCard?.data.alt ??
+  (await getEntry("og", cardId))?.data.alt ??
   "Network of circles around a large center circle, joined by curved lines, on a creamy ground";
 ---
 
