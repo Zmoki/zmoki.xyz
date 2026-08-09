@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
-  <desc>Air-quality scale of six color zones from good to hazardous with a marker sitting in the poor zone, on a creamy ground.</desc>
+  <desc>Horizontal air-quality bar running green, yellow, orange, red, with a ring marker sitting in the orange zone, on a creamy ground.</desc>
   <rect width="1200" height="675" fill="#fff2ed" />
   <g transform="translate(0 22.5)">
   <clipPath id="aqi-clip"><rect x="96" y="273" width="1008" height="84" rx="42" /></clipPath>

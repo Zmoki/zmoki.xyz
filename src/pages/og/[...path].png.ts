@@ -28,14 +28,15 @@ export const GET: APIRoute = async ({ params }) => {
   const cards = await cardsPromise;
   const isSquare = (params.path ?? "").startsWith("square/");
   const path = (params.path ?? "site").replace(/^square\//, "");
-  const cardId = path.replace(/^feed\//, "");
+  // Card ids mirror the pages tree; the site-wide card is index.svg.
+  const cardId = path === "site" ? "index" : path;
 
   let svg: string | undefined = cards.get(cardId);
   if (!svg) {
     if (path === "site") {
       svg = constellationSvg(graph);
     } else {
-      const node = graph.byId[cardId];
+      const node = graph.byId[path.replace(/^feed\//, "")];
       if (!node) return new Response("Not found", { status: 404 });
       svg = egoCardSvg(node, graph);
     }

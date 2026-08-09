@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
-  <desc>Ordered checklist rows, most checked off and a few open, beside a field of small dots, on a creamy ground.</desc>
+  <desc>Checklist of three rows with grey text lines: two ticked azure dots, the last one an open circle, on a creamy ground.</desc>
   <rect width="1200" height="675" fill="#fff2ed" />
   <g transform="translate(0 22.5)">
   <circle cx="240.0" cy="145.0" r="46.0" fill="#0099f2" /><rect x="366" y="130" width="620" height="30" rx="15" fill="#475569" fill-opacity="0.55" /><circle cx="240.0" cy="315.0" r="46.0" fill="#0099f2" /><rect x="366" y="300" width="411.19693599641323" height="30" rx="15" fill="#475569" fill-opacity="0.55" /><circle cx="240.0" cy="485.0" r="42.0" fill="none" stroke="#0099f2" stroke-width="8" /><rect x="366" y="470" width="537.8079235879704" height="30" rx="15" fill="#475569" fill-opacity="0.35" />

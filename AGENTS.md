@@ -114,7 +114,7 @@ Tailwind 4 runs through the `@tailwindcss/vite` plugin (configured in `astro.con
 
 ## Content collections (`src/content.config.ts`)
 
-Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`. A fourth collection, `og`, loads the OG card SVG masters from `src/content/og/*.svg` through a custom loader (`{ id, data: { svg } }`).
+Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`. A fourth collection, `og`, loads the OG card SVG masters from `src/content/og/**/*.svg` through a custom loader (`{ id, data: { svg, alt } }`); ids are relative paths without extension (`index`, `now`, `feed/1-about-me`).
 
 ### `feed` — blog posts
 
@@ -377,7 +377,7 @@ Do not commit anything from `src/images/tmp/` — it's a staging folder.
 
 ## OG image generation
 
-Every card is a hand-editable 16:9 SVG master at `src/content/og/{id}.svg` (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. Ids match feed ids, plus `now` for the now page. Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
+Every card is a hand-editable 16:9 SVG master (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. The `src/content/og/` folder mirrors the pages tree: `index.svg` (site-wide card, served as `/og/site.png`), `now.svg`, and `feed/{id}.svg` per post. `index.svg` is a materialized snapshot of the link-graph constellation — delete it and the build regenerates the card dynamically (same for any missing post master, which falls back to its ego-network card). Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
 
 One master, three outputs:
 

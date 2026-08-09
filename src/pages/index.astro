@@ -24,7 +24,8 @@ const formatDate = (date: Date) =>
 // with CSS later. Posts without a master fall back to their ego-network card.
 const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card.data.svg]));
 const graph = await buildLinkGraph();
-const cardSvg = (id: string): string => ogCards.get(id) ?? egoCardSvg(graph.byId[id], graph);
+const cardSvg = (id: string): string =>
+  ogCards.get(`feed/${id}`) ?? egoCardSvg(graph.byId[id], graph);
 ---
 
 <BaseLayout

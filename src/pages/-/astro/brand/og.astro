@@ -89,10 +89,10 @@ const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card
     {
       posts.map((post) => (
         <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
-          {ogCards.has(post.id) ? (
+          {ogCards.has(`feed/${post.id}`) ? (
             <span
               class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
-              set:html={ogCards.get(post.id)}
+              set:html={ogCards.get(`feed/${post.id}`)}
             />
           ) : (
             <img
@@ -106,7 +106,9 @@ const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card
           )}
           <figcaption class="px-4 py-3 text-sm text-zmoki-muted">
             <span class="font-mono">#{post.data.order}</span> {post.data.title}
-            {!ogCards.has(post.id) && <span class="font-mono text-xs"> (ego fallback)</span>}
+            {!ogCards.has(`feed/${post.id}`) && (
+              <span class="font-mono text-xs"> (ego fallback)</span>
+            )}
           </figcaption>
         </figure>
       ))

@@ -4,17 +4,20 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import type { Loader } from "astro/loaders";
 
-// Loads the hand-editable OG card masters (src/content/og/*.svg) as a
-// collection: { id: filename-without-extension, data: { svg, alt } }. The
-// alt text comes from the master's <desc> element. The glob and file
-// loaders don't parse .svg, hence the custom loader.
+// Loads the hand-editable OG card masters (src/content/og/**/*.svg) as a
+// collection. The folder mirrors the pages tree (index.svg, now.svg,
+// feed/{id}.svg), so ids are the relative path without extension:
+// "index", "now", "feed/1-about-me". The alt text comes from the master's
+// <desc> element. The glob and file loaders don't parse .svg, hence the
+// custom loader.
 const svgLoader = (dir: string): Loader => ({
   name: "svg-loader",
   load: async ({ store, generateDigest, watcher, config, logger }) => {
     const dirUrl = new URL(dir, config.root);
     const dirPath = fileURLToPath(dirUrl);
     const sync = async () => {
-      const files = (await fs.readdir(dirPath)).filter((f) => f.endsWith(".svg"));
+      const entries = await fs.readdir(dirPath, { recursive: true });
+      const files = entries.filter((f) => f.endsWith(".svg"));
       store.clear();
       for (const file of files) {
         const svg = await fs.readFile(new URL(file, dirUrl), "utf-8");

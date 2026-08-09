@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
-  <desc>Three colored pillars of different heights standing on a shared baseline, on a creamy ground.</desc>
+  <desc>Three rounded magenta pillars of different heights, tallest in the middle, on a creamy ground.</desc>
   <rect width="1200" height="675" fill="#fff2ed" />
   <g transform="translate(0 22.5)">
   <rect x="282" y="154" width="148" height="350" rx="74" fill="#ff69d4" /><rect x="526" y="74" width="148" height="430" rx="74" fill="#f200ad" /><rect x="770" y="204" width="148" height="300" rx="74" fill="#7c0059" />

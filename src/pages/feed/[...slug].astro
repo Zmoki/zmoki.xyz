@@ -15,11 +15,11 @@ const { Content } = await render(post);
 
 // 16:9 SVG master of the post's card, rasterized to responsive webp by
 // astro:assets. Posts without a master simply have no cover yet.
-const svgMasters = import.meta.glob<{ default: ImageMetadata }>("/src/content/og/*.svg", {
+const svgMasters = import.meta.glob<{ default: ImageMetadata }>("/src/content/og/feed/*.svg", {
   eager: true,
 });
-const coverImage = svgMasters[`/src/content/og/${post.id}.svg`]?.default;
-const coverAlt = coverImage ? (await getEntry("og", post.id))?.data.alt : undefined;
+const coverImage = svgMasters[`/src/content/og/feed/${post.id}.svg`]?.default;
+const coverAlt = coverImage ? (await getEntry("og", `feed/${post.id}`))?.data.alt : undefined;
 ---
 
 <PostLayout
