@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Cascading fan of book covers with title lines, light jade on top and darker underneath, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <g transform="rotate(16 638 516.0999999999999)">
+    <rect x="488" y="116.09999999999997" width="300" height="400" rx="24"
+      fill="none" stroke="#475569" stroke-width="4" stroke-opacity="0.45" stroke-dasharray="10 12" /></g><g transform="rotate(6 573 526.0999999999999)">
+      <rect x="423" y="126.09999999999997" width="300" height="400" rx="24" fill="#068b2c" />
+      <rect x="463" y="172.09999999999997" width="220" height="16" rx="8" fill="#fff2ed" fill-opacity="0.85" />
+      <rect x="463" y="206.09999999999997" width="160" height="16" rx="8" fill="#fff2ed" fill-opacity="0.6" />
+    </g><g transform="rotate(-6 498 481.09999999999997)">
+      <rect x="348" y="81.09999999999997" width="300" height="400" rx="24" fill="#25f660" />
+      <rect x="388" y="253.09999999999997" width="220" height="16" rx="8" fill="#fff2ed" fill-opacity="0.85" />
+      <rect x="418" y="287.09999999999997" width="160" height="16" rx="8" fill="#fff2ed" fill-opacity="0.6" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>The word WHY drawn as three large stroke letters, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <path d="M 155 185 L 204 445 L 253 315 L 301 445 L 350 185" fill="none" stroke="#005b90" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 435 185 L 435 445 M 573 185 L 573 445 M 435 315 L 573 315" fill="none" stroke="#0074b7" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 655 185 L 740 315 L 825 185 M 740 315 L 740 445" fill="none" stroke="#0099f2" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 902 257 A 72 72 0 1 1 974 329 L 974 362" fill="none" stroke="#2eb2ff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="974.0" cy="443.0" r="23.0" fill="#2eb2ff" />
+  </g>
+</svg>

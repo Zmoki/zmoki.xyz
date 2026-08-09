@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Bar chart of slow flame bars shrinking into fast jade bars under a dashed threshold line, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <line x1="96" y1="358.8" x2="1104" y2="358.8"
+    stroke="#001d2e" stroke-width="3" stroke-opacity="0.5" stroke-dasharray="4 14" stroke-linecap="round" /><rect x="186" y="178.8" width="108" height="300" rx="14" fill="#f24500" /><rect x="366" y="250.8" width="108" height="228" rx="14" fill="#f24500" /><rect x="546" y="320.8" width="108" height="158" rx="14" fill="#f24500" /><rect x="726" y="386.8" width="108" height="92" rx="14" fill="#08c33d" /><rect x="906" y="430.8" width="108" height="48" rx="14" fill="#08c33d" /><rect x="96" y="478.8" width="1008" height="7" rx="3.5" fill="#475569" fill-opacity="0.6" />
+  </g>
+</svg>

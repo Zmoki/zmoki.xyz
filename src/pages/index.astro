@@ -1,9 +1,10 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Activity, Mail } from "@lucide/astro";
 import { frontmatter as nowFrontmatter } from "./now.mdx";
+import { buildLinkGraph } from "@/lib/link-graph";
+import { egoCardSvg } from "@/og/card";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-08-07");
@@ -18,6 +19,12 @@ const posts = featured ? [featured, ...allPosts.filter((post) => post !== featur
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+// Card SVG per post, inlined in the masonry so the cards can be animated
+// with CSS later. Posts without a master fall back to their ego-network card.
+const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card.data.svg]));
+const graph = await buildLinkGraph();
+const cardSvg = (id: string): string => ogCards.get(id) ?? egoCardSvg(graph.byId[id], graph);
 ---
 
 <BaseLayout
@@ -84,18 +91,15 @@ const formatDate = (date: Date) =>
     <!-- All posts, masonry -->
     <section class="columns-1 gap-4 sm:columns-2 lg:columns-3">
       {
-        posts.map((post, i) => (
+        posts.map((post) => (
           <a
             href={`/feed/${post.id}/`}
             class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
           >
-            <Image
-              src={`/og/cover/feed/${post.id}.png`}
-              alt=""
-              width={1200}
-              height={675}
-              loading={i < 3 ? "eager" : "lazy"}
-              class="w-full object-cover"
+            <span
+              aria-hidden="true"
+              class="post-card-svg block w-full [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+              set:html={cardSvg(post.id)}
             />
             <span class="flex grow flex-col gap-2 p-6">
               <h2

@@ -8,7 +8,9 @@ const accentScales = accents as Record<string, Record<string, string>>;
 const neutralTokens = neutrals as Record<string, string>;
 
 export const OG_WIDTH = 1200;
-export const OG_HEIGHT = 630;
+export const OG_HEIGHT = 630; // 1.91:1 Open Graph wide
+export const MASTER_HEIGHT = 675; // 16:9 SVG master (src/content/og)
+export const SQUARE_SIZE = 1200; // 1:1 Open Graph square
 
 // Creamy light ground (the zmoki surface token). The cluster palette is the
 // light-surface set validated by the dataviz checks (jade needs 600+ there).
@@ -22,12 +24,4 @@ export const clusterHex: Record<string, string> = {
   page: neutralTokens["zmoki-muted"],
 };
 
-export const wordmarkInk = neutralTokens["zmoki-ink"];
-export const wordmarkDot = accentScales["zmoki-magenta"]["500"];
 export const particleHex = accentScales["zmoki-azure"]["400"];
-
-export const muted = neutralTokens["zmoki-muted"];
-
-// Direct token access for the per-post custom cards.
-export const tokenHex = (family: string, step: string): string =>
-  accentScales[`zmoki-${family}`][step];

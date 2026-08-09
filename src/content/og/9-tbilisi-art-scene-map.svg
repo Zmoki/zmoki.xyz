@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Flame map pins scattered like a city at night along a winding route, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <path d="M -80 360.0 L -60 376.7 L -40 393.1 L -20 408.8 L 0 423.6 L 20 437.1 L 40 449.2 L 60 459.5 L 80 467.9 L 100 474.1 L 120 478.2 L 140 479.9 L 160 479.3 L 180 476.4 L 200 471.3 L 220 463.9 L 240 454.6 L 260 443.4 L 280 430.5 L 300 416.3 L 320 401.0 L 340 384.9 L 360 368.4 L 380 351.6 L 400 335.1 L 420 319.0 L 440 303.7 L 460 289.5 L 480 276.6 L 500 265.4 L 520 256.1 L 540 248.7 L 560 243.6 L 580 240.7 L 600 240.1 L 620 241.8 L 640 245.9 L 660 252.1 L 680 260.5 L 700 270.8 L 720 282.9 L 740 296.4 L 760 311.2 L 780 326.9 L 800 343.3 L 820 360.0 L 840 376.7 L 860 393.1 L 880 408.8 L 900 423.6 L 920 437.1 L 940 449.2 L 960 459.5 L 980 467.9 L 1000 474.1 L 1020 478.2 L 1040 479.9 L 1060 479.3 L 1080 476.4 L 1100 471.3 L 1120 463.9 L 1140 454.6 L 1160 443.4 L 1180 430.5 L 1200 416.3 L 1220 401.0 L 1240 384.9 L 1260 368.4 L 1280 351.6 "
+    fill="none" stroke="#ffdef6" stroke-width="160" stroke-linecap="round" />
+  <g transform="rotate(-15 185 395.4)"><circle cx="185.0" cy="289.0" r="65.0" fill="#fff2ed" />
+      <path d="M 144.7 337.1 L 185 409.4 L 225.3 337.1 Z" fill="#fff2ed" /><circle cx="185.0" cy="289.0" r="56.0" fill="#ff692e" />
+      <path d="M 150.3 330.4 L 185 395.4 L 219.7 330.4 Z" fill="#ff692e" />
+    <circle cx="185.0" cy="289.0" r="21.3" fill="#fff2ed" /></g>
+  <g transform="rotate(5 625 272.6)"><circle cx="625.0" cy="124.4" r="87.0" fill="#fff2ed" />
+      <path d="M 571.1 188.8 L 625 286.6 L 678.9 188.8 Z" fill="#fff2ed" /><circle cx="625.0" cy="124.4" r="78.0" fill="#f24500" />
+      <path d="M 576.6 182.1 L 625 272.6 L 673.4 182.1 Z" fill="#f24500" />
+    <circle cx="625.0" cy="124.4" r="29.6" fill="#fff2ed" /></g>
+  <g transform="rotate(10 1005 420.4)"><circle cx="1005.0" cy="325.4" r="59.0" fill="#fff2ed" />
+      <path d="M 968.4 369.0 L 1005 434.4 L 1041.6 369.0 Z" fill="#fff2ed" /><circle cx="1005.0" cy="325.4" r="50.0" fill="#de3f00" />
+      <path d="M 974.0 362.4 L 1005 420.4 L 1036.0 362.4 Z" fill="#de3f00" />
+    <circle cx="1005.0" cy="325.4" r="19.0" fill="#fff2ed" /></g>
+  </g>
+</svg>

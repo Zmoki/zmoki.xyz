@@ -1,5 +1,5 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, render, type CollectionEntry } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
@@ -12,6 +12,14 @@ export async function getStaticPaths() {
 
 const post = Astro.props as CollectionEntry<"feed">;
 const { Content } = await render(post);
+
+// 16:9 SVG master of the post's card, rasterized to responsive webp by
+// astro:assets. Posts without a master simply have no cover yet.
+const svgMasters = import.meta.glob<{ default: ImageMetadata }>("/src/content/og/*.svg", {
+  eager: true,
+});
+const coverImage = svgMasters[`/src/content/og/${post.id}.svg`]?.default;
+const coverAlt = coverImage ? (await getEntry("og", post.id))?.data.alt : undefined;
 ---
 
 <PostLayout
@@ -19,7 +27,8 @@ const { Content } = await render(post);
   description={post.data.description}
   publishDate={post.data.publishDate}
   contentModifiedDate={post.data.contentModifiedDate}
-  coverImage={`/og/cover/feed/${post.id}.png`}
+  coverImage={coverImage}
+  coverAlt={coverAlt}
 >
   <Content />
 </PostLayout>

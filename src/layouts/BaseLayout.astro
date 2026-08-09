@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { getEntry } from "astro:content";
 import PostHog from "@/components/posthog.astro";
 import Footer from "@/components/Footer.astro";
 import TopNav from "@/components/TopNav.astro";
@@ -31,14 +32,26 @@ const isPageArticle = publishDate && contentModifiedDate;
 
 const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
 
-const pageImageWideUrl = new URL(
-  pagePathname.startsWith("/feed/")
-    ? `/og${pagePathname.replace(/\/$/, "")}.png`
-    : pagePathname === "/now/"
-      ? "/og/now.png"
-      : "/og/site.png",
+const pageImagePath = pagePathname.startsWith("/feed/")
+  ? `/og${pagePathname.replace(/\/$/, "")}.png`
+  : pagePathname === "/now/"
+    ? "/og/now.png"
+    : "/og/site.png";
+const pageImageWideUrl = new URL(pageImagePath, currentBaseUrl).toString();
+const pageImageSquareUrl = new URL(
+  pageImagePath.replace(/^\/og\//, "/og/square/"),
   currentBaseUrl,
 ).toString();
+
+// Per-card alt text from the SVG master's <desc>; graph-drawn cards
+// (constellation, ego fallback) get generic descriptions.
+const cardId = pageImagePath.replace(/^\/og\/(feed\/)?/, "").replace(/\.png$/, "");
+const ogCard = cardId === "site" ? undefined : await getEntry("og", cardId);
+const pageImageAlt =
+  ogCard?.data.alt ??
+  (cardId === "site"
+    ? "Constellation of colored circles joined by curved lines, clustered by topic, on a creamy ground"
+    : "Network of circles around a large center circle, joined by curved lines, on a creamy ground");
 ---
 
 <!doctype html>
@@ -76,6 +89,12 @@ const pageImageWideUrl = new URL(
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageImageAlt} />
+    <meta property="og:image" content={pageImageSquareUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content={pageImageAlt} />
     {
       isPageArticle && (
         <meta property="article:published_time" content={publishDate.toISOString()} />
@@ -87,6 +106,8 @@ const pageImageWideUrl = new URL(
       )
     }
     <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image" content={pageImageWideUrl} />
+    <meta property="twitter:image:alt" content={pageImageAlt} />
 
     {analyticsEnabled && <PostHog />}
   </head>

@@ -9,10 +9,11 @@ export interface Props {
   description?: string;
   publishDate: Date;
   contentModifiedDate: Date;
-  coverImage?: string;
+  coverImage?: ImageMetadata;
+  coverAlt?: string;
 }
 
-const { title, description, publishDate, contentModifiedDate, coverImage } = Astro.props;
+const { title, description, publishDate, contentModifiedDate, coverImage, coverAlt } = Astro.props;
 const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
 ---
 
@@ -35,7 +36,14 @@ const isContentModified = contentModifiedDate.getTime() > publishDate.getTime();
         {
           coverImage && (
             <figure>
-              <Image src={coverImage} alt="" width={1200} height={675} class="max-w-full" />
+              <Image
+                src={coverImage}
+                alt={coverAlt ?? ""}
+                format="webp"
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 768px) 55ch, 100vw"
+                class="max-w-full"
+              />
             </figure>
           )
         }

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Air-quality scale of six color zones from good to hazardous with a marker sitting in the poor zone, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <clipPath id="aqi-clip"><rect x="96" y="273" width="1008" height="84" rx="42" /></clipPath>
+  <g clip-path="url(#aqi-clip)"><rect x="96.0" y="273" width="252.0" height="84" fill="#08c33d" /><rect x="348.0" y="273" width="252.0" height="84" fill="#fdd920" /><rect x="600.0" y="273" width="252.0" height="84" fill="#ff692e" /><rect x="852.0" y="273" width="252.0" height="84" fill="#f24500" /></g>
+  <circle cx="852.0" cy="315.0" r="78.0" fill="#ff692e" stroke="#fff2ed" stroke-width="10" />
+  <circle cx="852.0" cy="315.0" r="36.0" fill="#fff2ed" />
+  </g>
+</svg>

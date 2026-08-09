@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Scatter of magenta dots with entry dashes, a few joined by cross-reference arcs like dictionary entries, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <g transform="translate(47.7 22.5)"><path d="M 212.1 177.5 Q 342.6 363.7 569.8 371.1"
+      fill="none" stroke="#ff69d4" stroke-width="5" stroke-opacity="0.55" /><path d="M 657.1 153.7 Q 457.4 190.4 366.9 372.2"
+      fill="none" stroke="#ff69d4" stroke-width="5" stroke-opacity="0.55" /><circle cx="212.1" cy="177.5" r="41.3" fill="#7c0059" /><rect x="172.1" y="234.7" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="431.3" cy="161.5" r="32.2" fill="#f200ad" /><rect x="391.3" y="209.7" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="657.1" cy="153.7" r="38.3" fill="#b70083" /><rect x="617.1" y="208.1" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="892.5" cy="149.7" r="41.1" fill="#ff2ec3" /><rect x="852.5" y="206.8" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="366.9" cy="372.2" r="35.0" fill="#f200ad" /><rect x="326.9" y="423.3" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="569.8" cy="371.1" r="37.6" fill="#b70083" /><rect x="529.8" y="424.7" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /><circle cx="827.2" cy="381.7" r="39.7" fill="#7c0059" /><rect x="787.2" y="437.4" width="80" height="9" rx="4.5" fill="#475569" fill-opacity="0.55" /></g>
+  </g>
+</svg>

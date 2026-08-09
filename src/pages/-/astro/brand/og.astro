@@ -2,15 +2,17 @@
 import { getCollection } from "astro:content";
 import BrandLayout from "@/layouts/BrandLayout.astro";
 
-// Preview grid for the abstract OG cards. Each card is the post's
-// ego-network from the link graph, rendered by /og/[...path].png.ts.
+// Preview grid for the abstract OG cards. Masters are hand-editable 16:9
+// SVGs in src/content/og (inlined here); the PNG ratios below each master
+// are what /og/[...path].png.ts derives from it at build time.
 
 const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data.order);
+const ogCards = new Map((await getCollection("og")).map((card) => [card.id, card.data.svg]));
 ---
 
 <BrandLayout
   title="OG images — zmoki.xyz design system"
-  description="Abstract link-graph OG cards, generated at build time"
+  description="Abstract OG cards: hand-editable SVG masters with derived Open Graph ratios"
 >
   <header
     class="mb-8 rounded-xl bg-zmoki-magenta-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
@@ -22,8 +24,9 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
     >
     <h1 class="mt-2 text-4xl font-semibold md:text-5xl">OG images</h1>
     <p class="mt-4 max-w-2xl text-xl md:text-2xl">
-      Abstract social-share cards. Each post's card is its real place in the link graph, drawn from
-      the content at build time. No titles, platforms already show those.
+      Abstract social-share cards. Every card is a 16:9 SVG master in
+      <span class="font-mono text-lg">src/content/og</span>; the build derives 1.91:1 and 1:1 PNGs
+      from it. No titles, platforms already show those.
     </p>
   </header>
 
@@ -38,15 +41,47 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
     />
   </div>
 
-  <h2 class="mb-4 text-2xl font-semibold">Now</h2>
-  <div class="mb-8 max-w-xl overflow-hidden rounded-xl shadow-md">
-    <img
-      src="/og/now.png"
-      alt="Now page OG card: a timeline of moments growing toward the present"
-      width="1200"
-      height="630"
-      class="block h-auto w-full"
-    />
+  <h2 class="mb-4 text-2xl font-semibold">Ratios</h2>
+  <p class="mb-4 max-w-2xl text-zmoki-muted">
+    One master, three outputs: 16:9 SVG (homepage, post cover), 1.91:1 wide and 1:1 square PNGs
+    (Open Graph). The square extends the ground, it never crops.
+  </p>
+  <div class="mb-8 grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
+    <figure>
+      <span
+        class="block overflow-hidden rounded-xl shadow-md [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+        set:html={ogCards.get("now")}
+      />
+      <figcaption class="px-1 py-2 font-mono text-xs text-zmoki-muted uppercase">
+        16:9 SVG master
+      </figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/og/now.png"
+        alt="Now card, wide Open Graph ratio"
+        width="1200"
+        height="630"
+        loading="lazy"
+        class="block h-auto w-full overflow-hidden rounded-xl shadow-md"
+      />
+      <figcaption class="px-1 py-2 font-mono text-xs text-zmoki-muted uppercase">
+        1.91:1 wide PNG
+      </figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/og/square/now.png"
+        alt="Now card, square Open Graph ratio"
+        width="1200"
+        height="1200"
+        loading="lazy"
+        class="block h-auto w-full overflow-hidden rounded-xl shadow-md"
+      />
+      <figcaption class="px-1 py-2 font-mono text-xs text-zmoki-muted uppercase">
+        1:1 square PNG
+      </figcaption>
+    </figure>
   </div>
 
   <h2 class="mb-4 text-2xl font-semibold">Posts</h2>
@@ -54,16 +89,24 @@ const posts = (await getCollection("feed")).sort((a, b) => b.data.order - a.data
     {
       posts.map((post) => (
         <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
-          <img
-            src={`/og/feed/${post.id}.png`}
-            alt={`OG card for ${post.data.title}`}
-            width="1200"
-            height="630"
-            loading="lazy"
-            class="block h-auto w-full"
-          />
+          {ogCards.has(post.id) ? (
+            <span
+              class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+              set:html={ogCards.get(post.id)}
+            />
+          ) : (
+            <img
+              src={`/og/feed/${post.id}.png`}
+              alt={`OG card for ${post.data.title}`}
+              width="1200"
+              height="630"
+              loading="lazy"
+              class="block h-auto w-full"
+            />
+          )}
           <figcaption class="px-4 py-3 text-sm text-zmoki-muted">
             <span class="font-mono">#{post.data.order}</span> {post.data.title}
+            {!ogCards.has(post.id) && <span class="font-mono text-xs"> (ego fallback)</span>}
           </figcaption>
         </figure>
       ))
