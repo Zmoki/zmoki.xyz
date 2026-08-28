@@ -33,12 +33,16 @@ const canonicalURL = new URL(Astro.url.pathname, siteBaseUrl).toString();
 
 // The og masters mirror the pages tree: every page must have its own card
 // at src/content/og/{trimmed pathname}.svg (index.svg for the homepage).
-// Only feed posts may lack one — they fall back to a generated ego-network
-// card. Any other page without a master fails the build here.
+// Exceptions that fall back to a generated card instead of failing the
+// build: feed posts (ego-network) and the homepage (constellation —
+// index.svg is a snapshot the build can regenerate). In dev, any unmatched
+// URL renders the 404 page under the requested pathname, so a 404 response
+// always uses the 404 card.
 const trimmedPathname = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
-const cardId = trimmedPathname === "" ? "index" : trimmedPathname;
+const cardId =
+  Astro.response.status === 404 ? "404" : trimmedPathname === "" ? "index" : trimmedPathname;
 const ogCard = await getEntry("og", cardId);
-if (!ogCard && !cardId.startsWith("feed/")) {
+if (!ogCard && !cardId.startsWith("feed/") && cardId !== "index") {
   throw new Error(`Page "${Astro.url.pathname}" has no OG card — add src/content/og/${cardId}.svg`);
 }
 const pageImagePath = cardId === "index" ? "/og/site.png" : `/og/${cardId}.png`;
@@ -48,11 +52,13 @@ const pageImageSquareUrl = new URL(
   currentBaseUrl,
 ).toString();
 
-// Per-card alt text from the SVG master's <desc>; generated ego-network
-// fallback cards get a generic description.
+// Per-card alt text from the SVG master's <desc>; generated fallback cards
+// (homepage constellation, feed ego-network) get a generic description.
 const pageImageAlt =
   ogCard?.data.alt ??
-  "Network of circles around a large center circle, joined by curved lines, on a creamy ground";
+  (cardId === "index"
+    ? "Constellation of colored circles joined by curved lines, clustered by topic, on a creamy ground"
+    : "Network of circles around a large center circle, joined by curved lines, on a creamy ground");
 ---
 
 <!doctype html>

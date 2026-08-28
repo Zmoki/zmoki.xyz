@@ -16,8 +16,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const cards = await cardMap();
   const posts = await getCollection("feed");
   // Every master plus ego fallbacks for posts without one; the index card
-  // is served as /og/site.png.
-  const ids = new Set([...cards.keys(), ...posts.map((post) => `feed/${post.id}`)]);
+  // is served as /og/site.png and regenerates from the constellation even
+  // when index.svg is absent.
+  const ids = new Set(["index", ...cards.keys(), ...posts.map((post) => `feed/${post.id}`)]);
   const base = [...ids].map((id) => (id === "index" ? "site" : id));
   return base.flatMap((path) => [{ params: { path } }, { params: { path: `square/${path}` } }]);
 };
