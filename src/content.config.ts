@@ -1,5 +1,44 @@
+import { promises as fs } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import type { Loader } from "astro/loaders";
+
+// Loads the hand-editable OG card masters (src/content/og/**/*.svg) as a
+// collection. The folder mirrors the pages tree (index.svg, now.svg,
+// feed/{id}.svg), so ids are the relative path without extension:
+// "index", "now", "feed/1-about-me". The alt text comes from the master's
+// <desc> element. The glob and file loaders don't parse .svg, hence the
+// custom loader.
+const svgLoader = (dir: string): Loader => ({
+  name: "svg-loader",
+  load: async ({ store, generateDigest, watcher, config, logger }) => {
+    const dirUrl = new URL(dir, config.root);
+    const dirPath = fileURLToPath(dirUrl);
+    const sync = async () => {
+      const entries = await fs.readdir(dirPath, { recursive: true });
+      const files = entries.filter((f) => f.endsWith(".svg"));
+      store.clear();
+      for (const file of files) {
+        const svg = await fs.readFile(new URL(file, dirUrl), "utf-8");
+        const alt = svg.match(/<desc>([\s\S]*?)<\/desc>/)?.[1].trim();
+        store.set({
+          id: file.replace(/\.svg$/, ""),
+          data: { svg, alt },
+          digest: generateDigest(svg),
+        });
+      }
+      logger.info(`Loaded ${files.length} SVG cards`);
+    };
+    await sync();
+    if (watcher) {
+      watcher.add(dirPath);
+      watcher.on("all", (_event, path) => {
+        if (path.startsWith(dirPath) && path.endsWith(".svg")) void sync();
+      });
+    }
+  },
+});
 
 const feed = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/feed" }),
@@ -51,8 +90,14 @@ const legal = defineCollection({
   }),
 });
 
+const og = defineCollection({
+  loader: svgLoader("./src/content/og/"),
+  schema: z.object({ svg: z.string(), alt: z.string().optional() }),
+});
+
 export const collections = {
   feed,
   resources,
   legal,
+  og,
 };

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>A circle split by a diagonal seam into a dark and a light azure half, inside thin concentric rings, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <circle cx="600.0" cy="315.0" r="300.0" fill="none" stroke="#0099f2" stroke-width="3" stroke-opacity="0.4" /><circle cx="600.0" cy="315.0" r="385.0" fill="none" stroke="#0099f2" stroke-width="3" stroke-opacity="0.28" /><circle cx="600.0" cy="315.0" r="480.0" fill="none" stroke="#0099f2" stroke-width="3" stroke-opacity="0.18" /><circle cx="600.0" cy="315.0" r="590.0" fill="none" stroke="#0099f2" stroke-width="3" stroke-opacity="0.1" />
+  <g transform="rotate(15 600 315)">
+    <path d="M 582 105.8 A 210 210 0 0 0 582 524.2 Z" fill="#005b90" />
+    <path d="M 618 105.8 A 210 210 0 0 1 618 524.2 Z" fill="#2eb2ff" />
+  </g>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Row of magenta dots growing and brightening toward a large ringed now circle, with a small dashed circle ahead as the future, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <circle cx="165.0" cy="315.0" r="42.0" fill="#ffa4e5" /><circle cx="330.0" cy="315.0" r="52.0" fill="#ff69d4" /><circle cx="520.0" cy="315.0" r="64.0" fill="#f200ad" /><circle cx="790.0" cy="315.0" r="118.0" fill="#b70083" /><circle cx="790.0" cy="315.0" r="150.0" fill="none" stroke="#7c0059" stroke-width="6" stroke-opacity="0.55" /><circle cx="1085.0" cy="315.0" r="54.0" fill="none" stroke="#ff2ec3" stroke-width="5" stroke-dasharray="10 14" stroke-opacity="0.7" />
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Five azure bars of varying length stacked like document clauses, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <rect x="240" y="140" width="720" height="52" rx="26" fill="#005b90" />
+  <rect x="240" y="232" width="540" height="52" rx="26" fill="#0074b7" />
+  <rect x="240" y="324" width="640" height="52" rx="26" fill="#0099f2" />
+  <rect x="240" y="416" width="440" height="52" rx="26" fill="#2eb2ff" />
+  <rect x="240" y="508" width="580" height="52" rx="26" fill="#69c8ff" />
+</svg>

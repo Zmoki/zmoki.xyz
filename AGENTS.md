@@ -114,7 +114,7 @@ Tailwind 4 runs through the `@tailwindcss/vite` plugin (configured in `astro.con
 
 ## Content collections (`src/content.config.ts`)
 
-Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`.
+Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`. A fourth collection, `og`, loads the OG card SVG masters from `src/content/og/**/*.svg` through a custom loader (`{ id, data: { svg, alt } }`); ids are relative paths without extension (`index`, `now`, `feed/1-about-me`).
 
 ### `feed` — blog posts
 
@@ -183,7 +183,7 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /thank-you/{slug}/       # post-form confirmation pages
 /rss.xml                 # RSS feed
 /sitemap.xml             # sitemap
-/og/site.png             # site-wide OG card; /og/feed/{slug}.png per post
+/og/site.png             # site-wide OG card; /og/feed/{slug}.png per post, /og/now.png, /og/fallback.png shared; square variants under /og/square/
 /-/astro/health          # health check — returns "ok" + short commit hash
 /-/astro/brand/          # brand design system home (internal, noindex)
 /-/astro/brand/color/    # color palette reference (BrandLayout)
@@ -215,7 +215,7 @@ Props:
 
 Body structure: `TopNav` (unless hidden) → `<slot />` → `Footer`. No sidebars.
 
-Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images are served from `/og/feed/{slug}.png` for feed posts and `/og/site.png` for everything else.
+Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images mirror the pathname: `/og/{trimmed pathname}.png` when the page has its own card master, `/og/site.png` for the homepage, `/og/fallback.png` for pages without one — each listed in both the wide and `/og/square/` ratio.
 
 ### `PostLayout.astro`
 
@@ -377,4 +377,14 @@ Do not commit anything from `src/images/tmp/` — it's a staging folder.
 
 ## OG image generation
 
-OG cards are abstract SVG compositions rendered to PNG (1200×630) at build time by the static endpoint `src/pages/og/[...path].png.ts` using `@resvg/resvg-js` — no browser, no separate generate step. Each feed post has a bespoke card in `src/og/card.ts` (design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens). Posts without a bespoke card fall back to an ego-network card drawn from the link graph (`src/lib/link-graph.ts`), which also powers `/-/astro/brand/links/`. Preview all cards at `/-/astro/brand/og/`.
+Every card is a hand-editable 16:9 SVG master (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. The `src/content/og/` folder mirrors the pages tree: `index.svg` (homepage card, served as `/og/site.png`), `now.svg`, `contact.svg`, `404.svg`, `legal/{page}.svg`, and `feed/{id}.svg` per post — plus `fallback.svg`, the shared card (served as `/og/fallback.png`) for any page or post without its own master.
+
+A page without its own master shares `fallback.svg` (its own design — the build only fails if `fallback.svg` itself is missing). `index.svg` started as a materialized snapshot of the link-graph constellation; the generator code is gone, so it is now hand-kept like every other master. Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
+
+One master, three outputs:
+
+1. **Inline SVG** — the homepage masonry and `/-/astro/brand/og/` inline the master directly (`set:html`), so cards can get CSS hover animations.
+2. **Open Graph PNGs** — the static endpoint `src/pages/og/[...path].png.ts` derives `/og/{feed/{id}|now|site}.png` (1200×630, top/bottom crop) and `/og/square/...png` (1200×1200, ground extended — never cropped) via `toWideSvg`/`toSquareSvg` from `src/og/card.ts`, rasterized with `@resvg/resvg-js`. `BaseLayout` lists both ratios in the meta tags.
+3. **Post/now covers** — `PostLayout`/`NowLayout` feed the master to `<Image format="webp" widths sizes>`; sharp rasterizes it (`image.dangerouslyProcessSVG: true` in `astro.config.mjs` — safe, only self-authored SVGs) into responsive webp for Google Discover.
+
+The ratio transforms rewrite the master's dimension attributes, so masters must keep the exact markers `height="675" viewBox="0 0 1200 675"` and `<rect width="1200" height="675"` (the ground rect). Posts without a master use `fallback.svg` in the masonry and OG PNGs, and have no post cover. `/og/site.png` is always emitted (legacy redirects point at it) — from `index.svg`, or `fallback.svg` if that snapshot is ever deleted. Preview everything at `/-/astro/brand/og/`.

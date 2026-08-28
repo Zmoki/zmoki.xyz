@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>Two magenta notebooks with elastic bands, bright over dark, and a dashed outline of a third behind, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <g transform="translate(0 22.5)">
+  <g transform="rotate(16 690 515)">
+    <rect x="540" y="115" width="300" height="400" rx="24"
+      fill="none" stroke="#475569" stroke-width="4" stroke-opacity="0.45" stroke-dasharray="10 12" /></g><g transform="rotate(6 605 515)">
+      <rect x="455" y="115" width="300" height="400" rx="24" fill="#b70083" />
+      <rect x="709" y="115" width="16" height="400" fill="#fff2ed" fill-opacity="0.35" />
+    </g><g transform="rotate(-6 510 515)">
+      <rect x="360" y="115" width="300" height="400" rx="24" fill="#ff2ec3" />
+      <rect x="614" y="115" width="16" height="400" fill="#fff2ed" fill-opacity="0.35" />
+    </g>
+  </g>
+</svg>

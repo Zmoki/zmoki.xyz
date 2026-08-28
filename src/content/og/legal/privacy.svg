@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>A small azure dot sheltered inside two nested rounded frames, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <rect x="390" y="127" width="420" height="420" rx="60" fill="none" stroke="#69c8ff" stroke-width="10" />
+  <rect x="470" y="207" width="260" height="260" rx="44" fill="none" stroke="#0099f2" stroke-width="10" />
+  <circle cx="600" cy="337" r="56" fill="#005b90" />
+</svg>

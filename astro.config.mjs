@@ -157,6 +157,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   site: "https://zmoki.xyz",
+  image: {
+    // Rasterize the self-authored OG card SVG masters to responsive webp
+    // covers. Safe here: only our own SVGs go through the image service.
+    dangerouslyProcessSVG: true,
+  },
   server: {
     port: 4321,
   },

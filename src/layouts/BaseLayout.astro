@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { getEntry } from "astro:content";
 import PostHog from "@/components/posthog.astro";
 import Footer from "@/components/Footer.astro";
 import TopNav from "@/components/TopNav.astro";
@@ -26,19 +27,37 @@ const analyticsEnabled = import.meta.env.PUBLIC_ANALYTICS_ENABLED !== "false";
 const siteBaseUrl = Astro.site;
 const currentBaseUrl = isProduction ? siteBaseUrl : `http://localhost:${Astro.url.port}`;
 
-const pagePathname = Astro.url.pathname;
 const isPageArticle = publishDate && contentModifiedDate;
 
-const canonicalURL = new URL(pagePathname, siteBaseUrl).toString();
+const canonicalURL = new URL(Astro.url.pathname, siteBaseUrl).toString();
 
-const pageImageWideUrl = new URL(
-  pagePathname.startsWith("/feed/")
-    ? `/og${pagePathname.replace(/\/$/, "")}.png`
-    : pagePathname === "/now/"
-      ? "/og/now.png"
-      : "/og/site.png",
+// The og masters mirror the pages tree: a page's card lives at
+// src/content/og/{trimmed pathname}.svg (index.svg for the homepage, served
+// as /og/site.png). Pages without their own master share the hand-designed
+// fallback master (fallback.svg, served as /og/fallback.png). In dev, any
+// unmatched URL renders the 404 page under the requested pathname, so a 404
+// response always uses the 404 card.
+const trimmedPathname = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
+const cardId =
+  Astro.response.status === 404 ? "404" : trimmedPathname === "" ? "index" : trimmedPathname;
+const ogCard = await getEntry("og", cardId);
+const resolvedCard = ogCard ?? (await getEntry("og", "fallback"));
+if (!resolvedCard) {
+  throw new Error(
+    `Page "${Astro.url.pathname}" has no OG card and the shared src/content/og/fallback.svg is missing`,
+  );
+}
+const pageImagePath =
+  cardId === "index" ? "/og/site.png" : ogCard ? `/og/${cardId}.png` : "/og/fallback.png";
+const pageImageWideUrl = new URL(pageImagePath, currentBaseUrl).toString();
+const pageImageSquareUrl = new URL(
+  pageImagePath.replace("/og/", "/og/square/"),
   currentBaseUrl,
 ).toString();
+
+// Alt text from the serving master's <desc> — the page's own card, or the
+// shared fallback card when the page has none.
+const pageImageAlt = resolvedCard.data.alt ?? "";
 ---
 
 <!doctype html>
@@ -76,6 +95,12 @@ const pageImageWideUrl = new URL(
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageImageAlt} />
+    <meta property="og:image" content={pageImageSquareUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content={pageImageAlt} />
     {
       isPageArticle && (
         <meta property="article:published_time" content={publishDate.toISOString()} />
@@ -87,6 +112,8 @@ const pageImageWideUrl = new URL(
       )
     }
     <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image" content={pageImageWideUrl} />
+    <meta property="twitter:image:alt" content={pageImageAlt} />
 
     {analyticsEnabled && <PostHog />}
   </head>

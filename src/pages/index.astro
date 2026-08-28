@@ -1,9 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Activity, Mail } from "@lucide/astro";
 import { frontmatter as nowFrontmatter } from "./now.mdx";
+import { cardMap } from "@/og/card";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-08-07");
@@ -18,6 +18,11 @@ const posts = featured ? [featured, ...allPosts.filter((post) => post !== featur
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+// Card SVG per post, inlined in the masonry so the cards can be animated
+// with CSS later. Posts without a master share the fallback card.
+const ogCards = await cardMap();
+const cardSvg = (id: string): string => ogCards.get(`feed/${id}`) ?? ogCards.get("fallback") ?? "";
 ---
 
 <BaseLayout
@@ -84,18 +89,15 @@ const formatDate = (date: Date) =>
     <!-- All posts, masonry -->
     <section class="columns-1 gap-4 sm:columns-2 lg:columns-3">
       {
-        posts.map((post, i) => (
+        posts.map((post) => (
           <a
             href={`/feed/${post.id}/`}
             class="group mb-4 flex break-inside-avoid flex-col overflow-hidden rounded-xl bg-zmoki-surface text-zmoki-ink shadow-md transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-magenta-500/40"
           >
-            <Image
-              src={`/og/cover/feed/${post.id}.png`}
-              alt=""
-              width={1200}
-              height={675}
-              loading={i < 3 ? "eager" : "lazy"}
-              class="w-full object-cover"
+            <span
+              aria-hidden="true"
+              class="post-card-svg block w-full [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+              set:html={cardSvg(post.id)}
             />
             <span class="flex grow flex-col gap-2 p-6">
               <h2

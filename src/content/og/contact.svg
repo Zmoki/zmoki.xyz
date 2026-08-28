@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>A large flame circle sending three ripple rings toward a small dot in the far corner, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <circle cx="310" cy="480" r="130" fill="#f24500" />
+  <circle cx="310" cy="480" r="230" fill="none" stroke="#ff692e" stroke-width="7" stroke-opacity="0.7" />
+  <circle cx="310" cy="480" r="340" fill="none" stroke="#ff9469" stroke-width="6" stroke-opacity="0.55" />
+  <circle cx="310" cy="480" r="460" fill="none" stroke="#ffbea4" stroke-width="5" stroke-opacity="0.4" />
+  <circle cx="985" cy="170" r="44" fill="#a42f00" />
+</svg>

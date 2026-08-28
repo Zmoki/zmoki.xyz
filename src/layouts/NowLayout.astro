@@ -3,6 +3,10 @@ import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Prose from "@/components/Prose.astro";
 import Time from "@/components/Time.astro";
+import { getEntry } from "astro:content";
+import nowCard from "@/content/og/now.svg";
+
+const nowCardAlt = (await getEntry("og", "now"))?.data.alt ?? "";
 
 const {
   title,
@@ -32,7 +36,14 @@ const contentModifiedDate = new Date(rawcCntentModifiedDate);
       </div>
       <div class="grid grid-cols-1 gap-4 sm:gap-6">
         <figure>
-          <Image src="/og/cover/now.png" alt="" width={1200} height={675} class="max-w-full" />
+          <Image
+            src={nowCard}
+            alt={nowCardAlt}
+            format="webp"
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 768px) 55ch, 100vw"
+            class="max-w-full"
+          />
         </figure>
 
         <aside

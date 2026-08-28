@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <desc>A dashed lemon circle outline with two small dots drifting away, on a creamy ground.</desc>
+  <rect width="1200" height="675" fill="#fff2ed" />
+  <circle cx="520" cy="340" r="150" fill="none" stroke="#dfbc02" stroke-width="10" stroke-dasharray="24 30" />
+  <circle cx="820" cy="210" r="40" fill="#fdd920" />
+  <circle cx="950" cy="430" r="26" fill="#fde76e" />
+</svg>
