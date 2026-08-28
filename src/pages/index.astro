@@ -3,8 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Activity, Mail } from "@lucide/astro";
 import { frontmatter as nowFrontmatter } from "./now.mdx";
-import { buildLinkGraph } from "@/lib/link-graph";
-import { cardMap, egoCardSvg } from "@/og/card";
+import { cardMap } from "@/og/card";
 
 export const publishDate = new Date("2025-09-09");
 export const contentModifiedDate = new Date("2026-08-07");
@@ -21,11 +20,9 @@ const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
 // Card SVG per post, inlined in the masonry so the cards can be animated
-// with CSS later. Posts without a master fall back to their ego-network card.
+// with CSS later. Posts without a master share the fallback card.
 const ogCards = await cardMap();
-const graph = await buildLinkGraph();
-const cardSvg = (id: string): string =>
-  ogCards.get(`feed/${id}`) ?? egoCardSvg(graph.byId[id], graph);
+const cardSvg = (id: string): string => ogCards.get(`feed/${id}`) ?? ogCards.get("fallback") ?? "";
 ---
 
 <BaseLayout

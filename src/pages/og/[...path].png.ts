@@ -1,13 +1,12 @@
 import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import { buildLinkGraph } from "@/lib/link-graph";
-import { cardMap, egoCardSvg, constellationSvg, toWideSvg, toSquareSvg } from "@/og/card";
+import { cardMap, toWideSvg, toSquareSvg } from "@/og/card";
 import { OG_WIDTH } from "@/og/theme";
 
 // Build-time OG card endpoint. Sources are the 16:9 SVG masters in
-// src/content/og (via the og collection); posts without a master fall back
-// to their ego-network card, and /og/site.png is the whole constellation.
+// src/content/og (via the og collection); the index card is served as
+// /og/site.png, and pages without their own master share /og/fallback.png.
 // Each card ships in two ratios: /og/{path}.png is 1200×630 (1.91:1) and
 // /og/square/{path}.png is 1200×1200. Rendered on request in dev, emitted
 // to dist/og/ at build.
@@ -15,18 +14,15 @@ import { OG_WIDTH } from "@/og/theme";
 export const getStaticPaths: GetStaticPaths = async () => {
   const cards = await cardMap();
   const posts = await getCollection("feed");
-  // Every master plus ego fallbacks for posts without one; the index card
-  // is served as /og/site.png and regenerates from the constellation even
-  // when index.svg is absent.
+  // Every master, plus "site" and every feed post (both always emitted —
+  // legacy redirects point at them — from their own master, or the fallback
+  // master when there is none).
   const ids = new Set(["index", ...cards.keys(), ...posts.map((post) => `feed/${post.id}`)]);
   const base = [...ids].map((id) => (id === "index" ? "site" : id));
   return base.flatMap((path) => [{ params: { path } }, { params: { path: `square/${path}` } }]);
 };
 
-const graphPromise = buildLinkGraph();
-
 export const GET: APIRoute = async ({ params }) => {
-  const graph = await graphPromise;
   // Fetched per request (not module scope) so dev picks up master edits.
   const cards = await cardMap();
   const isSquare = (params.path ?? "").startsWith("square/");
@@ -34,16 +30,8 @@ export const GET: APIRoute = async ({ params }) => {
   // Card ids mirror the pages tree; the site-wide card is index.svg.
   const cardId = path === "site" ? "index" : path;
 
-  let svg: string | undefined = cards.get(cardId);
-  if (!svg) {
-    if (path === "site") {
-      svg = constellationSvg(graph);
-    } else {
-      const node = graph.byId[path.replace(/^feed\//, "")];
-      if (!node) return new Response("Not found", { status: 404 });
-      svg = egoCardSvg(node, graph);
-    }
-  }
+  let svg = cards.get(cardId) ?? cards.get("fallback");
+  if (!svg) return new Response("Not found", { status: 404 });
 
   svg = isSquare ? toSquareSvg(svg) : toWideSvg(svg);
 

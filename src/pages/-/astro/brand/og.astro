@@ -100,31 +100,29 @@ const ogCards = await cardMap();
     }
   </div>
 
+  <h2 class="mb-4 text-2xl font-semibold">Fallback</h2>
+  <p class="mb-4 max-w-2xl text-zmoki-muted">
+    Pages and posts without their own master share this card.
+  </p>
+  <div class="mb-8 max-w-xl overflow-hidden rounded-xl shadow-md">
+    <span
+      class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+      set:html={ogCards.get("fallback")}
+    />
+  </div>
+
   <h2 class="mb-4 text-2xl font-semibold">Posts</h2>
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
     {
       posts.map((post) => (
         <figure class="overflow-hidden rounded-xl bg-zmoki-surface shadow-md">
-          {ogCards.has(`feed/${post.id}`) ? (
-            <span
-              class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
-              set:html={ogCards.get(`feed/${post.id}`)}
-            />
-          ) : (
-            <img
-              src={`/og/feed/${post.id}.png`}
-              alt={`OG card for ${post.data.title}`}
-              width="1200"
-              height="630"
-              loading="lazy"
-              class="block h-auto w-full"
-            />
-          )}
+          <span
+            class="block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+            set:html={ogCards.get(`feed/${post.id}`) ?? ogCards.get("fallback")}
+          />
           <figcaption class="px-4 py-3 text-sm text-zmoki-muted">
             <span class="font-mono">#{post.data.order}</span> {post.data.title}
-            {!ogCards.has(`feed/${post.id}`) && (
-              <span class="font-mono text-xs"> (ego fallback)</span>
-            )}
+            {!ogCards.has(`feed/${post.id}`) && <span class="font-mono text-xs"> (fallback)</span>}
           </figcaption>
         </figure>
       ))
