@@ -5,6 +5,32 @@ import mdx from "@astrojs/mdx";
 import remarkDefinitionList from "remark-definition-list";
 import { defListHastHandlers } from "remark-definition-list";
 import { visit } from "unist-util-visit";
+import { loadEnv } from "vite";
+import { handleCruxRequest } from "./functions/api/crux.js";
+
+// Dev-only Vite plugin: mounts the Cloudflare Pages Function from
+// functions/api/crux.js at /api/crux on the Astro dev server, so the INP
+// landing (/marketing-engineer/inp/) works locally without wrangler. In
+// production Cloudflare Pages serves the function itself. Reads CRUX_API_KEY
+// from .env (it is not a PUBLIC_ var, so it never reaches the client bundle).
+function cruxDevProxy() {
+  return {
+    name: "zmoki-crux-dev-proxy",
+    apply: "serve",
+    configureServer(server) {
+      const env = loadEnv(server.config.mode, process.cwd(), "");
+      server.middlewares.use("/api/crux", async (req, res) => {
+        const url = new URL(req.originalUrl ?? req.url ?? "/api/crux", "http://localhost");
+        const response = await handleCruxRequest(new Request(url), {
+          CRUX_API_KEY: env.CRUX_API_KEY,
+        });
+        res.statusCode = response.status;
+        response.headers.forEach((value, key) => res.setHeader(key, value));
+        res.end(await response.text());
+      });
+    },
+  };
+}
 
 // Rehype plugin to add IDs to definition list terms
 function rehypeDefinitionListIds() {
@@ -154,7 +180,7 @@ export default defineConfig({
   // so inline-element spacing in templates stays as authored.
   compressHTML: true,
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), cruxDevProxy()],
   },
   site: "https://zmoki.xyz",
   image: {

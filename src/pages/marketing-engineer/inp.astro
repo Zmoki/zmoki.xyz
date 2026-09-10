@@ -1,0 +1,810 @@
+---
+import LandingLayout from "@/layouts/LandingLayout.astro";
+import { Activity, CalendarCheck, Search, Wrench } from "@lucide/astro";
+
+export const publishDate = new Date("2026-09-11");
+export const contentModifiedDate = new Date("2026-09-11");
+
+// Service landing for the INP offer. One page, two states:
+//
+//   /marketing-engineer/inp/                       generic: "check your site" input
+//   /marketing-engineer/inp/?origin=acme.com       personalized: Google's verdict for that origin
+//   /marketing-engineer/inp/?origin=acme.com&company=Acme
+//
+// The personalized state pulls the Chrome UX Report History API through the
+// Pages Function at /api/crux (functions/api/crux.js) and renders the verdict,
+// a 25-week INP p75 chart, and the revenue calculator. Everything else on the
+// page is shared between the two states.
+//
+// PLACEHOLDERS to fill before publishing — search for "PLACEHOLDER":
+//   - booking URL (BOOKING_URL below)
+//   - Improvado before / after INP values, dates, and permission to name them
+//   - audit price and timeline
+//   - conversion lift range and its source (LIFT_LOW / LIFT_HIGH in the script)
+
+const BOOKING_URL = "https://calendly.com/PLACEHOLDER/inp-call";
+
+const faq = [
+  {
+    q: "Will this break our analytics or attribution?",
+    a: "No. Every fix is verified event by event before and after. The point of the Audit is to find what can move without changing what marketing sees. If a tag cannot be moved safely, it stays and I say so.",
+  },
+  {
+    q: "How long until Google's score changes?",
+    a: "CrUX is a rolling 28-day window, so a fix shows up gradually and settles about four weeks after it ships. Search Console follows the same data. Lab tools show the change the same day.",
+  },
+  {
+    q: "Do we need our developers involved?",
+    a: "Usually not. Most of the work happens inside the tag manager and the third-party tools marketing already owns. When a change needs a code deploy, I prepare it so your team can review and ship in minutes.",
+  },
+  {
+    q: "We already use a CDN and a performance plugin. Why is it still poor?",
+    a: "Those speed up loading. INP is about what happens after the page has loaded, when a visitor clicks. That is dominated by scripts running on the main thread, and marketing tools are the usual source.",
+  },
+  {
+    q: "Can you work with our agency?",
+    a: "Yes. I hand over a ranked list with the reasoning, and I am happy to walk them through it. Some clients have me do the Audit and the agency do the Fix.",
+  },
+  {
+    q: "What if the audit finds nothing worth fixing?",
+    a: "Then you get a short report saying so, with the evidence, and we stop there. It has not happened on a site Google rates as poor, but the offer stands.",
+  },
+  {
+    q: "Do you sign an NDA?",
+    a: "Yes, yours or mine.",
+  },
+];
+---
+
+<LandingLayout
+  title="Is your website losing revenue to slow responsiveness? — Zarema Khalilova"
+  description="Google measures how fast your site reacts when a visitor clicks. I audit, fix, and keep that score green without touching what your marketing team depends on."
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+>
+  <!-- 1. Verdict -->
+  <header class="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[1fr_32rem] lg:gap-12 xl:py-20">
+    <div class="flex flex-col gap-6">
+      <p class="font-mono text-sm tracking-normal text-zmoki-muted uppercase">
+        Core Web Vitals · Interaction to Next Paint
+      </p>
+
+      <!-- Generic state -->
+      <div data-state="generic" class="flex flex-col gap-6">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+          Is your website losing revenue to slow responsiveness?
+        </h1>
+        <p class="max-w-[60ch] text-xl lg:text-2xl">
+          Google measures how long your site takes to react when a visitor clicks, and it publishes
+          the result. Check your site below. The data is Google's, from real Chrome visitors.
+        </p>
+      </div>
+
+      <!-- Loading state -->
+      <div data-state="loading" hidden class="flex flex-col gap-6">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+          Checking <span data-origin-label>your site</span> against Google's data…
+        </h1>
+      </div>
+
+      <!-- Personalized state -->
+      <div data-state="personal" hidden class="flex flex-col gap-6">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+          Google rates the responsiveness of
+          <span data-company-label class="text-zmoki-azure-500"></span>
+          as <mark data-verdict-label class="bg-zmoki-lemon-500 px-1"></mark>.
+        </h1>
+        <p data-verdict-summary class="max-w-[60ch] text-xl lg:text-2xl"></p>
+        <p class="font-mono text-sm text-zmoki-muted">
+          Source: Chrome UX Report, Google's field data from real visitors to
+          <span data-origin-label></span>, last <span data-weeks-label>25</span> weeks.
+        </p>
+      </div>
+
+      <!-- No data state -->
+      <div data-state="nodata" hidden class="flex flex-col gap-6">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+          Google does not publish responsiveness data for
+          <span data-origin-label class="text-zmoki-azure-500"></span> yet.
+        </h1>
+        <p class="max-w-[60ch] text-xl lg:text-2xl">
+          That usually means too little Chrome traffic on that exact origin, or a different
+          canonical host. Try another origin, or read on: the problem and the fix are the same.
+        </p>
+      </div>
+
+      <!-- Error state -->
+      <div data-state="error" hidden class="flex flex-col gap-6">
+        <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+          I could not reach Google's data right now.
+        </h1>
+        <p class="max-w-[60ch] text-xl lg:text-2xl">
+          Try again in a minute, or read on. If you came here from an email, the numbers in that
+          email are the same data.
+        </p>
+      </div>
+
+      <form data-check-form class="flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label class="flex flex-1 flex-col gap-1 font-mono text-sm text-zmoki-muted">
+          Your website
+          <input
+            type="text"
+            name="origin"
+            required
+            autocomplete="url"
+            placeholder="example.com"
+            class="w-full border-b-2 border-dotted border-zmoki-ink bg-transparent px-1 py-2 font-mono text-lg text-zmoki-ink outline-none focus:border-solid focus:border-zmoki-azure-500"
+          />
+        </label>
+        <button
+          type="submit"
+          class="w-fit bg-zmoki-azure-500 px-5 py-3 font-mono text-sm text-slate-50 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-azure-500/40"
+        >
+          Check with Google's data
+        </button>
+      </form>
+    </div>
+
+    <figure
+      data-chart-figure
+      hidden
+      class="flex flex-col justify-end gap-3 rounded-xl bg-zmoki-bg p-6 md:p-8"
+    >
+      <figcaption class="flex flex-wrap items-baseline justify-between gap-2">
+        <span class="text-lg font-semibold">INP at the 75th percentile, weekly</span>
+        <span class="font-mono text-sm text-zmoki-muted">
+          <span class="text-zmoki-jade-700">≤200ms good</span> ·
+          <span class="text-zmoki-flame-700">&gt;500ms poor</span>
+        </span>
+      </figcaption>
+      <div data-chart class="w-full"></div>
+    </figure>
+
+    <div
+      data-chart-placeholder
+      class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-bg p-6 md:p-8"
+    >
+      <Activity class="h-8 w-8 text-zmoki-azure-500" />
+      <p class="text-lg lg:text-xl">
+        Interaction to Next Paint, or INP, is one of Google's three Core Web Vitals. Under 200ms is
+        good. Over 500ms is poor, and Google says so in Search Console.
+      </p>
+      <p class="font-mono text-sm text-zmoki-muted">
+        Check your site and this panel turns into your last six months.
+      </p>
+    </div>
+  </header>
+
+  <!-- 2. What this costs -->
+  <section
+    id="cost"
+    class="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[1fr_32rem] lg:gap-12"
+    aria-labelledby="cost-heading"
+  >
+    <div class="flex flex-col gap-6">
+      <h2 id="cost-heading" class="text-3xl font-semibold md:text-4xl">What a poor score costs</h2>
+      <p class="max-w-[60ch] text-lg lg:text-xl">
+        A page that reacts late loses clicks. Visitors tap twice, abandon forms, give up on filters.
+        Google also uses Core Web Vitals as a ranking signal, so a poor score costs traffic on top
+        of conversions. Put your own numbers in and see the order of magnitude.
+      </p>
+      <p class="max-w-[60ch] text-base text-zmoki-muted">
+        Lift range: <span data-lift-range></span> of conversions, a conservative reading of
+        <a
+          href="https://www2.deloitte.com/us/en/pages/consulting/articles/milliseconds-make-millions.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >Milliseconds Make Millions</a
+        > (Deloitte with Google), which measured what a 0.1s speed improvement did to retail and travel
+        conversions.
+        <mark class="bg-zmoki-lemon-500 px-1">PLACEHOLDER: confirm lift range and source.</mark>
+      </p>
+    </div>
+
+    <form data-calculator class="flex flex-col gap-4 rounded-xl bg-zmoki-bg p-6 md:p-8">
+      <label class="flex flex-col gap-1 font-mono text-sm text-zmoki-muted">
+        Monthly sessions
+        <input
+          type="number"
+          name="sessions"
+          min="0"
+          step="1000"
+          value="50000"
+          inputmode="numeric"
+          class="border-b-2 border-dotted border-zmoki-ink bg-transparent px-1 py-2 font-mono text-lg text-zmoki-ink outline-none focus:border-solid focus:border-zmoki-azure-500"
+        />
+      </label>
+      <label class="flex flex-col gap-1 font-mono text-sm text-zmoki-muted">
+        Conversion rate, %
+        <input
+          type="number"
+          name="rate"
+          min="0"
+          max="100"
+          step="0.1"
+          value="2"
+          inputmode="decimal"
+          class="border-b-2 border-dotted border-zmoki-ink bg-transparent px-1 py-2 font-mono text-lg text-zmoki-ink outline-none focus:border-solid focus:border-zmoki-azure-500"
+        />
+      </label>
+      <label class="flex flex-col gap-1 font-mono text-sm text-zmoki-muted">
+        Average order or deal value, USD
+        <input
+          type="number"
+          name="value"
+          min="0"
+          step="10"
+          value="150"
+          inputmode="decimal"
+          class="border-b-2 border-dotted border-zmoki-ink bg-transparent px-1 py-2 font-mono text-lg text-zmoki-ink outline-none focus:border-solid focus:border-zmoki-azure-500"
+        />
+      </label>
+      <output class="mt-2 flex flex-col gap-1" aria-live="polite">
+        <span class="font-mono text-sm text-zmoki-muted">Revenue at stake per year</span>
+        <span data-calc-result class="text-3xl font-semibold text-zmoki-flame-500 md:text-4xl"
+          >—</span
+        >
+        <span class="font-mono text-sm text-zmoki-muted"
+          >on <span data-calc-base>—</span> of annual conversion revenue</span
+        >
+      </output>
+    </form>
+  </section>
+
+  <!-- 3. What INP is -->
+  <section id="what-is-inp" class="flex flex-col gap-4 py-12" aria-labelledby="inp-heading">
+    <h2 id="inp-heading" class="text-3xl font-semibold md:text-4xl">INP in one paragraph</h2>
+    <p class="max-w-[60ch] text-lg lg:text-xl">
+      Interaction to Next Paint measures how long the page takes to visibly respond after a click,
+      tap, or key press. Google collects it from real Chrome visitors, reports it in Search Console,
+      and counts it in ranking. Under 200 milliseconds is good. Over 500 is poor. It replaced the
+      old First Input Delay metric in 2024, which is why many sites that were fine are suddenly not.
+    </p>
+  </section>
+
+  <!-- 4. Why it is the marketing stack -->
+  <section
+    id="cause"
+    class="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[1fr_32rem] lg:gap-12"
+    aria-labelledby="cause-heading"
+  >
+    <div class="flex flex-col gap-6">
+      <h2 id="cause-heading" class="text-3xl font-semibold md:text-4xl">
+        It is usually the marketing stack, not the developers
+      </h2>
+      <p class="max-w-[60ch] text-lg lg:text-xl">
+        Loading is a developer problem. Responsiveness is mostly not. After the page is up, the
+        browser has one main thread for everything, and every script that runs on it delays the next
+        click. On a typical B2B site, most of those scripts were added through the tag manager by
+        marketing, one at a time, each one reasonable on its own.
+      </p>
+      <p class="max-w-[60ch] text-lg lg:text-xl">
+        That is good news. Nobody has to rewrite the site. The fix lives in tools your team already
+        owns, and it does not mean giving up the data those tools provide.
+      </p>
+    </div>
+    <ul class="flex flex-col gap-3 rounded-xl bg-zmoki-bg p-6 text-base md:p-8 lg:text-lg">
+      <li class="flex flex-col">
+        <span class="font-semibold">Tag manager bloat</span>
+        <span class="text-zmoki-muted"
+          >Dozens of tags firing on every page, many for tools nobody uses anymore.</span
+        >
+      </li>
+      <li class="flex flex-col">
+        <span class="font-semibold">Chat and intent widgets</span>
+        <span class="text-zmoki-muted"
+          >Heavy bundles that boot on load and listen to every click.</span
+        >
+      </li>
+      <li class="flex flex-col">
+        <span class="font-semibold">A/B testing and personalization</span>
+        <span class="text-zmoki-muted">Blocking scripts that hold the page to avoid flicker.</span>
+      </li>
+      <li class="flex flex-col">
+        <span class="font-semibold">Consent banners</span>
+        <span class="text-zmoki-muted">Often the first and slowest interaction a visitor has.</span>
+      </li>
+      <li class="flex flex-col">
+        <span class="font-semibold">Session recording and heatmaps</span>
+        <span class="text-zmoki-muted"
+          >Observing every event costs main thread time on every event.</span
+        >
+      </li>
+    </ul>
+  </section>
+
+  <!-- 5. Process -->
+  <section id="process" class="flex flex-col gap-8 py-12" aria-labelledby="process-heading">
+    <h2 id="process-heading" class="text-3xl font-semibold md:text-4xl">
+      How I work: Audit, Fix, Keep
+    </h2>
+    <ol class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <li class="flex flex-col gap-3 rounded-xl bg-zmoki-bg p-6 md:p-8">
+        <Search class="h-6 w-6 text-zmoki-azure-500" />
+        <h3 class="text-2xl font-semibold">
+          <span class="font-mono text-sm text-zmoki-muted">01&nbsp;</span>Audit
+        </h3>
+        <p class="text-base lg:text-lg">
+          Fixed scope, fixed price,
+          <mark class="bg-zmoki-lemon-500 px-1">PLACEHOLDER: two weeks, $X</mark>. I profile the
+          real interactions on your key pages and trace every long task back to the script that
+          caused it.
+        </p>
+        <p class="text-base text-zmoki-muted lg:text-lg">
+          You get: a ranked list of what blocks the main thread, what each fix is worth in
+          milliseconds, and what it would take to ship.
+        </p>
+      </li>
+      <li class="flex flex-col gap-3 rounded-xl bg-zmoki-bg p-6 md:p-8">
+        <Wrench class="h-6 w-6 text-zmoki-azure-500" />
+        <h3 class="text-2xl font-semibold">
+          <span class="font-mono text-sm text-zmoki-muted">02&nbsp;</span>Fix
+        </h3>
+        <p class="text-base lg:text-lg">
+          A statement of work per item from the list. Most fixes happen inside the tag manager:
+          deferring, gating, consolidating, and removing. Every event is checked before and after.
+        </p>
+        <p class="text-base text-zmoki-muted lg:text-lg">
+          You get: the score moving in Google's own data, and a written record of what changed and
+          why.
+        </p>
+      </li>
+      <li class="flex flex-col gap-3 rounded-xl bg-zmoki-bg p-6 md:p-8">
+        <Activity class="h-6 w-6 text-zmoki-azure-500" />
+        <h3 class="text-2xl font-semibold">
+          <span class="font-mono text-sm text-zmoki-muted">03&nbsp;</span>Keep
+        </h3>
+        <p class="text-base lg:text-lg">
+          A monthly retainer. I watch CrUX and Search Console, alert you when a new tag pushes the
+          score back, and clean up quarterly. Marketing never stops adding tools.
+        </p>
+        <p class="text-base text-zmoki-muted lg:text-lg">
+          You get: a green score that stays green, and one person who knows why.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 6. Proof: Improvado -->
+  <section
+    id="improvado"
+    class="grid grid-cols-1 gap-8 rounded-xl bg-zmoki-ink p-6 text-slate-50 md:p-12 lg:grid-cols-[1fr_32rem] lg:gap-12"
+    aria-labelledby="improvado-heading"
+  >
+    <div class="flex flex-col gap-6">
+      <p class="font-mono text-sm tracking-normal text-slate-300 uppercase">
+        Case · <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink"
+          >PLACEHOLDER: confirm permission to name Improvado</mark
+        >
+      </p>
+      <h2 id="improvado-heading" class="text-3xl font-semibold md:text-4xl">
+        Improvado: from "needs improvement" to "good" without losing a single event
+      </h2>
+      <p class="max-w-[60ch] text-lg text-slate-200 lg:text-xl">
+        Improvado is a marketing analytics platform. Their own website carried a heavy analytics
+        setup in Google Tag Manager, exactly the kind a company in that business needs, and Google
+        rated its responsiveness as "needs improvement".
+      </p>
+      <dl class="grid grid-cols-1 gap-4 text-base text-slate-200 sm:grid-cols-3 lg:text-lg">
+        <div class="flex flex-col gap-1">
+          <dt class="font-mono text-sm text-slate-400">Audit found</dt>
+          <dd>
+            <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink"
+              >PLACEHOLDER: what the audit found in GTM</mark
+            >
+          </dd>
+        </div>
+        <div class="flex flex-col gap-1">
+          <dt class="font-mono text-sm text-slate-400">Fixed</dt>
+          <dd>
+            Tag firing order, triggers, and loading strategy inside GTM.
+            <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink">PLACEHOLDER: specifics</mark>
+          </dd>
+        </div>
+        <div class="flex flex-col gap-1">
+          <dt class="font-mono text-sm text-slate-400">Kept</dt>
+          <dd>Every analytics need. No data gap, no attribution change.</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="flex flex-col justify-center gap-6 rounded-xl bg-slate-800 p-6 md:p-8">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1">
+          <span class="font-mono text-sm text-slate-400">Before</span>
+          <span class="text-4xl font-semibold text-zmoki-flame-300">
+            <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink">PLACEHOLDER</mark>
+          </span>
+          <span class="font-mono text-sm text-slate-400">ms INP p75 · needs improvement</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="font-mono text-sm text-slate-400">After</span>
+          <span class="text-4xl font-semibold text-zmoki-jade-300">
+            <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink">PLACEHOLDER</mark>
+          </span>
+          <span class="font-mono text-sm text-slate-400">ms INP p75 · good</span>
+        </div>
+      </div>
+      <blockquote class="border-l-4 border-zmoki-magenta-500 pl-4 text-lg text-slate-200">
+        <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink"
+          >PLACEHOLDER: client quote, or remove this block</mark
+        >
+      </blockquote>
+      <p class="font-mono text-sm text-slate-400">
+        Google's classification, Chrome UX Report,
+        <mark class="bg-zmoki-lemon-500 px-1 text-zmoki-ink">PLACEHOLDER: dates</mark>
+      </p>
+    </div>
+  </section>
+
+  <!-- 7. Engagement model -->
+  <section
+    id="engagement"
+    class="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[1fr_32rem] lg:gap-12"
+    aria-labelledby="engagement-heading"
+  >
+    <div class="flex flex-col gap-6">
+      <h2 id="engagement-heading" class="text-3xl font-semibold md:text-4xl">
+        How much of a commitment this is
+      </h2>
+      <p class="max-w-[60ch] text-lg lg:text-xl">
+        Not much. I work part-time and pay-as-you-go. The Audit and each Fix are a statement of work
+        with a fixed price. Keep is a monthly retainer you can stop any month. Nobody hires a
+        headcount, nobody's roadmap moves, and your developers stay on their own work.
+      </p>
+    </div>
+    <dl class="flex flex-col gap-4 rounded-xl bg-zmoki-bg p-6 text-base md:p-8 lg:text-lg">
+      <div class="flex flex-col gap-1">
+        <dt class="font-mono text-sm text-zmoki-muted">Who signs</dt>
+        <dd>The person who owns revenue or the website budget. Usually the CEO, CRO, or VP.</dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-mono text-sm text-zmoki-muted">Who I work with day to day</dt>
+        <dd>Marketing ops or whoever owns the tag manager. One call a week is plenty.</dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-mono text-sm text-zmoki-muted">Access I need</dt>
+        <dd>
+          Read access to Search Console and the tag manager for the Audit. Publish rights for the
+          Fix.
+        </dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-mono text-sm text-zmoki-muted">Contract</dt>
+        <dd>Statement of work per step, retainer for Keep. NDA on request.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- 8. About -->
+  <section
+    id="about"
+    class="grid grid-cols-1 gap-6 py-12 md:grid-cols-[auto_1fr] md:gap-8"
+    aria-labelledby="about-heading"
+  >
+    <img
+      src="/zmoki.jpg"
+      alt="Zarema Khalilova"
+      width="112"
+      height="112"
+      class="h-28 w-28 rounded-full object-cover"
+    />
+    <div class="flex flex-col gap-4">
+      <h2 id="about-heading" class="text-3xl font-semibold md:text-4xl">Zarema Khalilova</h2>
+      <p class="max-w-[60ch] text-lg lg:text-xl">
+        I am an engineer who understands marketing. Twenty years across web engineering and
+        marketing tooling, on both sides of the "can we add one more tag" conversation. I work as a
+        <a
+          href="/marketing-engineer/"
+          class="text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >fractional marketing engineer</a
+        >, so you get the person without the headcount. The long version is in the
+        <a
+          href="/"
+          class="text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+          >feed</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section id="faq" class="flex flex-col gap-8 py-12" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="text-3xl font-semibold md:text-4xl">Questions I get asked</h2>
+    <dl class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+      {
+        faq.map((item) => (
+          <div class="flex flex-col gap-2">
+            <dt class="text-xl font-semibold lg:text-2xl">{item.q}</dt>
+            <dd class="text-base text-zmoki-muted lg:text-lg">{item.a}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- 10. Call to action -->
+  <section
+    id="call"
+    class="flex flex-col gap-6 rounded-xl bg-zmoki-flame-500 p-6 text-slate-50 md:p-12"
+    aria-labelledby="call-heading"
+  >
+    <CalendarCheck class="h-8 w-8" />
+    <h2 id="call-heading" class="text-3xl font-semibold md:text-4xl">
+      Thirty minutes, your data on screen
+    </h2>
+    <p class="max-w-[60ch] text-lg lg:text-xl">
+      We look at your site's numbers together, I tell you where I would expect the problem to be,
+      and you decide whether an Audit is worth it. No slides.
+    </p>
+    <a
+      href={BOOKING_URL}
+      data-cta
+      target="_blank"
+      rel="noopener noreferrer"
+      class="w-fit bg-slate-50 px-5 py-3 font-mono text-sm text-zmoki-flame-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <span class="underline decoration-dotted decoration-2 underline-offset-4">Book the call</span>
+    </a>
+    <p class="font-mono text-sm text-zmoki-flame-100">
+      Or email <a href="mailto:hey@zmoki.xyz" class="underline decoration-dotted underline-offset-4"
+        >hey@zmoki.xyz</a
+      >
+    </p>
+  </section>
+</LandingLayout>
+
+<script>
+  // PLACEHOLDER: conversion lift range. Deloitte's "Milliseconds Make
+  // Millions" measured +8.4% retail and +10.1% travel conversions per 0.1s
+  // of mobile speed. INP-specific data is thinner, so this stays conservative.
+  const LIFT_LOW = 0.03;
+  const LIFT_HIGH = 0.08;
+
+  const GOOD_MAX = 200;
+  const POOR_MIN = 500;
+
+  type Point = { start: string; end: string; p75: number | null };
+  type Verdict = "good" | "needs improvement" | "poor";
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedOrigin = params.get("origin");
+  const company = params.get("company");
+
+  const states = document.querySelectorAll<HTMLElement>("[data-state]");
+  const originLabels = document.querySelectorAll<HTMLElement>("[data-origin-label]");
+  const companyLabel = document.querySelector<HTMLElement>("[data-company-label]");
+  const verdictLabel = document.querySelector<HTMLElement>("[data-verdict-label]");
+  const verdictSummary = document.querySelector<HTMLElement>("[data-verdict-summary]");
+  const weeksLabel = document.querySelector<HTMLElement>("[data-weeks-label]");
+  const chartFigure = document.querySelector<HTMLElement>("[data-chart-figure]");
+  const chartPlaceholder = document.querySelector<HTMLElement>("[data-chart-placeholder]");
+  const chart = document.querySelector<HTMLElement>("[data-chart]");
+  const checkForm = document.querySelector<HTMLFormElement>("[data-check-form]");
+  const calculator = document.querySelector<HTMLFormElement>("[data-calculator]");
+  const calcResult = document.querySelector<HTMLElement>("[data-calc-result]");
+  const calcBase = document.querySelector<HTMLElement>("[data-calc-base]");
+  const liftRange = document.querySelector<HTMLElement>("[data-lift-range]");
+  const cta = document.querySelector<HTMLAnchorElement>("[data-cta]");
+
+  const capture = (event: string, properties: Record<string, unknown> = {}) => {
+    window.posthog?.capture(event, properties);
+  };
+
+  const normalizeHost = (raw: string): string | null => {
+    let value = raw.trim().toLowerCase();
+    value = value.replace(/^[a-z]+:\/\//, "");
+    value = value.split(/[/?#]/)[0] ?? "";
+    value = value.replace(/^\.+|\.+$/g, "");
+    return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(value) ? value : null;
+  };
+
+  const showState = (name: string) => {
+    states.forEach((el) => {
+      el.hidden = el.dataset.state !== name;
+    });
+  };
+
+  const setOriginLabels = (host: string) => {
+    originLabels.forEach((el) => {
+      el.textContent = host;
+    });
+    if (companyLabel) companyLabel.textContent = company?.trim() || host;
+  };
+
+  const classify = (value: number): Verdict =>
+    value <= GOOD_MAX ? "good" : value > POOR_MIN ? "poor" : "needs improvement";
+
+  const verdictClass: Record<Verdict, string> = {
+    good: "fill-zmoki-jade-600",
+    "needs improvement": "fill-zmoki-lemon-500",
+    poor: "fill-zmoki-flame-500",
+  };
+
+  const renderChart = (series: Point[]) => {
+    if (!chart) return;
+    const width = 600;
+    const height = 220;
+    const pad = { top: 12, right: 12, bottom: 28, left: 44 };
+    const values = series.map((p) => p.p75).filter((v): v is number => v != null);
+    const maxValue = Math.max(
+      POOR_MIN + 100,
+      Math.ceil((Math.max(...values, 0) * 1.15) / 100) * 100,
+    );
+    const plotW = width - pad.left - pad.right;
+    const plotH = height - pad.top - pad.bottom;
+    const x = (i: number) => pad.left + (series.length > 1 ? (i / (series.length - 1)) * plotW : 0);
+    const y = (v: number) => pad.top + plotH - (Math.min(v, maxValue) / maxValue) * plotH;
+
+    const band = (from: number, to: number, cls: string) =>
+      `<rect x="${pad.left}" y="${y(to)}" width="${plotW}" height="${y(from) - y(to)}" class="${cls}" />`;
+
+    const line = series
+      .map((p, i) => (p.p75 == null ? null : `${x(i).toFixed(1)},${y(p.p75).toFixed(1)}`))
+      .filter((s): s is string => s != null)
+      .join(" ");
+
+    const dots = series
+      .map((p, i) =>
+        p.p75 == null
+          ? ""
+          : `<circle cx="${x(i).toFixed(1)}" cy="${y(p.p75).toFixed(1)}" r="4" class="${verdictClass[classify(p.p75)]} stroke-zmoki-surface" stroke-width="1.5"><title>${p.end}: ${Math.round(p.p75)}ms</title></circle>`,
+      )
+      .join("");
+
+    const gridLabel = (v: number, text: string) =>
+      `<text x="${pad.left - 8}" y="${y(v) + 4}" text-anchor="end" class="fill-zmoki-muted font-mono" font-size="11">${text}</text>`;
+
+    const first = series[0]?.end ?? "";
+    const last = series[series.length - 1]?.end ?? "";
+
+    chart.innerHTML = `
+      <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Weekly INP p75 for the last ${series.length} weeks" class="h-auto w-full">
+        ${band(0, GOOD_MAX, "fill-zmoki-jade-100")}
+        ${band(GOOD_MAX, POOR_MIN, "fill-zmoki-lemon-500/30")}
+        ${band(POOR_MIN, maxValue, "fill-zmoki-flame-100")}
+        <line x1="${pad.left}" x2="${width - pad.right}" y1="${y(GOOD_MAX)}" y2="${y(GOOD_MAX)}" class="stroke-zmoki-jade-600" stroke-dasharray="4 4" />
+        <line x1="${pad.left}" x2="${width - pad.right}" y1="${y(POOR_MIN)}" y2="${y(POOR_MIN)}" class="stroke-zmoki-flame-500" stroke-dasharray="4 4" />
+        ${gridLabel(GOOD_MAX, "200")}
+        ${gridLabel(POOR_MIN, "500")}
+        ${gridLabel(maxValue, String(maxValue))}
+        <polyline points="${line}" fill="none" class="stroke-zmoki-ink" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+        ${dots}
+        <text x="${pad.left}" y="${height - 8}" class="fill-zmoki-muted font-mono" font-size="11">${first}</text>
+        <text x="${width - pad.right}" y="${height - 8}" text-anchor="end" class="fill-zmoki-muted font-mono" font-size="11">${last}</text>
+      </svg>`;
+
+    if (chartFigure) chartFigure.hidden = false;
+    if (chartPlaceholder) chartPlaceholder.hidden = true;
+  };
+
+  const renderVerdict = (series: Point[]) => {
+    const known = series.filter((p): p is Point & { p75: number } => p.p75 != null);
+    const latest = known[known.length - 1];
+    if (!latest) return null;
+    const verdict = classify(latest.p75);
+    const poorWeeks = known.filter((p) => p.p75 > POOR_MIN).length;
+    const notGoodWeeks = known.filter((p) => p.p75 > GOOD_MAX).length;
+
+    if (verdictLabel) verdictLabel.textContent = verdict;
+    if (weeksLabel) weeksLabel.textContent = String(known.length);
+    if (verdictSummary) {
+      const latestMs = `${Math.round(latest.p75)}ms at the 75th percentile`;
+      verdictSummary.textContent =
+        verdict === "poor"
+          ? `${latestMs}, and poor in ${poorWeeks} of the last ${known.length} weeks. Google has been reporting this in Search Console the whole time.`
+          : verdict === "needs improvement"
+            ? `${latestMs}. Not poor, but not good in ${notGoodWeeks} of the last ${known.length} weeks, and one more tag away from the red.`
+            : `${latestMs}. Good. Keep it that way: ${notGoodWeeks} of the last ${known.length} weeks were above the line.`;
+    }
+    return verdict;
+  };
+
+  const updateCta = (host: string | null) => {
+    if (!cta) return;
+    const url = new URL(cta.href);
+    url.searchParams.set("utm_source", "zmoki.xyz");
+    url.searchParams.set("utm_medium", "inp-page");
+    if (host) url.searchParams.set("utm_content", host);
+    cta.href = url.toString();
+  };
+
+  const check = async (host: string) => {
+    setOriginLabels(host);
+    showState("loading");
+    updateCta(host);
+    try {
+      const response = await fetch(`/api/crux?origin=${encodeURIComponent(host)}`);
+      if (response.status === 404) {
+        showState("nodata");
+        capture("inp_page_viewed", { origin: host, company, verdict: "no-data" });
+        return;
+      }
+      if (!response.ok) throw new Error(`crux ${response.status}`);
+      const data = (await response.json()) as { origin: string; series: Point[] };
+      const verdict = renderVerdict(data.series);
+      if (!verdict) {
+        showState("nodata");
+        capture("inp_page_viewed", { origin: host, company, verdict: "no-data" });
+        return;
+      }
+      renderChart(data.series);
+      showState("personal");
+      capture("inp_page_viewed", { origin: host, company, verdict, crux_origin: data.origin });
+    } catch {
+      showState("error");
+      capture("inp_page_viewed", { origin: host, company, verdict: "error" });
+    }
+  };
+
+  // Calculator
+  const money = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+  let calculatorUsed = false;
+  const calculate = (fromUser: boolean) => {
+    if (!calculator || !calcResult || !calcBase) return;
+    const form = new FormData(calculator);
+    const sessions = Number(form.get("sessions")) || 0;
+    const rate = (Number(form.get("rate")) || 0) / 100;
+    const value = Number(form.get("value")) || 0;
+    const annual = sessions * 12 * rate * value;
+    calcBase.textContent = money.format(annual);
+    calcResult.textContent =
+      annual > 0
+        ? `${money.format(annual * LIFT_LOW)} to ${money.format(annual * LIFT_HIGH)}`
+        : "—";
+    if (fromUser && !calculatorUsed) {
+      calculatorUsed = true;
+      capture("inp_calculator_used", { origin: requestedOrigin, sessions, rate, value });
+    }
+  };
+  if (liftRange) {
+    liftRange.textContent = `${Math.round(LIFT_LOW * 100)}% to ${Math.round(LIFT_HIGH * 100)}%`;
+  }
+  calculator?.addEventListener("input", () => calculate(true));
+  calculator?.addEventListener("submit", (event) => event.preventDefault());
+  calculate(false);
+
+  // Check form
+  checkForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = checkForm.querySelector<HTMLInputElement>('input[name="origin"]');
+    const host = input ? normalizeHost(input.value) : null;
+    if (!host) {
+      input?.setCustomValidity("Enter a domain like example.com");
+      input?.reportValidity();
+      return;
+    }
+    input?.setCustomValidity("");
+    const url = new URL(window.location.href);
+    url.searchParams.set("origin", host);
+    url.searchParams.delete("company");
+    history.replaceState(null, "", url.toString());
+    capture("inp_check_submitted", { origin: host });
+    check(host);
+  });
+  checkForm
+    ?.querySelector<HTMLInputElement>('input[name="origin"]')
+    ?.addEventListener("input", (event) =>
+      (event.target as HTMLInputElement).setCustomValidity(""),
+    );
+
+  cta?.addEventListener("click", () => {
+    capture("inp_call_clicked", { origin: requestedOrigin, company });
+  });
+
+  // Initial state
+  const initialHost = requestedOrigin ? normalizeHost(requestedOrigin) : null;
+  if (initialHost) {
+    const input = checkForm?.querySelector<HTMLInputElement>('input[name="origin"]');
+    if (input) input.value = initialHost;
+    check(initialHost);
+  } else {
+    showState("generic");
+    updateCta(null);
+    capture("inp_page_viewed", { origin: null, company: null, verdict: null });
+  }
+</script>

@@ -10,3 +10,11 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// PostHog is loaded by the inline snippet in posthog.astro (when analytics is
+// enabled), so typed <script> blocks see it as an optional global.
+interface Window {
+  posthog?: {
+    capture: (event: string, properties?: Record<string, unknown>) => void;
+  };
+}
