@@ -4,10 +4,10 @@ import { neutrals } from "@/design-tokens.mjs";
 import { OG_WIDTH as W, MASTER_HEIGHT as H, PIN_WIDTH, PIN_HEIGHT } from "./theme";
 
 // Pinterest pin images (1000×1500, 2:3) derived from the OG card masters.
-// "Band" layout: the headline in Noto Sans Bold at the top, the master's
-// composition scaled into the middle, and a small "zmoki.xyz" mark in the
-// card's accent color at the bottom. Everything stays inside Pinterest's
-// 50px safe zone.
+// "Band" layout: the headline in Noto Sans Bold at the top and the master's
+// composition scaled into the middle. No site mark: the pin links to the
+// claimed domain and Pinterest shows it. Everything stays inside
+// Pinterest's 50px safe zone.
 
 const GROUND = neutrals["zmoki-surface"];
 const INK = neutrals["zmoki-ink"];
@@ -18,10 +18,9 @@ const HEADLINE_LINE_HEIGHT = 100;
 const HEADLINE_TOP = 200; // baseline of the first line
 const HEADLINE_MAX_LINES = 3;
 const HEADLINE_MAX_CHARS = 19; // per line at 84px Noto Sans Bold, ~840px wide
-const MARK_SIZE = 36;
 
 // The master scaled to fit the pin width minus a small inset; vertically
-// centered between the headline block and the mark.
+// centered below the headline block.
 const ART_WIDTH = PIN_WIDTH - 2 * 20;
 const ART_HEIGHT = (ART_WIDTH * H) / W;
 const ART_TOP = 600;
@@ -72,22 +71,6 @@ export const wrapHeadline = (
   return lines;
 };
 
-// Relative luminance (sRGB, no gamma) — enough to rank shades of one family.
-const luminance = (hex: string): number => {
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
-
-// The darkest fill in the master that is not the ground: the card's accent
-// family in a shade that reads on cream, for the zmoki.xyz mark.
-export const accentOf = (masterSvg: string): string => {
-  const fills = (masterSvg.match(/fill="#[0-9a-fA-F]{6}"/g) ?? [])
-    .map((attr) => attr.slice(6, -1).toLowerCase())
-    .filter((hex) => hex !== GROUND.toLowerCase());
-  if (fills.length === 0) return INK;
-  return fills.reduce((darkest, hex) => (luminance(hex) < luminance(darkest) ? hex : darkest));
-};
-
 const escapeXml = (text: string): string =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -122,6 +105,5 @@ export const toPinSvg = (masterSvg: string, { headline }: { headline: string }):
   <svg x="${(PIN_WIDTH - ART_WIDTH) / 2}" y="${artTop}" width="${ART_WIDTH}" height="${ART_HEIGHT}" viewBox="0 0 ${W} ${H}">
     ${innerOf(masterSvg)}
   </svg>
-  <text x="${PIN_WIDTH - MARGIN}" y="${PIN_HEIGHT - MARGIN - 20}" text-anchor="end" font-family="Noto Sans" font-weight="700" font-size="${MARK_SIZE}" fill="${accentOf(masterSvg)}">zmoki.xyz</text>
 </svg>`;
 };
