@@ -33,7 +33,7 @@ Dev server default port is **4321**. When running multiple worktrees simultaneou
 PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
 ```
 
-A project run skill is at `.claude/skills/run/SKILL.md` — use `/run` to launch the app.
+Project skills in `.claude/skills/`: `/run` launches the app, `/new-post` drafts a feed post, `/pins` drafts Pinterest pins for a post.
 
 ---
 
@@ -169,6 +169,25 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 }
 ```
 
+### `pins` — Pinterest pins
+
+One YAML file per feed post, `src/content/pins/{post id}.yaml`, holding a list of pins (data files, no body):
+
+```ts
+{
+  pins: {
+    headline: string;           // text on the pin image, max 45 chars, wraps to 3 lines
+    title: string;              // Pinterest pin title, max 100
+    description: string;        // Pinterest pin description, max 800
+    publishDate: Date;
+    contentModifiedDate: Date;
+    layout?: "band";            // default "band" (the only layout so far)
+  }[]
+}
+```
+
+A pin's number is its 1-based position in the list and is baked into `/pin/feed/{post id}/{n}.png` and the `pinterest.xml` guid. **Append only**: never reorder, renumber, or delete pins, or Pinterest will re-publish them. Draft pins with `/pins` (`.claude/skills/pins/SKILL.md`). See "Pinterest pins" below.
+
 ---
 
 ## URL structure
@@ -182,13 +201,16 @@ Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
 /contact/                # contact page (bento cards: email, socials)
 /thank-you/{slug}/       # post-form confirmation pages
 /rss.xml                 # RSS feed
+/pinterest.xml           # Pinterest auto-publish feed: one item per pin
 /sitemap.xml             # sitemap
 /og/site.png             # site-wide OG card; /og/feed/{slug}.png per post, /og/now.png, /og/fallback.png shared; square variants under /og/square/
+/pin/feed/{slug}/{n}.png # Pinterest pin image (1000×1500) for pin n of a post
 /-/astro/health          # health check — returns "ok" + short commit hash
 /-/astro/brand/          # brand design system home (internal, noindex)
 /-/astro/brand/color/    # color palette reference (BrandLayout)
 /-/astro/brand/links/    # interactive link graph of the feed (build-time data)
 /-/astro/brand/og/       # OG card preview grid
+/-/astro/brand/pins/     # Pinterest pin review grid (images at Pinterest column width, copy, char counts)
 ```
 
 Removed URLs redirect via `public/_redirects`: `/tech/` → post 18, `/garden/` → `/`.
@@ -388,3 +410,13 @@ One master, three outputs:
 3. **Post/now covers** — `PostLayout`/`NowLayout` feed the master to `<Image format="webp" widths sizes>`; sharp rasterizes it (`image.dangerouslyProcessSVG: true` in `astro.config.mjs` — safe, only self-authored SVGs) into responsive webp for Google Discover.
 
 The ratio transforms rewrite the master's dimension attributes, so masters must keep the exact markers `height="675" viewBox="0 0 1200 675"` and `<rect width="1200" height="675"` (the ground rect). Posts without a master use `fallback.svg` in the masonry and OG PNGs, and have no post cover. `/og/site.png` is always emitted (legacy redirects point at it) — from `index.svg`, or `fallback.svg` if that snapshot is ever deleted. Preview everything at `/-/astro/brand/og/`.
+
+---
+
+## Pinterest pins
+
+Pinterest (business account, domain claimed) auto-publishes pins from `https://zmoki.xyz/pinterest.xml` to the "My Digital Garden" board, checking about daily and publishing oldest items first. Publishing is commit-driven like every other content: whatever is in `src/content/pins/` is in the feed after the next deploy. No API, no cron.
+
+- **Content** — the `pins` collection (see above). Draft with `/pins`, review at `/-/astro/brand/pins/`, edit the YAML, commit.
+- **Feed** — `src/pages/pinterest.xml.ts`: one `<item>` per pin, sorted by `publishDate` ascending. Title and description are the pin's; `<media:content>` points at the pin image; the link is the post URL with `utm_source=pinterest&utm_medium=social&utm_campaign={post id}&utm_content=pin-{n}` (PostHog attribution); guid `zmoki.xyz/pin/feed/{post id}/{n}`; `lastBuildDate` is the latest `contentModifiedDate`. A pins file whose name is not a feed post id fails the build.
+- **Images** — `src/pages/pin/[...path].png.ts` renders `/pin/feed/{post id}/{n}.png` (1000×1500, 2:3) via `toPinSvg` in `src/og/pin.ts`: the "band" layout puts the headline (Noto Sans Bold, `zmoki-ink`) at the top, the post's OG master (or `fallback.svg`) scaled into the middle, and a `zmoki.xyz` mark in the master's accent color at the bottom, all inside Pinterest's 50px safe zone. Text needs a font at build time: `src/og/fonts/NotoSans-Bold.ttf` (SIL Open Font License, `OFL.txt` alongside) is passed to resvg with system fonts disabled. Headlines wrap greedily at 19 characters per line and fail the build beyond three lines.

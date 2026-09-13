@@ -1,0 +1,102 @@
+---
+import { getCollection } from "astro:content";
+import BrandLayout from "@/layouts/BrandLayout.astro";
+
+// Review grid for the Pinterest pins. Every pin in src/content/pins is shown
+// at the Pinterest column width (about 236px) so the headline can be judged
+// at the size people actually see it, next to the title and description
+// that go into /pinterest.xml with their character counts.
+
+const LIMITS = { headline: 45, title: 100, description: 800 };
+
+const posts = new Map((await getCollection("feed")).map((post) => [post.id, post.data]));
+const pinFiles = (await getCollection("pins")).sort(
+  (a, b) => (posts.get(b.id)?.order ?? 0) - (posts.get(a.id)?.order ?? 0),
+);
+const total = pinFiles.reduce((sum, file) => sum + file.data.pins.length, 0);
+
+const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+---
+
+<BrandLayout
+  title="Pinterest pins — zmoki.xyz design system"
+  description="Review grid for the Pinterest pin images and feed copy"
+>
+  <header
+    class="mb-8 rounded-xl bg-zmoki-flame-500 px-6 py-10 text-zmoki-surface shadow-md md:px-10"
+  >
+    <a
+      href="/-/astro/brand/"
+      class="font-mono text-xs tracking-normal uppercase opacity-80 hover:opacity-100"
+      >← zmoki.xyz brand</a
+    >
+    <h1 class="mt-2 text-4xl font-semibold md:text-5xl">Pinterest pins</h1>
+    <p class="mt-4 max-w-2xl text-xl md:text-2xl">
+      One YAML file per post in <span class="font-mono text-lg">src/content/pins</span>, one tall
+      image per pin, all published through
+      <a href="/pinterest.xml" class="border-b-4 border-dotted border-current">/pinterest.xml</a>.
+      {total} pins across {pinFiles.length} posts.
+    </p>
+  </header>
+
+  {
+    pinFiles.map((file) => (
+      <section class="mb-10">
+        <h2 class="mb-1 text-2xl font-semibold">
+          <span class="font-mono">#{posts.get(file.id)?.order}</span> {posts.get(file.id)?.title}
+        </h2>
+        <p class="mb-4 font-mono text-xs text-zmoki-muted">
+          <a href={`/feed/${file.id}/`} class="border-b-2 border-dashed border-current">
+            /feed/{file.id}/
+          </a>
+        </p>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {file.data.pins.map((pin, i) => {
+            const n = i + 1;
+            const counts = [
+              ["headline", pin.headline.length, LIMITS.headline],
+              ["title", pin.title.length, LIMITS.title],
+              ["description", pin.description.length, LIMITS.description],
+            ] as const;
+            return (
+              <figure class="flex flex-col gap-4 rounded-xl bg-zmoki-surface p-4 shadow-md">
+                <a href={`/pin/feed/${file.id}/${n}.png`} class="self-start">
+                  <img
+                    src={`/pin/feed/${file.id}/${n}.png`}
+                    alt={`Pin ${n}: ${pin.headline}`}
+                    width="1000"
+                    height="1500"
+                    loading="lazy"
+                    class="block h-auto w-[236px] rounded-lg shadow-sm"
+                  />
+                </a>
+                <figcaption class="flex min-w-0 flex-col gap-3 text-sm">
+                  <p class="font-mono text-xs text-zmoki-muted">
+                    pin {n} · {formatDate(pin.publishDate)}
+                    {pin.contentModifiedDate.getTime() !== pin.publishDate.getTime() &&
+                      ` · edited ${formatDate(pin.contentModifiedDate)}`}
+                  </p>
+                  <div>
+                    <p class="font-mono text-xs text-zmoki-muted uppercase">Title</p>
+                    <p class="mt-1 font-semibold">{pin.title}</p>
+                  </div>
+                  <div>
+                    <p class="font-mono text-xs text-zmoki-muted uppercase">Description</p>
+                    <p class="mt-1 leading-normal text-zmoki-muted">{pin.description}</p>
+                  </div>
+                  <ul class="flex flex-wrap gap-x-3 font-mono text-xs">
+                    {counts.map(([label, len, max]) => (
+                      <li class={len > max ? "text-zmoki-flame-600" : "text-zmoki-muted"}>
+                        {label} {len}/{max}
+                      </li>
+                    ))}
+                  </ul>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
+      </section>
+    ))
+  }
+</BrandLayout>
