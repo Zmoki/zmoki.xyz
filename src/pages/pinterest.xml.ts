@@ -3,11 +3,11 @@ import { getCollection } from "astro:content";
 
 // RSS 2.0 feed for Pinterest's "auto-publish Pins from your RSS feed". One
 // item per pin (not per post): title and description become the pin's,
-// <media:content> points at the tall pin image, and the link goes to the
-// post on the claimed domain with UTM parameters so PostHog can attribute
-// the visit. Pinterest publishes the oldest items first, so items are
-// sorted by publishDate ascending. Everything committed is in the feed; a
-// future publishDate is informational only.
+// <media:content> points at the tall pin image, and the link is the plain
+// post URL on the claimed domain (no tracking parameters; PostHog sees the
+// pinterest.com referrer). Pinterest publishes the oldest items first, so
+// items are sorted by publishDate ascending. Everything committed is in
+// the feed; a future publishDate is informational only.
 
 export async function GET(context: { site: URL | string | undefined }) {
   const site = String(context.site ?? "https://zmoki.xyz").replace(/\/$/, "");
@@ -24,15 +24,10 @@ export async function GET(context: { site: URL | string | undefined }) {
     }
     return file.data.pins.map((pin, i) => {
       const n = i + 1;
-      const link = new URL(`/feed/${file.id}/`, site);
-      link.searchParams.set("utm_source", "pinterest");
-      link.searchParams.set("utm_medium", "social");
-      link.searchParams.set("utm_campaign", file.id);
-      link.searchParams.set("utm_content", `pin-${n}`);
       return {
         title: pin.title,
         description: pin.description,
-        link: link.toString(),
+        link: `${site}/feed/${file.id}/`,
         pubDate: pin.publishDate,
         modified: pin.contentModifiedDate,
         customData:
