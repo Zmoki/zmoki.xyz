@@ -95,9 +95,33 @@ const og = defineCollection({
   schema: z.object({ svg: z.string(), alt: z.string().optional() }),
 });
 
+// Pinterest pins, one YAML file per feed post (src/content/pins/{post id}.yaml)
+// holding a list of pins. The pin number is its 1-based position in the list
+// and is baked into /pin/feed/{post}/{n}.png and the pinterest.xml guid, so
+// pins are appended, never reordered or removed. Limits are Pinterest's:
+// title 100, description 800; the headline goes on the image (3 lines max).
+const pins = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/pins" }),
+  schema: z.object({
+    pins: z
+      .array(
+        z.object({
+          headline: z.string().max(45),
+          title: z.string().max(100),
+          description: z.string().max(800),
+          publishDate: z.coerce.date(),
+          contentModifiedDate: z.coerce.date(),
+          layout: z.enum(["band"]).default("band"),
+        }),
+      )
+      .min(1),
+  }),
+});
+
 export const collections = {
   feed,
   resources,
   legal,
   og,
+  pins,
 };

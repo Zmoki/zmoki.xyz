@@ -6,7 +6,7 @@ description: Draft a new feed post (blog post) for zmoki.xyz with correct frontm
 
 Create a new post in the `feed` content collection and make sure it sounds like Zarema.
 
-Posts live at `src/content/feed/{order}-{slug}.mdx` (`.mdx` for most, `.md` for plain ones). The schema is in `src/content/config.ts`.
+Posts live at `src/content/feed/{order}-{slug}.mdx` (`.mdx` for most, `.md` for plain ones). The schema is in `src/content.config.ts`.
 
 ## 1. Get the content
 
