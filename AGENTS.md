@@ -199,6 +199,9 @@ A pin's number is its 1-based position in the list and is baked into `/pin/feed/
 /legal/{slug}/           # privacy, terms (LegalLayout)
 /now/                    # now page (NowLayout)
 /contact/                # contact page (bento cards: email, socials)
+/marketing-engineer/     # hub landing for the fractional marketing engineer side (LandingLayout)
+/marketing-engineer/inp/ # INP service landing; ?origin=example.com&company=Acme personalizes it with CrUX data
+/api/crux                # Cloudflare Pages Function (functions/api/crux.js): CrUX History proxy, ?origin=
 /thank-you/{slug}/       # post-form confirmation pages
 /rss.xml                 # RSS feed
 /pinterest.xml           # Pinterest auto-publish feed: one item per pin
@@ -252,6 +255,14 @@ Post content layout helpers (defined in a global style in `PostLayout`, active f
 ### `LegalLayout.astro`, `NowLayout.astro`
 
 Same pattern as `PostLayout` (surface background, split header with "Updated on" date, de-carded left-aligned prose). `ResourceLayout.astro` still follows the older card style.
+
+### `LandingLayout.astro`
+
+Layout for the service landings under `/marketing-engineer/` (and future `/artist/`, `/collector/`). `BaseLayout` with a surface-background `<main>` and no prose constraints; each page composes its own sections. Props: `title`, `description`, `publishDate`, `contentModifiedDate` (the pages export both dates for the sitemap, like `contact.astro`).
+
+The INP landing (`src/pages/marketing-engineer/inp.astro`) is one page with two states. Without a query string it shows a "check your site" input. With `?origin=example.com` (optionally `&company=Acme`) its `<script>` calls `/api/crux`, renders Google's verdict, a 25-week INP p75 chart (inline SVG built client-side, colored with `fill-zmoki-*` / `stroke-zmoki-*` utilities), and the revenue calculator. The sales person builds the personalized link; the CTA passes the origin to the booking tool as `utm_content`. Placeholders (booking URL, Improvado numbers, audit price, lift range) are marked with `PLACEHOLDER` in the file.
+
+`/api/crux` is a Cloudflare Pages Function in `functions/api/crux.js` (plain JS, no adapter needed: Pages serves `functions/` alongside the static build). It proxies the CrUX History API with the server-side `CRUX_API_KEY`, tries the `www` / bare variant, and caches per origin for a day. In dev the `cruxDevProxy` Vite plugin in `astro.config.mjs` mounts the same handler on the Astro dev server, reading `CRUX_API_KEY` from `.env`.
 
 ### `BrandLayout.astro`
 
@@ -312,12 +323,16 @@ Also uses `remark-definition-list` for `<dl>`/`<dt>`/`<dd>` support in MDX.
 
 ## Analytics events (PostHog)
 
-| Event                   | Where fired                                       | Properties                |
-| ----------------------- | ------------------------------------------------- | ------------------------- |
-| `contact_email_clicked` | inline scripts on pages/layouts with mailto links | `email`                   |
-| `post_viewed`           | `feed/[...slug].astro` inline script              | `post_slug`, `post_title` |
-| `resource_link_clicked` | `ResourceLink.astro`                              | resource slug/external    |
-| `code_block_copied`     | PostLayout inline script                          | `snippet_length`          |
+| Event                   | Where fired                                       | Properties                                                                                          |
+| ----------------------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `contact_email_clicked` | inline scripts on pages/layouts with mailto links | `email`                                                                                             |
+| `post_viewed`           | `feed/[...slug].astro` inline script              | `post_slug`, `post_title`                                                                           |
+| `resource_link_clicked` | `ResourceLink.astro`                              | resource slug/external                                                                              |
+| `code_block_copied`     | PostLayout inline script                          | `snippet_length`                                                                                    |
+| `inp_page_viewed`       | `marketing-engineer/inp.astro` script             | `origin`, `company`, `verdict` (`good` / `needs improvement` / `poor` / `no-data` / `error` / null) |
+| `inp_check_submitted`   | `marketing-engineer/inp.astro` script             | `origin`                                                                                            |
+| `inp_calculator_used`   | `marketing-engineer/inp.astro` script (once)      | `origin`, `sessions`, `rate`, `value`                                                               |
+| `inp_call_clicked`      | `marketing-engineer/inp.astro` script             | `origin`, `company`                                                                                 |
 
 PostHog captures all listed events plus pageviews automatically.
 
@@ -367,6 +382,8 @@ Edit this file directly for header changes (not Terraform).
 
 Edit this file directly for redirect changes (not Terraform).
 
+**`functions/`** — Cloudflare Pages Functions, deployed alongside the static `dist/`. Currently one: `functions/api/crux.js` (see `LandingLayout.astro`). Secrets they read (`CRUX_API_KEY`) are set on the Pages project.
+
 ---
 
 ## Environment variables
@@ -375,15 +392,16 @@ Edit this file directly for redirect changes (not Terraform).
 
 Current variables:
 
-| Variable                               | Required | Purpose                                    |
-| -------------------------------------- | -------- | ------------------------------------------ |
-| `PUBLIC_POSTHOG_PROJECT_TOKEN`         | No       | PostHog analytics token                    |
-| `PUBLIC_POSTHOG_HOST`                  | No       | PostHog host URL                           |
-| `PUBLIC_ANALYTICS_ENABLED`             | No       | Set to `"false"` to disable PostHog in dev |
-| `PUBLIC_BREVO_ACCOUNT_ID`              | No       | Brevo email form integration               |
-| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No       | Cloudflare Turnstile bot protection        |
+| Variable                               | Required | Purpose                                                                                                                                                                                                                                               |
+| -------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUBLIC_POSTHOG_PROJECT_TOKEN`         | No       | PostHog analytics token                                                                                                                                                                                                                               |
+| `PUBLIC_POSTHOG_HOST`                  | No       | PostHog host URL                                                                                                                                                                                                                                      |
+| `PUBLIC_ANALYTICS_ENABLED`             | No       | Set to `"false"` to disable PostHog in dev                                                                                                                                                                                                            |
+| `PUBLIC_BREVO_ACCOUNT_ID`              | No       | Brevo email form integration                                                                                                                                                                                                                          |
+| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No       | Cloudflare Turnstile bot protection                                                                                                                                                                                                                   |
+| `CRUX_API_KEY`                         | No       | Server-only. Chrome UX Report API key for the `/api/crux` Pages Function. Local: `.env`. Production: Cloudflare Pages secret (not in `env.d.ts`, never `PUBLIC_`). Without it `/api/crux` returns 503 and the INP page falls back to its error state. |
 
-When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment.
+When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment. Server-only secrets (no `PUBLIC_` prefix) skip `env.d.ts` and go to `.env.example` plus the Pages project secrets.
 
 ---
 

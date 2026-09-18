@@ -1,0 +1,28 @@
+---
+// Layout for the service landing pages under /marketing-engineer/ (and,
+// later, /artist/ and /collector/). BaseLayout with the surface background,
+// a left-aligned top nav, and a single wide column that each page fills
+// with its own sections. No prose constraints: landings mix wide and narrow
+// blocks and set their own measure per section.
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  contentModifiedDate: Date;
+}
+
+const { title, description, publishDate, contentModifiedDate } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+>
+  <main class="bg-zmoki-surface px-4 pb-16 md:px-8 lg:px-12 xl:pb-32">
+    <slot />
+  </main>
+</BaseLayout>

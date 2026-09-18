@@ -1,0 +1,177 @@
+---
+import LandingLayout from "@/layouts/LandingLayout.astro";
+import { Activity, ArrowRight, Mail, Search, Wrench, Zap } from "@lucide/astro";
+
+export const publishDate = new Date("2026-09-11");
+export const contentModifiedDate = new Date("2026-09-11");
+
+// Hub for the marketing engineer side. Positioning, the Audit / Fix / Keep
+// process, and the services. Only INP has its own page so far; the rest
+// point at email until their pages exist.
+const services = [
+  {
+    href: "/marketing-engineer/inp/",
+    title: "Slow site responsiveness (INP)",
+    description:
+      "Google rates your site's responsiveness in Search Console and CrUX. I find what your marketing stack is doing to it and fix it without losing a single event.",
+    status: "live",
+  },
+  {
+    href: "mailto:hey@zmoki.xyz?subject=Search%20visibility",
+    title: "Search visibility, traditional and AI",
+    description:
+      "Technical SEO plus what makes a site citable by AI answer engines. Structure, speed, schema, and the content plumbing behind them.",
+    status: "ask",
+  },
+  {
+    href: "mailto:hey@zmoki.xyz?subject=Legacy%20website%20migration",
+    title: "Gradual migration of a legacy website",
+    description:
+      "Move an old marketing site to a modern, AI-friendly stack page by page, with no big-bang launch and no ranking cliff.",
+    status: "ask",
+  },
+  {
+    href: "mailto:hey@zmoki.xyz?subject=Voice%20fingerprint",
+    title: "Voice fingerprint for AI-assisted content",
+    description:
+      "A blueprint for writing with AI while keeping your own voice. For content teams that want the speed without the sameness.",
+    status: "ask",
+  },
+];
+
+const steps = [
+  {
+    icon: Search,
+    name: "Audit",
+    text: "Fixed scope, fixed price. You get a ranked list of what is wrong, what each fix is worth, and what I would do first.",
+  },
+  {
+    icon: Wrench,
+    name: "Fix",
+    text: "A statement of work per item. I implement inside your existing tools where possible and verify every change before and after.",
+  },
+  {
+    icon: Activity,
+    name: "Keep",
+    text: "A monthly retainer. I monitor, I alert when something regresses, and I clean up what accumulates. Marketing never stops adding tools.",
+  },
+];
+---
+
+<LandingLayout
+  title="Fractional marketing engineer — Zarema Khalilova"
+  description="An engineer who understands marketing and what marketers need. I audit, fix, and keep the technical side of your marketing so the pipeline can grow."
+  publishDate={publishDate}
+  contentModifiedDate={contentModifiedDate}
+>
+  <!-- Positioning -->
+  <header class="grid grid-cols-1 gap-8 py-12 md:grid-cols-[1fr_28rem] md:gap-12 xl:py-20">
+    <div class="flex flex-col gap-6">
+      <p class="font-mono text-sm tracking-normal text-zmoki-muted uppercase">
+        Fractional marketing engineer
+      </p>
+      <h1 class="text-4xl font-semibold md:text-5xl xl:text-6xl">
+        An engineer who understands marketing, and what marketers actually need.
+      </h1>
+      <p class="max-w-[60ch] text-xl lg:text-2xl">
+        Marketing teams run on tools they did not build and cannot fully see into. I am the engineer
+        who can see into them. I fix what slows the website down, what hides it from search, and
+        what keeps the team from shipping. Part-time, pay-as-you-go, no headcount.
+      </p>
+      <a
+        href="mailto:hey@zmoki.xyz?subject=Marketing%20engineering"
+        class="flex w-fit items-center gap-2 bg-zmoki-flame-500 px-5 py-3 font-mono text-sm text-slate-50 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zmoki-flame-500/40"
+      >
+        <Mail class="h-4 w-4" />
+        <span class="underline decoration-dotted decoration-2 underline-offset-4"
+          >hey@zmoki.xyz</span
+        >
+      </a>
+    </div>
+    <div class="flex flex-col justify-end gap-4 rounded-xl bg-zmoki-bg p-6 md:p-8">
+      <Zap class="h-8 w-8 text-zmoki-azure-500" />
+      <p class="text-lg lg:text-xl">
+        Twenty years across web engineering and marketing tooling. I have sat on both sides of the
+        "can we just add one more tag" conversation.
+      </p>
+      <p class="font-mono text-sm text-zmoki-muted">Zarema Khalilova, Tbilisi, remote worldwide</p>
+    </div>
+  </header>
+
+  <!-- Process -->
+  <section class="flex flex-col gap-8 py-12" aria-labelledby="process-heading">
+    <h2 id="process-heading" class="text-3xl font-semibold md:text-4xl">
+      Every service runs the same way
+    </h2>
+    <ol class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {
+        steps.map((step, index) => (
+          <li class="flex flex-col gap-3 rounded-xl bg-zmoki-bg p-6 md:p-8">
+            <step.icon class="h-6 w-6 text-zmoki-azure-500" />
+            <h3 class="text-2xl font-semibold">
+              <span class="font-mono text-sm text-zmoki-muted">0{index + 1}&nbsp;</span>
+              {step.name}
+            </h3>
+            <p class="text-base lg:text-lg">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Services -->
+  <section class="flex flex-col gap-8 py-12" aria-labelledby="services-heading">
+    <h2 id="services-heading" class="text-3xl font-semibold md:text-4xl">What I fix</h2>
+    <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {
+        services.map((service) => (
+          <li>
+            <a
+              href={service.href}
+              class="group flex h-full flex-col gap-3 rounded-xl bg-zmoki-bg p-6 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zmoki-azure-500/30 md:p-8"
+            >
+              <h3 class="text-2xl font-semibold">{service.title}</h3>
+              <p class="text-base lg:text-lg">{service.description}</p>
+              <span class="mt-auto flex items-center gap-2 pt-2 font-mono text-sm text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 group-hover:no-underline">
+                {service.status === "live" ? "read more" : "ask me about it"}
+                <ArrowRight class="h-4 w-4" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Elsewhere -->
+  <section class="flex flex-col gap-4 py-12" aria-labelledby="elsewhere-heading">
+    <h2 id="elsewhere-heading" class="text-2xl font-semibold md:text-3xl">
+      Elsewhere on this site
+    </h2>
+    <p class="max-w-[60ch] text-lg lg:text-xl">
+      Proof of depth lives in the <a
+        href="/"
+        class="text-zmoki-azure-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+        >feed</a
+      >. What I am working on this month is on the <a
+        href="/now/"
+        class="text-zmoki-magenta-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+        >now page</a
+      >. Everything else goes through <a
+        href="/contact/"
+        class="text-zmoki-flame-500 underline decoration-dotted decoration-2 underline-offset-4 hover:no-underline"
+        >contact</a
+      >.
+    </p>
+  </section>
+
+  <script is:inline>
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener("click", function () {
+        window.posthog?.capture("contact_email_clicked", {
+          email: this.getAttribute("href").replace("mailto:", "").split("?")[0],
+        });
+      });
+    });
+  </script>
+</LandingLayout>
