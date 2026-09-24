@@ -6,7 +6,7 @@
 
 ## Project overview
 
-Personal digital garden at `https://zmoki.xyz` — a living collection of posts, resources, and a now page by Zarema Khalilova (software engineer, contemporary artist, neurodivergent researcher).
+Personal digital garden at `https://zmoki.xyz` — a living collection of posts, resources, and a now page by Zarema Khalilova (marketing engineer, contemporary artist, neurodivergent researcher).
 
 ---
 
