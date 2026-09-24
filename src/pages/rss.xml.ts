@@ -179,7 +179,7 @@ export async function GET(context: { site: string | undefined }) {
   return rss({
     title: "Zarema's Digital Garden",
     description:
-      "A personal collection of art, research, and creative projects from a neurodivergent developer and artist. A space for curiosity, not a niche.",
+      "A personal collection of art, research, and creative projects from a neurodivergent marketing engineer and artist. A space for curiosity, not a niche.",
     site: siteUrl,
     // Add media and atom namespaces for better RSS compatibility
     xmlns: {
