@@ -62,3 +62,10 @@ Then offer to start the dev server with `/run` and review the pins at `/-/astro/
 ## 5. Do not commit
 
 Leave committing and pushing to the user unless they explicitly ask. Once pushed to `main`, Pinterest picks up new items from `/pinterest.xml` within about a day.
+
+## How the pipeline works
+
+Pinterest (business account, domain claimed) auto-publishes pins from `https://zmoki.xyz/pinterest.xml` to the "My Digital Garden" board, checking about daily and publishing oldest items first. Publishing is commit-driven like every other content: whatever is in `src/content/pins/` is in the feed after the next deploy. No API, no cron.
+
+- **Feed** — `src/pages/pinterest.xml.ts`: one `<item>` per pin, sorted by `publishDate` ascending. Title and description are the pin's; `<media:content>` points at the pin image; the link is the plain post URL (no tracking parameters, PostHog attributes by the pinterest.com referrer); guid `zmoki.xyz/pin/feed/{post id}/{n}`; `lastBuildDate` is the latest `contentModifiedDate`. A pins file whose name is not a feed post id fails the build.
+- **Images** — `src/pages/pin/[...path].png.ts` renders `/pin/feed/{post id}/{n}.png` (1000×1500, 2:3) via `toPinSvg` in `src/og/pin.ts`: the "band" layout puts the headline (Noto Sans Bold, `zmoki-ink`) at the top, and the post's OG master (or `fallback.svg`) scaled into the middle, inside Pinterest's 50px safe zone. No site mark on the image. Text needs a font at build time: `src/og/fonts/NotoSans-Bold.ttf` (SIL Open Font License, `OFL.txt` alongside) is passed to resvg with system fonts disabled.

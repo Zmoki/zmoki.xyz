@@ -8,24 +8,7 @@
 
 Personal digital garden at `https://zmoki.xyz` — a living collection of posts, resources, and a now page by Zarema Khalilova (marketing engineer, contemporary artist, neurodivergent researcher).
 
----
-
-## Tech stack
-
-| Layer               | Tool                                                           | Version      |
-| ------------------- | -------------------------------------------------------------- | ------------ |
-| Framework           | Astro                                                          | ^7.2         |
-| Language            | TypeScript                                                     | via Astro    |
-| Styling             | Tailwind CSS (via @tailwindcss/vite) + @tailwindcss/typography | ^4           |
-| Content             | MDX via @astrojs/mdx                                           | —            |
-| Fonts               | Noto Sans, Noto Sans Mono                                      | Google Fonts |
-| Analytics           | PostHog                                                        | posthog-js   |
-| Email/Forms         | Brevo                                                          | —            |
-| OG images           | @resvg/resvg-js (build-time endpoint)                          | —            |
-| RSS                 | @astrojs/rss                                                   | —            |
-| Syntax highlighting | Shiki, theme: `catppuccin-latte`                               | —            |
-| Performance         | Lighthouse CI (@lhci/cli)                                      | —            |
-| Formatting          | Prettier + prettier-plugin-astro + prettier-plugin-tailwindcss | —            |
+Stack, scripts, and dependency versions: read `package.json`. CI steps: read `.github/workflows/ci.yml`.
 
 Dev server default port is **4321**. When running multiple worktrees simultaneously, derive a stable per-worktree port with:
 
@@ -33,51 +16,15 @@ Dev server default port is **4321**. When running multiple worktrees simultaneou
 PORT=$(( 4300 + $(echo "$PWD" | cksum | cut -d' ' -f1) % 100 ))
 ```
 
-Project skills in `.claude/skills/`: `/run` launches the app, `/new-post` drafts a feed post, `/pins` drafts Pinterest pins for a post.
-
----
-
-## Scripts
-
-```
-npm run dev              # dev server
-npm run build            # production build (includes OG card PNGs)
-npm run timeline:feed    # generate feed-timeline.csv
-npm run lhci:mobile      # Lighthouse CI mobile
-npm run lhci:desktop     # Lighthouse CI desktop
-npm run format           # Prettier format all files
-npm run format:check     # Prettier check (used in CI)
-npm run check            # TypeScript type check (astro check)
-npm run lint             # ESLint
-```
-
-## CI
-
-GitHub Actions workflow at `.github/workflows/ci.yml` runs on every push and PR to `main`:
-
-1. **Format check** — `npm run format:check`
-2. **Type check** — `npm run check`
-3. **Lint** — `npm run lint`
-4. **Build** — `npm run build`
-
-Required GitHub secrets for the build step: `PUBLIC_POSTHOG_PROJECT_TOKEN`, `PUBLIC_POSTHOG_HOST`, `PUBLIC_BREVO_ACCOUNT_ID`, `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY`.
-
-A separate `lighthouse.yml` workflow runs Lighthouse CI after every push to `main`.
+Project skills in `.claude/skills/`: `/run` launches the app, `/new-post` drafts a feed post, `/pins` drafts Pinterest pins for a post, `/og-cards` creates or edits an OG card master.
 
 ---
 
 ## Type checking & linting
 
-**Type check** — `npm run check` runs `astro check`, which wraps the TypeScript language server and handles `.astro` files correctly (plain `tsc` does not).
+**Type check** — `npm run check` runs `astro check`, which wraps the TypeScript language server and handles `.astro` files correctly. **Plain `tsc` does not** — don't reach for it.
 
-**Linting** — `npm run lint` runs ESLint with:
-
-- `eslint-plugin-astro` — Astro-specific rules
-- `@typescript-eslint` — TypeScript rules
-
-Config: `eslint.config.mjs`. Ignores: `dist/`, `.astro/`, `node_modules/`, `.claude/`.
-
-Conventions:
+Conventions beyond what `eslint.config.mjs` enforces:
 
 - Prefix intentionally unused function params/vars with `_` to satisfy `no-unused-vars`
 - Vendor scripts (e.g. `posthog.astro`) use `/* eslint-disable */` inline
@@ -86,176 +33,59 @@ Conventions:
 
 ## Formatting
 
-Prettier is configured in `.prettierrc` with two plugins:
+**Always format before committing** (`npm run format`). Tailwind class order is enforced by `prettier-plugin-tailwindcss` — **do not reorder classes manually**.
 
-- **`prettier-plugin-astro`** — parses `.astro` files
-- **`prettier-plugin-tailwindcss`** — sorts Tailwind classes automatically
-
-Key rules:
-
-- `.md` / `.mdx` files: `proseWrap: preserve` (don't reflow markdown prose)
-- `.astro` files: use the `astro` parser
-
-Run formatter:
-
-```bash
-npm run format
-```
-
-**Always format before committing.** Tailwind class order is enforced by the plugin — do not reorder classes manually.
+Markdown prose is never reflowed (`proseWrap: preserve` for `.md`/`.mdx`).
 
 ---
 
 ## Tailwind setup
 
-Tailwind 4 runs through the `@tailwindcss/vite` plugin (configured in `astro.config.mjs`; there is no `@astrojs/tailwind` integration). The CSS entry is `src/styles/global.css`, imported by `BaseLayout.astro` and `BrandLayout.astro`; it pulls in Tailwind and loads the legacy-format JS config via `@config "../../tailwind.config.mjs"`. Theme values, plugins (`@tailwindcss/typography`, custom prose overrides), and the `zmoki-*` palette stay in `tailwind.config.mjs`, fed by `src/design-tokens.mjs`.
+Tailwind 4 runs through the `@tailwindcss/vite` plugin (configured in `astro.config.mjs`; **there is no `@astrojs/tailwind` integration** — don't add one or look for its config). The CSS entry is `src/styles/global.css`, imported by `BaseLayout.astro` and `BrandLayout.astro`; it pulls in Tailwind and loads the legacy-format JS config via `@config "../../tailwind.config.mjs"`. Theme values, plugins (`@tailwindcss/typography`, custom prose overrides), and the `zmoki-*` palette stay in `tailwind.config.mjs`, fed by `src/design-tokens.mjs`.
 
 ---
 
 ## Content collections (`src/content.config.ts`)
 
-Collections use the Astro Content Layer API: each collection declares a `glob()` loader over its `src/content/{name}/` folder. Entry identifiers are `entry.id` (filename without extension) and rendering uses `render(entry)` from `astro:content` — there is no `entry.slug` / `entry.render()`. A fourth collection, `og`, loads the OG card SVG masters from `src/content/og/**/*.svg` through a custom loader (`{ id, data: { svg, alt } }`); ids are relative paths without extension (`index`, `now`, `feed/1-about-me`).
+Schemas live in `src/content.config.ts` — read them there. Collections: `feed` (blog posts), `resources`, `legal`, `pins`, and `og` (OG card SVG masters).
 
-### `feed` — blog posts
+Gotchas the schemas don't tell you:
 
-```ts
-{
-  order: number; // sort order (higher = newer), used for prev/next nav
-  title: string;
-  description: string;
-  publishDate: Date;
-  contentModifiedDate: Date;
-}
-```
-
-Files: `src/content/feed/{order}-{slug}.mdx` (most) or `.md`
-
-> **Rule:** whenever you edit content in any collection file (`feed`, `resources`, `legal`), bump `contentModifiedDate` to today's date.
-
-### `resources` — downloadable resources and external links
-
-```ts
-{
-  type: "page" | "link"
-  name: string            // short display name
-  title: string
-  description: string
-  url?: string            // for type: "link"
-  publishDate: Date
-  contentModifiedDate: Date
-  order: number
-  form?: {                // optional Brevo email form
-    brevoFormId: string
-    buttonText: string
-    title: string
-    description: string
-  }
-  platform?: {
-    name: string
-    title: string
-    description: string
-  }
-}
-```
-
-### `legal` — privacy, terms
-
-```ts
-{
-  title: string;
-  description: string;
-  publishDate: Date;
-  contentModifiedDate: Date;
-}
-```
-
-### `pins` — Pinterest pins
-
-One YAML file per feed post, `src/content/pins/{post id}.yaml`, holding a list of pins (data files, no body):
-
-```ts
-{
-  pins: {
-    headline: string;           // text on the pin image, max 45 chars, wraps to 3 lines
-    title: string;              // Pinterest pin title, max 100
-    description: string;        // Pinterest pin description, max 800
-    publishDate: Date;
-    contentModifiedDate: Date;
-    layout?: "band";            // default "band" (the only layout so far)
-  }[]
-}
-```
-
-A pin's number is its 1-based position in the list and is baked into `/pin/feed/{post id}/{n}.png` and the `pinterest.xml` guid. **Append only**: never reorder, renumber, or delete pins, or Pinterest will re-publish them. Draft pins with `/pins` (`.claude/skills/pins/SKILL.md`). See "Pinterest pins" below.
+- Collections use the Astro Content Layer API. Entry identifiers are **`entry.id`** (filename without extension) and rendering uses **`render(entry)`** from `astro:content` — there is **no `entry.slug` / `entry.render()`**.
+- Feed post files are `src/content/feed/{order}-{slug}.mdx` (most) or `.md`. `order` doubles as the sort key (higher = newer).
+- **Whenever you edit content in any collection file (`feed`, `resources`, `legal`), bump `contentModifiedDate` to today's date.**
+- `pins` is one YAML file per feed post, `src/content/pins/{post id}.yaml`. A pin's number is its 1-based position in the list and is baked into `/pin/feed/{post id}/{n}.png` and the `pinterest.xml` guid. **Append only**: never reorder, renumber, or delete pins, or Pinterest will re-publish them. Draft pins with `/pins`.
+- The `og` collection loads `src/content/og/**/*.svg` through a custom loader (`{ id, data: { svg, alt } }`); ids are relative paths without extension (`index`, `now`, `feed/1-about-me`). See `/og-cards`.
 
 ---
 
 ## URL structure
 
-```
-/                        # index: hero bento + masonry grid of all feed posts
-/feed/{slug}/            # individual post (PostLayout)
-/resources/{slug}/       # resource page (ResourceLayout)
-/legal/{slug}/           # privacy, terms (LegalLayout)
-/now/                    # now page (NowLayout)
-/contact/                # contact page (bento cards: email, socials)
-/thank-you/{slug}/       # post-form confirmation pages
-/rss.xml                 # RSS feed
-/pinterest.xml           # Pinterest auto-publish feed: one item per pin
-/sitemap.xml             # sitemap
-/og/site.png             # site-wide OG card; /og/feed/{slug}.png per post, /og/now.png, /og/fallback.png shared; square variants under /og/square/
-/pin/feed/{slug}/{n}.png # Pinterest pin image (1000×1500) for pin n of a post
-/-/astro/health          # health check — returns "ok" + short commit hash
-/-/astro/brand/          # brand design system home (internal, noindex)
-/-/astro/brand/color/    # color palette reference (BrandLayout)
-/-/astro/brand/links/    # interactive link graph of the feed (build-time data)
-/-/astro/brand/og/       # OG card preview grid
-/-/astro/brand/pins/     # Pinterest pin review grid (images at Pinterest column width, copy, char counts)
-```
+Routes are in `src/pages/`. Two that aren't obvious from the tree:
 
-Removed URLs redirect via `public/_redirects`: `/tech/` → post 18, `/garden/` → `/`.
+- `/-/astro/*` — internal brand/design-system pages (`color`, `links`, `og`, `pins`) plus `/-/astro/health`. Noindexed via `public/_headers`.
+- Removed URLs redirect via `public/_redirects`: `/tech/` → post 18, `/garden/` → `/`.
 
 ---
 
 ## Layouts
 
-### `BaseLayout.astro`
+Props are in each layout file. What the source won't tell you:
 
-Props:
+- `BaseLayout.astro` — body is `TopNav` → `<slot />` → `Footer`. **No sidebars.** OG images mirror the pathname: `/og/{trimmed pathname}.png` when the page has its own card master, `/og/site.png` for the homepage, `/og/fallback.png` otherwise — each listed in both the wide and `/og/square/` ratio.
+- `PostLayout.astro` — split header, left-aligned prose at `max-w-2xl`. **No cards, no prev/next navigation** (deliberate; don't add them back).
+- `LegalLayout.astro` / `NowLayout.astro` follow the same de-carded pattern. `ResourceLayout.astro` still follows the older card style.
+- `BrandLayout.astro` — standalone single-column canvas for `/-/astro/brand/`, no chrome, sets `noindex`.
 
-```ts
-{
-  title: string
-  description?: string        // default: "A digital garden of ideas, art, and research"
-  publishDate?: Date
-  contentModifiedDate?: Date
-  surfaceBackground?: boolean // default: false — body bg zmoki-surface instead of zmoki-bg
-  navClass?: string           // extra classes for TopNav (e.g. to align with page content)
-  showTopNav?: boolean        // default: true — homepage hides it
-}
-```
+### Post content layout helpers
 
-Body structure: `TopNav` (unless hidden) → `<slot />` → `Footer`. No sidebars.
-
-Sets `<html lang="en">`, loads Google Fonts, meta/OG tags, PostHog, canonical URL. OG images mirror the pathname: `/og/{trimmed pathname}.png` when the page has its own card master, `/og/site.png` for the homepage, `/og/fallback.png` for pages without one — each listed in both the wide and `/og/square/` ratio.
-
-### `PostLayout.astro`
-
-Wraps `BaseLayout` with `surfaceBackground` and an aligned top nav (`navClass="lg:pl-12 xl:pl-16"`). Props: `title`, `description?`, `publishDate`, `contentModifiedDate`. Split header (title + description in a 42rem left column, dates + author on the right), left-aligned prose content at `max-w-2xl`. No cards, no prev/next navigation.
-
-Post content layout helpers (defined in a global style in `PostLayout`, active from the `xl` breakpoint):
+Defined in a global style in `PostLayout`, active from the `xl` breakpoint:
 
 - `post-right` — floats an element into a 28rem right rail beside the text (e.g. `<PostImage class="post-right" ...>`); consecutive ones stack.
 - `post-full` — stretches an element across text column + rail (72rem), for wide tables/images.
-- `Split.astro` component — 50/50 two-column block at the `post-full` width, via `<Fragment slot="left">` / `<Fragment slot="right">`; stacks below `xl`. See post 16 for both patterns.
+- `Split.astro` — 50/50 two-column block at the `post-full` width, via `<Fragment slot="left">` / `<Fragment slot="right">`; stacks below `xl`.
 
-### `LegalLayout.astro`, `NowLayout.astro`
-
-Same pattern as `PostLayout` (surface background, split header with "Updated on" date, de-carded left-aligned prose). `ResourceLayout.astro` still follows the older card style.
-
-### `BrandLayout.astro`
-
-Standalone layout for the internal brand pages under `/-/astro/brand/`. Like `BaseLayout` but **without** the sidebars/header/footer chrome — a single-column canvas. Sets `noindex`, loads the same fonts, uses `bg-zmoki-bg` / `text-zmoki-ink`. Props: `title`, `description?`.
+See post 16 for both patterns.
 
 ---
 
@@ -263,83 +93,19 @@ Standalone layout for the internal brand pages under `/-/astro/brand/`. Like `Ba
 
 All colors are tokens defined in **`src/design-tokens.mjs`** — the single source of truth, imported by both `tailwind.config.mjs` (to generate utilities) and the brand reference page. Templates use `zmoki-*` utility classes only; **no inline hex**. Live reference: `/-/astro/brand/color/`.
 
-### Accent families (`zmoki-*`)
+Roles, so you pick the right family: `zmoki-azure` primary (links, nav, hero), `zmoki-magenta` brand signature, `zmoki-jade` resources & actions, `zmoki-flame` external links, `zmoki-lemon` highlight. Neutrals: `zmoki-bg`, `zmoki-surface`, `zmoki-ink`, `zmoki-muted`. Supporting greys use Tailwind `slate-*` directly.
 
-| Token           | Base    | Role                                                                |
-| --------------- | ------- | ------------------------------------------------------------------- |
-| `zmoki-azure`   | #0098f2 | Primary — links, nav, hero. Full 200–950 scale; 900 (#001d2e) = ink |
-| `zmoki-magenta` | #f20098 | Brand signature — favicon, Author panel, highlights (200/400–700)   |
-| `zmoki-jade`    | #00f25a | Resources & actions — resource links, form/copy buttons             |
-| `zmoki-flame`   | #f24500 | External — outbound links, Contact panel                            |
-| `zmoki-lemon`   | #fde047 | Highlight — marker behind headings (404, callouts)                  |
-
-### Neutrals (single-value tokens)
-
-| Token           | Hex     | Role                                   |
-| --------------- | ------- | -------------------------------------- |
-| `zmoki-bg`      | #e2e8f0 | Page background                        |
-| `zmoki-surface` | #f8fafc | Cards & panels (the one surface color) |
-| `zmoki-ink`     | #001d2e | Primary text (mirrors zmoki-azure-900) |
-| `zmoki-muted`   | #475569 | Meta / secondary text                  |
-
-Supporting greys use Tailwind `slate-*` directly: borders, dark panels (`slate-700`), code-block bg (`slate-900`), and inverse light text (`slate-50` on colored panels). The header logo scrim keeps `bg-white/10`.
-
-### Prose typography overrides
-
-Set in `tailwind.config.mjs`, referencing the design tokens:
-
-- Headings/body/bold: `zmoki-ink`
-- Links: `zmoki-azure-500`, dotted bottom border 4px
-- `[data-external]` links: `zmoki-flame-500`
-- `[data-resource]` links: `zmoki-jade-500`
-- `[data-anchor]` links: `zmoki-ink`, dashed bottom border 2px
+Prose typography overrides are set in `tailwind.config.mjs` and keyed off the data attributes the rehype plugins add (`[data-external]` → flame, `[data-resource]` → jade, `[data-anchor]` → ink).
 
 ---
 
 ## Custom Astro/Markdown pipeline (`astro.config.mjs`)
 
-Astro 7's default markdown processor is Sätteri (Rust); this project stays on the unified (remark/rehype) pipeline via `markdown.processor: unified({...})` from `@astrojs/markdown-remark` so the custom plugins below keep working. Three custom rehype plugins applied to all MDX/Markdown content:
+**Astro 7's default markdown processor is Sätteri (Rust); this project deliberately stays on the unified (remark/rehype) pipeline** via `markdown.processor: unified({...})` from `@astrojs/markdown-remark` so the custom rehype plugins keep working. Don't "modernize" this away.
 
-1. **`rehypeDefinitionListIds`** — adds `id` attribute (slugified text) to every `<dt>` element, enabling anchor links to glossary terms.
-
-2. **`rehypeExternalLinks`** — adds `target="_blank"` + `rel="noopener noreferrer"` + `data-external="true"` to `http://`, `https://`, and `mailto:` links; adds `data-resource="true"` to `/resources/` links; adds `data-anchor="true"` to `#` anchor links. These attributes drive Tailwind prose color overrides.
-
-3. **`rehypeCodeBlockCopy`** — wraps every `<pre><code>` block in a `<div class="relative">` and injects a "Copy" button (`data-copy-button="true"`). Button copy logic is in `PostLayout.astro` client script.
+The three custom plugins (`rehypeDefinitionListIds`, `rehypeExternalLinks`, `rehypeCodeBlockCopy`) are defined inline in `astro.config.mjs`. `rehypeExternalLinks` adds the `data-external` / `data-resource` / `data-anchor` attributes that drive the prose color overrides above. Copy-button click logic lives in the `PostLayout.astro` client script, not in the plugin.
 
 Also uses `remark-definition-list` for `<dl>`/`<dt>`/`<dd>` support in MDX.
-
----
-
-## Analytics events (PostHog)
-
-| Event                   | Where fired                                       | Properties                |
-| ----------------------- | ------------------------------------------------- | ------------------------- |
-| `contact_email_clicked` | inline scripts on pages/layouts with mailto links | `email`                   |
-| `post_viewed`           | `feed/[...slug].astro` inline script              | `post_slug`, `post_title` |
-| `resource_link_clicked` | `ResourceLink.astro`                              | resource slug/external    |
-| `code_block_copied`     | PostLayout inline script                          | `snippet_length`          |
-
-PostHog captures all listed events plus pageviews automatically.
-
----
-
-## Components
-
-| Component            | Purpose                                                        |
-| -------------------- | -------------------------------------------------------------- |
-| `BaseLayout.astro`   | Shell: meta, TopNav, Footer, analytics                         |
-| `PostLayout.astro`   | Blog post wrapper                                              |
-| `TopNav.astro`       | Colored nav chips (home / now / contact), rendered site-wide   |
-| `Footer.astro`       | Shared footer: avatar, page links, legal + source, copyright   |
-| `Split.astro`        | 50/50 two-column block for post content (left/right slots)     |
-| `PostImage.astro`    | Image with caption in posts; accepts `class` (e.g. post-right) |
-| `RawVideo.astro`     | Video embed                                                    |
-| `Video.astro`        | Video with controls                                            |
-| `BrevoForm.astro`    | Email signup form (Brevo)                                      |
-| `ResourceLink.astro` | Renders a resource link on resource pages                      |
-| `Time.astro`         | Renders `<time>` element with formatted date                   |
-| `posthog.astro`      | PostHog init script (injected in `<head>`)                     |
-| `PostCard.astro`     | Unused since the masonry homepage; candidate for deletion      |
 
 ---
 
@@ -354,36 +120,20 @@ PostHog captures all listed events plus pageviews automatically.
 - GitHub: `https://github.com/Zmoki/my-infrastructure`
 - Local path: `~/Projects/Zmoki/my-infrastructure/`
 
-If DNS, zone settings, or Cloudflare Pages project config need changing, edit the Terraform config in that repo — not the Cloudflare dashboard directly.
+**If DNS, zone settings, or Cloudflare Pages project config need changing, edit the Terraform config in that repo — not the Cloudflare dashboard directly.**
 
-**`public/_headers`** — HTTP response headers applied by Cloudflare Pages per URL pattern. Current rules:
+Two exceptions, both edited directly in this repo (**not** Terraform):
 
-- `/-/astro/*` and `/thank-you/*` — `X-Robots-Tag: noindex`
-- `/*` — `Content-Security-Policy` and `Permissions-Policy`
-
-Edit this file directly for header changes (not Terraform).
-
-**`public/_redirects`** — URL redirects handled by Cloudflare Pages. Format: `<from> <to> <status>`. Current entries are legacy slug redirects (301) and one external resource redirect (302).
-
-Edit this file directly for redirect changes (not Terraform).
+- **`public/_headers`** — HTTP response headers per URL pattern (noindex rules, CSP, Permissions-Policy).
+- **`public/_redirects`** — URL redirects. Format: `<from> <to> <status>`.
 
 ---
 
 ## Environment variables
 
-**Source of truth: `src/env.d.ts`** — all `PUBLIC_*` env vars must be declared here first. `.env.example` must mirror it (same keys, no values).
+**Source of truth: `src/env.d.ts`** — all `PUBLIC_*` env vars must be declared there first. `.env.example` must mirror it (same keys, no values).
 
-Current variables:
-
-| Variable                               | Required | Purpose                                    |
-| -------------------------------------- | -------- | ------------------------------------------ |
-| `PUBLIC_POSTHOG_PROJECT_TOKEN`         | No       | PostHog analytics token                    |
-| `PUBLIC_POSTHOG_HOST`                  | No       | PostHog host URL                           |
-| `PUBLIC_ANALYTICS_ENABLED`             | No       | Set to `"false"` to disable PostHog in dev |
-| `PUBLIC_BREVO_ACCOUNT_ID`              | No       | Brevo email form integration               |
-| `PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | No       | Cloudflare Turnstile bot protection        |
-
-When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment.
+When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.example` with an empty value and a comment. The CI build step needs the corresponding GitHub secrets set.
 
 ---
 
@@ -391,32 +141,15 @@ When adding a new env var: add it to `src/env.d.ts` first, then add it to `.env.
 
 Images for posts and pages live in `src/images/`.
 
-**Optimization workflow (macOS Automator):** Drop an image into `src/images/tmp/` → ImageOptim picks it up automatically, optimizes it, and saves the result to `src/images/`. Never commit images directly to `src/images/` without going through this pipeline first.
+**Optimization workflow (macOS Automator):** Drop an image into `src/images/tmp/` → ImageOptim picks it up automatically, optimizes it, and saves the result to `src/images/`. **Never commit images directly to `src/images/` without going through this pipeline first.**
 
 Do not commit anything from `src/images/tmp/` — it's a staging folder.
 
 ---
 
-## OG image generation
+## OG images and Pinterest pins
 
-Every card is a hand-editable 16:9 SVG master (1200×675, `viewBox="0 0 1200 675"`), exposed as the `og` content collection via a custom loader in `src/content.config.ts`. The `src/content/og/` folder mirrors the pages tree: `index.svg` (homepage card, served as `/og/site.png`), `now.svg`, `contact.svg`, `404.svg`, `legal/{page}.svg`, and `feed/{id}.svg` per post — plus `fallback.svg`, the shared card (served as `/og/fallback.png`) for any page or post without its own master.
+Both are build-time rendered from the hand-editable SVG masters in `src/content/og/`.
 
-A page without its own master shares `fallback.svg` (its own design — the build only fails if `fallback.svg` itself is missing). `index.svg` started as a materialized snapshot of the link-graph constellation; the generator code is gone, so it is now hand-kept like every other master. Design rules: 3, 5, or 7 elements; one accent family per card in 200–700 shades; no text; colors only from design tokens. Each master carries a `<desc>` element describing the composition — the loader surfaces it as `data.alt` and it becomes `og:image:alt`, `twitter:image:alt`, and the cover images' alt text, so keep it accurate when editing a card.
-
-One master, three outputs:
-
-1. **Inline SVG** — the homepage masonry and `/-/astro/brand/og/` inline the master directly (`set:html`), so cards can get CSS hover animations.
-2. **Open Graph PNGs** — the static endpoint `src/pages/og/[...path].png.ts` derives `/og/{feed/{id}|now|site}.png` (1200×630, top/bottom crop) and `/og/square/...png` (1200×1200, ground extended — never cropped) via `toWideSvg`/`toSquareSvg` from `src/og/card.ts`, rasterized with `@resvg/resvg-js`. `BaseLayout` lists both ratios in the meta tags.
-3. **Post/now covers** — `PostLayout`/`NowLayout` feed the master to `<Image format="webp" widths sizes>`; sharp rasterizes it (`image.dangerouslyProcessSVG: true` in `astro.config.mjs` — safe, only self-authored SVGs) into responsive webp for Google Discover.
-
-The ratio transforms rewrite the master's dimension attributes, so masters must keep the exact markers `height="675" viewBox="0 0 1200 675"` and `<rect width="1200" height="675"` (the ground rect). Posts without a master use `fallback.svg` in the masonry and OG PNGs, and have no post cover. `/og/site.png` is always emitted (legacy redirects point at it) — from `index.svg`, or `fallback.svg` if that snapshot is ever deleted. Preview everything at `/-/astro/brand/og/`.
-
----
-
-## Pinterest pins
-
-Pinterest (business account, domain claimed) auto-publishes pins from `https://zmoki.xyz/pinterest.xml` to the "My Digital Garden" board, checking about daily and publishing oldest items first. Publishing is commit-driven like every other content: whatever is in `src/content/pins/` is in the feed after the next deploy. No API, no cron.
-
-- **Content** — the `pins` collection (see above). Draft with `/pins`, review at `/-/astro/brand/pins/`, edit the YAML, commit. One pin per post for now (the domain was link-blocked by Pinterest's spam filter on day one, September 2026, so the feed stays conservative until that clears). Descriptions are short, about 200 characters, since Pinterest truncates longer ones behind "see more"; no keyword lists, they read as keyword stuffing under Pinterest's spam guidelines.
-- **Feed** — `src/pages/pinterest.xml.ts`: one `<item>` per pin, sorted by `publishDate` ascending. Title and description are the pin's; `<media:content>` points at the pin image; the link is the plain post URL (no tracking parameters, PostHog attributes by the pinterest.com referrer); guid `zmoki.xyz/pin/feed/{post id}/{n}`; `lastBuildDate` is the latest `contentModifiedDate`. A pins file whose name is not a feed post id fails the build.
-- **Images** — `src/pages/pin/[...path].png.ts` renders `/pin/feed/{post id}/{n}.png` (1000×1500, 2:3) via `toPinSvg` in `src/og/pin.ts`: the "band" layout puts the headline (Noto Sans Bold, `zmoki-ink`) at the top, and the post's OG master (or `fallback.svg`) scaled into the middle, inside Pinterest's 50px safe zone. No site mark on the image. Text needs a font at build time: `src/og/fonts/NotoSans-Bold.ttf` (SIL Open Font License, `OFL.txt` alongside) is passed to resvg with system fonts disabled. Headlines wrap greedily at 19 characters per line and fail the build beyond three lines.
+- Creating or editing a card master: use `/og-cards`. Masters must keep the exact markers `height="675" viewBox="0 0 1200 675"` and `<rect width="1200" height="675"` or the ratio transforms break.
+- Drafting pins: use `/pins`. Append only — see the `pins` note under Content collections.
