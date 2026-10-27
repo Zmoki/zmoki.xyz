@@ -2,7 +2,7 @@
 title: "How my nerdy curiosity makes my work better"
 description: "A story about my recent client work, where a deep dive into linguistics proved that fundamental curiosity is the best SEO tool."
 publishDate: "2025-10-17"
-contentModifiedDate: "2026-06-19"
+contentModifiedDate: "2026-10-27"
 order: 13
 ---
 
@@ -42,8 +42,6 @@ An AI chat agreed with my hypothesis, but again, that's not proof. I needed real
 
 And that's when my GSC-to-BigQuery export came in handy again. I asked an AI to help me write an SQL query to analyze the performance of all the question-like queries from Google Search Console, broken down by type: interrogative vs. yes/no.
 
-The result was staggering. The data was undeniable.
-
 **Interrogative questions got 23 times more impressions than simple yes/no questions.**
 
 I had found it. The real, data-backed proof.
@@ -54,4 +52,4 @@ Suddenly, I knew what was wrong with that list of 5,000 questions. I went back a
 
 I presented my discovery to the client's team - the problem, the rabbit hole of linguistic research, and the undeniable proof from their own data. They loved it.
 
-We're now in the process of rewriting the questions, armed with this new understanding. It's a powerful reminder that the biggest breakthroughs often come not from the most complex code, but from the simplest questions. That deep, nerdy curiosity **is the feature that makes my work better.**
+We're now in the process of rewriting the questions, armed with this new understanding. That deep, nerdy curiosity **is the feature that makes my work better.**
