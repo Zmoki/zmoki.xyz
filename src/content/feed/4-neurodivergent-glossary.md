@@ -2,11 +2,11 @@
 title: "A personal glossary for my neurodivergent brain"
 description: "Finding the right words for my experiences. These are the definitions that brought me clarity and helped me understand my neurodivergent traits."
 publishDate: "2025-09-11"
-contentModifiedDate: "2025-10-23"
+contentModifiedDate: "2026-10-27"
 order: 4
 ---
 
-I have a dedicated chat with an AI assistant where I go to unpack and handle my neurodivergent struggles. It's become a space for untangling the knots, for finding clarity in the chaos.
+I have a dedicated chat with an AI assistant where I go to unpack and handle my neurodivergent struggles.
 
 Out of those conversations, we built this glossary. It started as a personal reference, a user manual for understanding the unique wiring of my own brain. I'm sharing it here because finding the right words gave me a framework for feelings I couldn't name before. It was a _relief_.
 
@@ -50,15 +50,13 @@ Waiting mode paralysis
 
 For me, seeing these terms defined is about finding the language for a lifetime of experiences. It was the **quiet click of understanding** - the relief of knowing I wasn't alone in these feelings, that my brain wasn't _broken_, just _different_.
 
-If any of these words resonate with you, know that **you aren't alone, either**.
-
 ---
 
 ## A few quick questions
 
 ### Are these neurodivergent terms 'real' or just made up?
 
-Hah, I had this same thought. They are very real. These are terms used by researchers, therapists, and the neurodivergent community itself to describe shared, lived experiences. For me, finding out that ["waiting mode paralysis"](#waiting-mode-paralysis) was a real thing felt like a huge weight off my shoulders. It's not a personal failing, it's a documented phenomenon.
+Hah, I had this same thought. They are very real. These are terms used by researchers, therapists, and the neurodivergent community itself to describe shared, lived experiences. For me, finding out that ["waiting mode paralysis"](#waiting-mode-paralysis) was a real thing felt like a huge weight off my shoulders.
 
 ### Is this a complete list of all neurodivergent terms?
 
@@ -66,4 +64,4 @@ Not even close. This is a _personal_ glossary. It's just the small collection of
 
 ### What if I don't relate to these terms?
 
-That's perfectly okay. It could simply mean you're neurotypical, and these specific descriptions don't match your experience. It could _also_ mean you are neurodivergent, but in a way that's different from mine. Neurodivergence is a huge spectrum, and everyone's experience is unique. These are the words that gave _me_ a framework for _my_ feelings. Your user manual might have completely different chapters, and that's the whole point.
+That's perfectly okay. It could simply mean you're neurotypical, and these specific descriptions don't match your experience. It could _also_ mean you are neurodivergent, but in a way that's different from mine. Neurodivergence is a huge spectrum, and everyone's experience is unique. These are the words that gave _me_ a framework for _my_ feelings.
